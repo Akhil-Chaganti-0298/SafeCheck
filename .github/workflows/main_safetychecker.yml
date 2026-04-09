@@ -14,10 +14,6 @@ jobs:
     permissions:
       contents: read
 
-    defaults:
-      run:
-        working-directory: ./SafeCheck
-
     steps:
       - uses: actions/checkout@v4
 
@@ -26,7 +22,8 @@ jobs:
         with:
           node-version: '22.x'
 
-      - name: npm install and build
+      - name: Install dependencies and build
+        working-directory: ./SafeCheck
         run: |
           npm ci
           npm run build
@@ -35,7 +32,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: node-app
-          path: ./SafeCheck/dist
+          path: SafeCheck/dist
 
   deploy:
     runs-on: ubuntu-latest
@@ -49,7 +46,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: node-app
-          path: .
+          path: deploy-dist
 
       - name: Login to Azure
         uses: azure/login@v2
@@ -63,4 +60,4 @@ jobs:
         with:
           app-name: 'safetychecker'
           slot-name: 'Production'
-          package: .
+          package: deploy-dist
