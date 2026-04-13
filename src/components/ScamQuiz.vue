@@ -21,35 +21,35 @@ const sampleQuestion = {
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
       <!-- Section header -->
       <div class="mb-10">
-        <h2 class="text-3xl font-bold text-gray-900 mb-2">Scam Awareness Quiz</h2>
-        <p class="text-gray-500 max-w-xl">
+        <h2 class="text-4xl font-bold text-gray-900 mb-3">Scam Awareness Quiz</h2>
+        <p class="text-gray-500 text-lg max-w-xl leading-relaxed">
           Test yourself with real-world scam scenarios. Learn to spot red flags before scammers can exploit them.
-          Great for all ages - no tech knowledge required.
+          Great for all ages — no tech knowledge required.
         </p>
       </div>
 
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <!-- Quiz area -->
         <div class="lg:col-span-2">
-          <div v-if="!started" class="bg-gray-50 border border-gray-200 rounded-xl p-8 text-center">
-            <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-              <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div v-if="!started" class="bg-gray-50 border border-gray-200 rounded-xl p-10 text-center">
+            <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-5">
+              <svg class="w-11 h-11 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                   d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
               </svg>
             </div>
-            <h3 class="text-xl font-semibold text-gray-900 mb-2">Ready to test your awareness?</h3>
-            <p class="text-gray-500 text-sm mb-6">
+            <h3 class="text-2xl font-bold text-gray-900 mb-3">Ready to test your awareness?</h3>
+            <p class="text-gray-500 text-lg mb-6">
               8 questions · ~5 minutes · Real scam scenarios
             </p>
-            <div class="flex flex-wrap justify-center gap-3 mb-6">
+            <div class="flex flex-wrap justify-center gap-3 mb-8">
               <span v-for="tag in ['Phishing', 'Bank Scams', 'Tech Support', 'Romance Scams', 'Fake Prizes']"
-                :key="tag" class="text-xs bg-white border border-gray-200 text-gray-600 px-3 py-1 rounded-full">
+                :key="tag" class="text-base bg-white border border-gray-200 text-gray-600 px-4 py-1.5 rounded-full">
                 {{ tag }}
               </span>
             </div>
             <button @click="started = true"
-              class="bg-green-600 text-white text-sm font-medium px-8 py-3 rounded-lg hover:bg-green-700 transition-colors">
+              class="bg-green-600 text-white text-lg font-semibold px-10 py-4 rounded-xl hover:bg-green-700 transition-colors">
               Start Quiz
             </button>
           </div>
@@ -59,13 +59,13 @@ const sampleQuestion = {
             <!-- Progress bar -->
             <div class="bg-gray-50 border-b border-gray-200 px-6 py-4">
               <div class="flex items-center justify-between mb-2">
-                <span class="text-xs text-gray-500">
+                <span class="text-base text-gray-500">
                   Question {{ sampleQuestion.number }} of {{ sampleQuestion.total }}
                 </span>
-                <span class="text-xs text-gray-500">{{ Math.round((sampleQuestion.number / sampleQuestion.total) * 100) }}%</span>
+                <span class="text-base text-gray-500">{{ Math.round((sampleQuestion.number / sampleQuestion.total) * 100) }}%</span>
               </div>
-              <div class="w-full bg-gray-200 rounded-full h-1.5">
-                <div class="bg-green-500 h-1.5 rounded-full transition-all"
+              <div class="w-full bg-gray-200 rounded-full h-3">
+                <div class="bg-green-500 h-3 rounded-full transition-all"
                   :style="{ width: `${(sampleQuestion.number / sampleQuestion.total) * 100}%` }"></div>
               </div>
             </div>
@@ -73,24 +73,24 @@ const sampleQuestion = {
             <!-- Question -->
             <div class="px-6 py-6">
               <div class="flex items-start gap-3 mb-6">
-                <span class="flex-shrink-0 w-6 h-6 bg-green-100 text-green-700 rounded-full text-xs font-medium flex items-center justify-center">
+                <span class="flex-shrink-0 w-8 h-8 bg-green-100 text-green-700 rounded-full text-base font-semibold flex items-center justify-center">
                   {{ sampleQuestion.number }}
                 </span>
-                <p class="text-gray-800 text-sm leading-relaxed">{{ sampleQuestion.text }}</p>
+                <p class="text-gray-800 text-lg leading-relaxed">{{ sampleQuestion.text }}</p>
               </div>
 
               <div class="space-y-3">
                 <button v-for="(option, i) in sampleQuestion.options" :key="i"
-                  class="w-full text-left text-sm border border-gray-200 rounded-lg px-4 py-3 hover:border-green-400 hover:bg-green-50 transition-all text-gray-700">
-                  <span class="font-medium text-gray-400 mr-2">{{ String.fromCharCode(65 + i) }}.</span>
+                  class="w-full text-left text-lg border-2 border-gray-200 rounded-xl px-5 py-4 hover:border-green-400 hover:bg-green-50 transition-all text-gray-700">
+                  <span class="font-semibold text-gray-400 mr-2">{{ String.fromCharCode(65 + i) }}.</span>
                   {{ option }}
                 </button>
               </div>
             </div>
 
-            <div class="border-t border-gray-100 px-6 py-4 bg-gray-50 flex justify-between">
-              <button class="text-sm text-gray-500 hover:text-gray-700">Skip</button>
-              <button class="text-sm bg-gray-900 text-white px-5 py-2 rounded-lg hover:bg-gray-700 transition-colors">
+            <div class="border-t border-gray-100 px-6 py-5 bg-gray-50 flex justify-between">
+              <button class="text-base text-gray-500 hover:text-gray-700 px-2">Skip</button>
+              <button class="text-base bg-gray-900 text-white px-7 py-3 rounded-xl hover:bg-gray-700 transition-colors font-medium">
                 Next
               </button>
             </div>
@@ -101,33 +101,33 @@ const sampleQuestion = {
         <div class="space-y-4">
           <!-- Score placeholder -->
           <div class="bg-gray-50 border border-gray-200 rounded-xl p-6">
-            <p class="text-xs font-medium text-gray-400 uppercase tracking-wide mb-4">Your Score</p>
+            <p class="text-base font-medium text-gray-400 uppercase tracking-wide mb-4">Your Score</p>
             <div class="flex items-end gap-2 mb-3">
-              <div class="h-10 w-16 bg-gray-200 rounded animate-pulse"></div>
-              <span class="text-sm text-gray-400">/ 8</span>
+              <div class="h-12 w-20 bg-gray-200 rounded animate-pulse"></div>
+              <span class="text-lg text-gray-400">/ 8</span>
             </div>
-            <div class="w-full bg-gray-200 rounded-full h-2 mb-3">
-              <div class="bg-gray-300 h-2 rounded-full w-0"></div>
+            <div class="w-full bg-gray-200 rounded-full h-3 mb-3">
+              <div class="bg-gray-300 h-3 rounded-full w-0"></div>
             </div>
-            <p class="text-xs text-gray-400">Complete the quiz to see your score</p>
+            <p class="text-base text-gray-400">Complete the quiz to see your score</p>
           </div>
 
           <!-- Tips -->
           <div class="bg-gray-50 border border-gray-200 rounded-xl p-6">
-            <p class="text-xs font-medium text-gray-400 uppercase tracking-wide mb-4">Quick Tips</p>
-            <ul class="space-y-3">
+            <p class="text-base font-medium text-gray-400 uppercase tracking-wide mb-4">Quick Tips</p>
+            <ul class="space-y-4">
               <li v-for="tip in [
                 'Never click links in unsolicited emails',
                 'Banks never ask for passwords via email',
                 'Verify unexpected prize claims by phone',
                 'If it feels urgent, take a breath first',
-              ]" :key="tip" class="flex items-start gap-2">
-                <svg class="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+              ]" :key="tip" class="flex items-start gap-3">
+                <svg class="w-6 h-6 text-green-500 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                   <path fill-rule="evenodd"
                     d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
                     clip-rule="evenodd" />
                 </svg>
-                <span class="text-sm text-gray-600">{{ tip }}</span>
+                <span class="text-base text-gray-600">{{ tip }}</span>
               </li>
             </ul>
           </div>
