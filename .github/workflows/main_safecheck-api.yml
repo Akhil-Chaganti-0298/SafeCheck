@@ -3,7 +3,7 @@ name: Build and deploy Node.js backend to Azure Web App - safecheck-api
 on:
   push:
     branches:
-      - main
+      - urlverfier--resolving-bugs
   workflow_dispatch:
 
 jobs:

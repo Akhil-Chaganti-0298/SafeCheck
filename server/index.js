@@ -3,12 +3,15 @@ import cors from 'cors'
 import dotenv from 'dotenv'
 import path from 'path'
 import { fileURLToPath } from 'url'
-import urlCheckRouter from './routes/urlCheck.js'
-import scamStatsRouter from './routes/scamStats.js'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
-dotenv.config({ path: path.join(__dirname, '../src/.env') })
+if (process.env.NODE_ENV !== 'production') {
+  dotenv.config({ path: path.join(__dirname, '../src/.env') })
+}
+
+const { default: urlCheckRouter } = await import('./routes/urlCheck.js')
+const { default: scamStatsRouter } = await import('./routes/scamStats.js')
 
 const app = express()
 const PORT = process.env.PORT || 3000
@@ -25,8 +28,12 @@ app.use(express.json())
 app.use('/api/scam-stats', scamStatsRouter)
 app.use('/api', urlCheckRouter)
 
-// basic health check so you can ping /api/health to confirm server is up
+// health checks for root and API-prefixed probes
 app.get('/health', (req, res) => {
+  res.json({ status: 'ok' })
+})
+
+app.get('/api/health', (req, res) => {
   res.json({ status: 'ok' })
 })
 
