@@ -1,7 +1,7 @@
 <script setup>
-import UrlVerifierContainer from '../components/verifier/UrlVerifierContainer.vue'
+import UrlVerifier from '../components/UrlVerifier.vue'
 </script>
 
 <template>
-  <UrlVerifierContainer />
+  <UrlVerifier />
 </template>

@@ -1,7 +1,6 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue'
 import { checkUrl, getOnlineSeniorStats } from '../../services/api.js'
-import { getWebsiteInputError } from '../../../shared/websiteValidation.js'
 import UrlVerifierForm from './UrlVerifierForm.vue'
 import VerdictBanner from './VerdictBanner.vue'
 import TrustScoreCard from './TrustScoreCard.vue'
@@ -44,13 +43,11 @@ function verdictText(verdict) {
 }
 
 async function handleSubmit() {
-  const inputError = getWebsiteInputError(url.value)
-  if (inputError) {
-    error.value = inputError
+  const input = url.value.trim()
+  if (!input) {
+    error.value = 'Please enter a website address.'
     return
   }
-
-  const input = url.value.trim()
   error.value = ''
   result.value = null
   loading.value = true
