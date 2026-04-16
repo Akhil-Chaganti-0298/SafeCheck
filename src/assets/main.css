@@ -1,1 +1,32 @@
 @import "tailwindcss";
+
+/* ------------------------------------------------------------------ *
+ *  Custom animations — used throughout the app
+ * ------------------------------------------------------------------ */
+
+/* Cards and sections gently rise into view when the page loads */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Result panels slide in from the right when they appear */
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(28px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+/* The header ticker scrolls left on a loop — duplicated content makes it seamless */
+@keyframes ticker {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+.animate-fade-in-up     { animation: fadeInUp 0.55s ease both; }
+.animate-slide-in-right { animation: slideInRight 0.4s ease both; }
+.animate-ticker         { animation: ticker 22s linear infinite; }
+
+/* Stagger the three home cards so they pop in one after another */
+.stagger-1 { animation-delay: 0.05s; }
+.stagger-2 { animation-delay: 0.18s; }
+.stagger-3 { animation-delay: 0.31s; }
