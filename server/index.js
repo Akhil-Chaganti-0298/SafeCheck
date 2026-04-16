@@ -1,3 +1,4 @@
+import 'dotenv/config'
 import express from 'express'
 import cors from 'cors'
 import dotenv from 'dotenv'
@@ -8,6 +9,17 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
 if (process.env.NODE_ENV !== 'production') {
   dotenv.config({ path: path.join(__dirname, '../src/.env') })
+}
+
+for (const [envName, label] of [
+  ['URLHAUS_API_KEY', 'URLhaus'],
+  ['OTX_API_KEY', 'OTX'],
+  ['GOOGLE_SAFE_BROWSING_API_KEY', 'Google Safe Browsing'],
+  ['VIRUSTOTAL_API_KEY', 'VirusTotal'],
+]) {
+  if (!process.env[envName]) {
+    console.warn(`[SafeCheck] ${label} API key is missing. Related checks will fall back to safe defaults.`)
+  }
 }
 
 const { default: urlCheckRouter } = await import('./routes/urlCheck.js')
