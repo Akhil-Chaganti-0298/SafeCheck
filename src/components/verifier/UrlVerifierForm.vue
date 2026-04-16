@@ -32,10 +32,13 @@ const urlModel = computed({
         v-model="urlModel"
         @keyup.enter="emit('submit')"
         type="text"
-        placeholder="example.com or www.example.com"
+        placeholder="example.com, example.org "
         class="w-full border border-gray-200 rounded-xl px-5 py-4 text-lg bg-gray-50 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent mb-3"
         :class="props.error ? 'border-red-300' : ''"
       />
+      <p class="mb-3 text-sm text-gray-500">
+        Use a full website address with a valid domain extension. Any real extension works.
+      </p>
       <button
         @click="emit('submit')"
         :disabled="props.loading"

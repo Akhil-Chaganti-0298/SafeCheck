@@ -43,10 +43,10 @@ function scoreLevel(score) {
       />
     </div>
     <p class="text-base text-gray-500 mb-3">
-      <span v-if="props.result.trustScore >= 85">Very few warning signs were found</span>
-      <span v-else-if="props.result.trustScore >= 70">Mostly fine, but still read carefully</span>
-      <span v-else-if="props.result.trustScore >= 40">Some warning signs were found</span>
-      <span v-else>Several warning signs were found</span>
+      <span v-if="props.result.trustScore >= 85">We found very few warning signs. This site looks safe.</span>
+      <span v-else-if="props.result.trustScore >= 70">We found a couple of things to note. Take a look below before visiting.</span>
+      <span v-else-if="props.result.trustScore >= 40">We found some warning signs. Please read the details below carefully.</span>
+      <span v-else>We found several warning signs. We recommend not visiting this site.</span>
     </p>
     <button
       @click="emit('toggle-breakdown')"
@@ -60,8 +60,8 @@ function scoreLevel(score) {
     <div v-if="props.showScoreBreakdown" class="mt-3 border-t border-gray-100 pt-3">
       <div class="grid grid-cols-12 text-base font-semibold text-gray-400 uppercase tracking-wide mb-2 px-1">
         <span class="col-span-5">Check</span>
-        <span class="col-span-4">What it means</span>
-        <span class="col-span-2 text-right">Max points</span>
+        <span class="col-span-4">What we found</span>
+        <span class="col-span-2 text-right">Worth</span>
         <span class="col-span-1 text-right">Lost</span>
       </div>
       <div class="space-y-2">
@@ -76,14 +76,14 @@ function scoreLevel(score) {
             <span class="font-medium text-gray-700">{{ cat.label }}</span>
           </div>
           <span class="col-span-4 text-gray-500 leading-tight">{{ cat.detail }}</span>
-          <span class="col-span-2 text-right text-gray-400">-{{ cat.maxDeduction }}</span>
+          <span class="col-span-2 text-right text-gray-400">{{ cat.maxDeduction }} marks</span>
           <span class="col-span-1 text-right font-semibold" :class="cat.deduction === 0 ? 'text-green-600' : 'text-red-500'">
-            {{ cat.deduction === 0 ? '0' : '-' + cat.deduction }}
+            {{ cat.deduction === 0 ? '0' : cat.deduction }}
           </span>
         </div>
       </div>
       <div class="grid grid-cols-12 text-base font-semibold border-t border-gray-200 mt-2 pt-2 px-1">
-        <span class="col-span-11 text-gray-700">Final rating (100 minus total points lost)</span>
+        <span class="col-span-11 text-gray-700">Your score — we start at 100 and remove marks for each warning sign found</span>
         <span class="col-span-1 text-right" :class="scoreStyle[scoreLevel(props.result.trustScore)].text">{{ props.result.trustScore }}</span>
       </div>
     </div>
