@@ -1,11 +1,6 @@
 <script setup>
-import { computed } from 'vue'
-import { useRoute } from 'vue-router'
 import BHeader from './components/BHeader.vue'
 import BFooter from './components/BFooter.vue'
-
-const route = useRoute()
-const isHome = computed(() => route.path === '/')
 </script>
 
 <template>
@@ -14,6 +9,6 @@ const isHome = computed(() => route.path === '/')
     <main class="flex-1 flex flex-col">
       <RouterView />
     </main>
-    <BFooter v-if="!isHome" />
+    <BFooter />
   </div>
 </template>

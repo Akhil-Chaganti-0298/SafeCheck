@@ -17,6 +17,9 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url))
     },
   },
+  optimizeDeps: {
+    include: ['psl'],
+  },
   server: {
     proxy: {
       // any request to /api in dev gets forwarded to your express server
