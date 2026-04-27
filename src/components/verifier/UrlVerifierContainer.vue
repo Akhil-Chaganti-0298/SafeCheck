@@ -73,7 +73,7 @@ function updateUrl(value) { url.value = value }
 </script>
 
 <template>
-  <section class="min-h-screen py-10 px-6 sm:px-10 lg:px-16" style="background-color: var(--bg);">
+  <section class="min-h-screen py-10 px-4" style="background-color: var(--bg);">
     <div>
 
       <!-- Page heading -->

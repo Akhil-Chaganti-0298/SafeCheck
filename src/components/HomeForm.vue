@@ -48,7 +48,7 @@ const features = [
     </div>
 
     <!-- Content — padding only, no max-width box -->
-    <div class="relative px-6 sm:px-10 lg:px-16 py-16 sm:py-24">
+    <div class="relative px-4 py-16 sm:py-24">
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
 
         <!-- Left: headline + CTAs -->
@@ -64,7 +64,7 @@ const features = [
 
           <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight mb-6">
             Stay safe online —<br/>
-            <span style="color: #fbbf24;">simply and for free</span>
+            <span class="text-white">simply and for free</span>
           </h1>
 
           <p class="text-xl text-blue-100 leading-relaxed mb-8 max-w-xl">
@@ -76,7 +76,7 @@ const features = [
           <div class="flex flex-col sm:flex-row gap-4">
             <button
               @click="emit('navigate', 'url-verifier')"
-              class="btn-accent text-xl px-8 py-4 font-bold shadow-lg"
+              class="btn-navy text-xl px-8 py-4 font-bold shadow-lg"
             >
               Check a link now
               <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -171,7 +171,7 @@ const features = [
   <!-- ============================================================
        HOW WE CAN HELP — full-bleed, no max-width wrapper
        ============================================================ -->
-  <section class="py-16 sm:py-20 px-6 sm:px-10 lg:px-16" style="background-color: var(--bg);">
+  <section class="py-16 sm:py-20 px-4" style="background-color: var(--bg);">
 
     <div class="text-center mb-12 animate-fade-in-up">
       <h2 class="text-4xl sm:text-5xl font-bold text-slate-900 mb-4">How can we help you today?</h2>
@@ -224,7 +224,7 @@ const features = [
   <!-- ============================================================
        WHO IS THIS FOR — full-bleed white, no max-width wrapper
        ============================================================ -->
-  <section class="py-16 px-6 sm:px-10 lg:px-16 bg-white">
+  <section class="py-16 px-4 bg-white">
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
 
       <!-- Illustrated vignettes -->
@@ -316,7 +316,7 @@ const features = [
 
         <button
           @click="emit('navigate', 'url-verifier')"
-          class="btn-accent mt-8 text-xl px-8 py-4"
+          class="btn-navy mt-8 text-xl px-8 py-4"
         >
           Get started — it's free
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -331,7 +331,7 @@ const features = [
   <!-- ============================================================
        TRUST STATS — full-bleed, no max-width wrapper
        ============================================================ -->
-  <section class="py-12 px-6 sm:px-10 lg:px-16 border-t border-slate-100" style="background-color: var(--bg);">
+  <section class="py-12 px-4 border-t border-slate-100" style="background-color: var(--bg);">
     <div class="grid grid-cols-2 sm:grid-cols-4 gap-6 text-center">
       <div v-for="stat in [
         { value: 'Free',  label: 'Always free to use'        },

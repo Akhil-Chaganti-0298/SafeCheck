@@ -1,9 +1,4 @@
 <script setup>
-<<<<<<< HEAD
-=======
-const logoSrc = `${import.meta.env.BASE_URL}logo.png`
-// Footer links — kept in sync with the router so nothing goes stale
->>>>>>> main
 const navLinks = [
   { label: 'Home',           to: '/'               },
   { label: 'URL Verifier',   to: '/url-verifier'   },
@@ -22,21 +17,13 @@ const reassurances = [
   <!-- Full-width dark navy footer — no max-width constraint, stretches edge to edge -->
   <footer style="background-color: var(--navy-dark); color: #bfdbfe;">
 
-    <!-- Main content — px-6 sm:px-10 lg:px-16 matches the rest of the site -->
-    <div class="px-6 sm:px-10 lg:px-16 py-14">
+    <div class="px-4 py-14">
       <div class="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-3">
 
-<<<<<<< HEAD
         <!-- Brand column -->
         <div class="flex flex-col gap-5">
           <RouterLink to="/" class="flex items-center gap-3 w-fit">
             <img src="/logo.png" alt="SafeCheck logo" class="h-12 w-12 rounded-xl object-contain bg-white/10 p-1" />
-=======
-        <!-- Brand column — logo + short tagline -->
-        <div class="flex flex-col gap-4">
-          <RouterLink to="/" class="flex items-center gap-3">
-            <img :src="logoSrc" alt="SafeCheck logo" class="h-12 w-12 rounded-xl object-contain" />
->>>>>>> main
             <span class="text-2xl font-bold tracking-wide text-white">SafeCheck</span>
           </RouterLink>
           <p class="text-lg leading-relaxed text-blue-200 max-w-xs">
@@ -102,7 +89,7 @@ const reassurances = [
 
     <!-- Bottom bar — also full-width -->
     <div class="border-t border-white/10">
-      <div class="px-6 sm:px-10 lg:px-16 py-5 flex flex-col sm:flex-row items-center justify-between gap-2 text-base text-blue-300">
+      <div class="px-4 py-5 flex flex-col sm:flex-row items-center justify-between gap-2 text-base text-blue-300">
         <span>© 2025 SafeCheck. All rights reserved.</span>
         <span class="text-center text-sm">
           Information only · Not financial or legal advice · Always verify with official sources

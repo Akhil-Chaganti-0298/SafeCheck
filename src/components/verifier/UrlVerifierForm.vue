@@ -80,12 +80,12 @@ const urlModel = computed({
     </div>
 
     <!-- Disclaimer -->
-    <div class="bg-amber-50 border border-amber-200 rounded-xl px-5 py-4 flex gap-3 items-start animate-fade-in-up">
-      <svg class="w-6 h-6 text-amber-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <div class="bg-slate-50 border border-slate-200 rounded-xl px-5 py-4 flex gap-3 items-start animate-fade-in-up">
+      <svg class="w-6 h-6 text-slate-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-          d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.268 16.5c-.77.833.192 2.5 1.732 2.5z" />
+          d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
       </svg>
-      <p class="text-base text-amber-900 leading-relaxed">
+      <p class="text-base text-slate-700 leading-relaxed">
         <strong>Important:</strong> SafeCheck provides general guidance only. It cannot guarantee a website is completely safe. When in doubt, contact the organisation directly.
       </p>
     </div>

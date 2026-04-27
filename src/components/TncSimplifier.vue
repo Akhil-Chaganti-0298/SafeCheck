@@ -89,7 +89,7 @@ const severityConfig = {
 </script>
 
 <template>
-  <section class="py-16 px-6 sm:px-10 lg:px-16" style="background-color: var(--bg);">
+  <section class="py-16 px-4" style="background-color: var(--bg);">
     <div>
 
       <!-- Page heading -->

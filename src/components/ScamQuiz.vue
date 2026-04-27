@@ -24,7 +24,7 @@ function selectAnswer(index) {
 </script>
 
 <template>
-  <section class="py-16 px-6 sm:px-10 lg:px-16" style="background-color: var(--bg);">
+  <section class="py-16 px-4" style="background-color: var(--bg);">
     <div>
 
       <!-- Page heading -->
@@ -77,7 +77,7 @@ function selectAnswer(index) {
 
             <button
               @click="started = true"
-              class="btn-accent text-xl px-12 py-4"
+              class="btn-navy text-xl px-12 py-4"
             >
               Start the quiz
               <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
