@@ -13,6 +13,8 @@ dist
 dist-ssr
 .vite
 coverage
+.env
+server/.env
 src/.env
 *.local
 
