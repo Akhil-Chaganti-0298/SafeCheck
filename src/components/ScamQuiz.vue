@@ -88,8 +88,8 @@ function restartQuiz() {
               <span
                 v-for="tag in ['Phishing', 'Bank Scams', 'Tech Support', 'Romance Scams', 'Fake Prizes']"
                 :key="tag"
-                class="text-base font-semibold px-5 py-2.5 rounded-full text-white"
-                style="background-color: var(--navy);"
+                class="text-base font-semibold px-5 py-2.5 rounded-full cursor-default"
+                style="color: var(--navy); background-color: var(--navy-tint); border: 2px solid rgba(30,58,138,0.3);"
               >
                 {{ tag }}
               </span>

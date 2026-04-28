@@ -79,14 +79,17 @@ const urlModel = computed({
       </div>
     </div>
 
-    <!-- Disclaimer -->
-    <div class="bg-slate-50 border border-slate-200 rounded-xl px-5 py-4 flex gap-3 items-start">
-      <svg class="w-6 h-6 text-slate-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <!-- Disclaimer — Item 8: navy left border callout style -->
+    <div
+      class="rounded-xl px-5 py-4 flex gap-3 items-start"
+      style="background-color: var(--navy-tint); border-left: 4px solid var(--navy); border-top: 1px solid #bfdbfe; border-right: 1px solid #bfdbfe; border-bottom: 1px solid #bfdbfe;"
+    >
+      <svg class="w-6 h-6 flex-shrink-0 mt-0.5" style="color: var(--navy);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
           d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
       </svg>
       <p class="text-base text-slate-700 leading-relaxed">
-        <strong>Important:</strong> SafeCheck provides general guidance only. It cannot guarantee a website is completely safe. When in doubt, contact the organisation directly.
+        <strong class="font-bold text-slate-900">Important:</strong> SafeCheck provides general guidance only. It cannot guarantee a website is completely safe. When in doubt, contact the organisation directly.
       </p>
     </div>
 

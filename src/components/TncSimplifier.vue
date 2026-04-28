@@ -16,6 +16,21 @@ function handleAnalyze() {
   }, 1800)
 }
 
+const sampleTnC = `By using this service, you agree to our collection of information about your usage patterns, device details, and browsing activity within the platform. This information is used to improve our products and to serve personalised advertisements.
+
+We may share your personal information with our advertising partners, analytics providers, and affiliated businesses. Shared data may include your name, email address, browsing habits, and purchase history. You may not opt out of essential data sharing without terminating your account.
+
+Content you submit — including messages, uploaded documents, and search queries — may be used to train, test, and improve our artificial intelligence systems. This data may be retained for up to ten years.
+
+To cancel your subscription, you must submit a written cancellation request no less than 30 days before your next billing date. Cancellations received after this deadline will not take effect until the following renewal period, and no partial refunds will be issued.
+
+These terms may be updated at any time without individual notice. Continued use of this service constitutes your acceptance of the revised terms.`
+
+function trySample() {
+  inputMode.value = 'text'
+  inputValue.value = sampleTnC
+}
+
 const sampleResult = {
   overallRisk: 'medium',
   summary: `This service collects data about how you use it and may share that data with
@@ -114,7 +129,7 @@ const severityConfig = {
         <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm">
 
           <!-- URL / Paste Text toggle — strong active state -->
-          <div class="flex rounded-xl border border-slate-200 p-1 mb-5 bg-slate-50">
+          <div class="flex rounded-xl border border-slate-200 p-1 mb-4 bg-slate-50">
             <button
               @click="inputMode = 'url'"
               class="flex-1 text-lg font-semibold py-3 rounded-lg transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-900"
@@ -133,9 +148,20 @@ const severityConfig = {
             </button>
           </div>
 
-          <label class="block text-xl font-semibold text-slate-800 mb-2">
-            {{ inputMode === 'url' ? 'Link to the Terms & Conditions page' : 'Paste the Terms & Conditions here' }}
-          </label>
+          <!-- Item 6: Try a sample link -->
+          <div class="flex items-center justify-between mb-2">
+            <label class="block text-xl font-semibold text-slate-800">
+              {{ inputMode === 'url' ? 'Link to the Terms & Conditions page' : 'Paste the Terms & Conditions here' }}
+            </label>
+            <button
+              type="button"
+              @click="trySample"
+              class="text-base font-semibold ml-3 flex-shrink-0 underline decoration-dotted underline-offset-2 hover:no-underline transition-all"
+              style="color: var(--navy);"
+            >
+              Try a sample →
+            </button>
+          </div>
 
           <input
             v-if="inputMode === 'url'"

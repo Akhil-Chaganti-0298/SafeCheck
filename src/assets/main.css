@@ -55,6 +55,8 @@ body {
 /* ------------------------------------------------------------------ *
  *  Utility: navy primary button
  * ------------------------------------------------------------------ */
+button { cursor: pointer; }
+
 .btn-navy {
   background-color: var(--navy);
   color: #ffffff;
@@ -62,6 +64,7 @@ body {
   border-radius: 0.75rem;
   padding: 1rem 2rem;
   font-size: 1.125rem;
+  cursor: pointer;
   transition: background-color 0.15s ease, transform 0.1s ease;
   display: inline-flex;
   align-items: center;
@@ -85,6 +88,7 @@ body {
   border-radius: 0.75rem;
   padding: 1rem 2rem;
   font-size: 1.125rem;
+  cursor: pointer;
   transition: background-color 0.15s ease, transform 0.1s ease;
   display: inline-flex;
   align-items: center;
