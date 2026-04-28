@@ -101,7 +101,7 @@ const severityConfig = {
 <template>
   <!-- Compact navy hero band -->
   <section style="background: linear-gradient(135deg, var(--navy) 0%, #1d4ed8 100%);">
-    <div class="px-4 py-12 sm:py-16">
+    <div class="px-8 sm:px-16 py-12 sm:py-16">
       <div class="text-center max-w-2xl mx-auto animate-fade-in-up">
         <div class="inline-flex items-center justify-center w-16 h-16 rounded-full mb-5 bg-white/15">
           <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -121,7 +121,7 @@ const severityConfig = {
   </section>
 
   <!-- Main content -->
-  <section class="py-12 px-4" style="background-color: var(--bg);">
+  <section class="py-12 px-8 sm:px-16" style="background-color: var(--bg);">
     <div class="grid grid-cols-1 lg:grid-cols-5 gap-8">
 
       <!-- ── Left: input card ────────────────────────────────── -->
@@ -247,7 +247,16 @@ const severityConfig = {
             </p>
           </div>
 
-          <!-- Real-world case -->
+          <!-- Prompt to try it — now appears before the real example -->
+          <div class="rounded-2xl p-6 shadow-sm" style="background-color: var(--navy-tint); border: 1px solid #bfdbfe;">
+            <p class="text-lg font-bold mb-2" style="color: var(--navy);">Try it now — it only takes a moment</p>
+            <p class="text-lg text-slate-600 leading-relaxed">
+              Paste the link to any website's Terms &amp; Conditions in the panel on the left, then click
+              <strong>Analyse these T&amp;Cs</strong>. We will give you a plain-English summary within seconds.
+            </p>
+          </div>
+
+          <!-- Real-world case — shown below the CTA as supporting context -->
           <div class="bg-white border-l-4 rounded-2xl p-6 shadow-sm" style="border-color: var(--navy);">
             <p class="text-sm font-semibold uppercase tracking-widest text-slate-500 mb-2">A real example</p>
             <h4 class="text-xl font-bold text-slate-900 mb-3">Facebook &amp; Cambridge Analytica (2016)</h4>
@@ -255,15 +264,6 @@ const severityConfig = {
               Millions of Facebook users unknowingly agreed to terms that allowed their personal data to be
               harvested and used to influence political elections. Most had no idea until it became a global
               news story. The company had to pay a <strong>$5 billion fine</strong> — but users never got their data back.
-            </p>
-          </div>
-
-          <!-- Prompt to try it -->
-          <div class="rounded-2xl p-6 shadow-sm" style="background-color: var(--navy-tint); border: 1px solid #bfdbfe;">
-            <p class="text-lg font-bold mb-2" style="color: var(--navy);">Try it now — it only takes a moment</p>
-            <p class="text-lg text-slate-600 leading-relaxed">
-              Paste the link to any website's Terms &amp; Conditions in the panel on the left, then click
-              <strong>Analyse these T&amp;Cs</strong>. We will give you a plain-English summary within seconds.
             </p>
           </div>
 

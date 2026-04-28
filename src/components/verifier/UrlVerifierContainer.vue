@@ -58,7 +58,7 @@ function updateUrl(value) { url.value = value }
 <template>
   <!-- Compact navy hero band -->
   <section style="background: linear-gradient(135deg, var(--navy) 0%, #1d4ed8 100%);">
-    <div class="px-4 py-12 sm:py-16">
+    <div class="px-8 sm:px-16 py-12 sm:py-16">
       <div class="text-center max-w-2xl mx-auto animate-fade-in-up">
         <div class="inline-flex items-center justify-center w-16 h-16 rounded-full mb-5 bg-white/15">
           <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -77,7 +77,7 @@ function updateUrl(value) { url.value = value }
   </section>
 
   <!-- Main content -->
-  <section class="py-10 px-4" style="background-color: var(--bg);">
+  <section class="py-10 px-8 sm:px-16" style="background-color: var(--bg);">
     <div>
       <div class="grid grid-cols-1 lg:grid-cols-5 gap-8 items-start">
 
