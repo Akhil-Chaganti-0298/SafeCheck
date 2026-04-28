@@ -1,33 +1,17 @@
 <script setup>
-import { ref, computed, onMounted } from 'vue'
-import { checkUrl, getOnlineSeniorStats } from '../../services/api.js'
+import { ref, computed } from 'vue'
+import { checkUrl } from '../../services/api.js'
 import { getWebsiteInputError } from '../../../shared/websiteValidation.js'
 import UrlVerifierForm from './UrlVerifierForm.vue'
 import VerdictBanner from './VerdictBanner.vue'
 import TrustScoreCard from './TrustScoreCard.vue'
 import ChecksList from './ChecksList.vue'
-import ScamStatsPanel from './ScamStatsPanel.vue'
 
 const showScoreBreakdown = ref(false)
 const url = ref('')
 const loading = ref(false)
 const result = ref(null)
 const error = ref('')
-const scamStats = ref(null)
-
-onMounted(async () => {
-  try {
-    scamStats.value = await getOnlineSeniorStats()
-  } catch (e) {
-    console.error('Could not load scam stats:', e)
-  }
-})
-
-const maxReports = computed(() =>
-  scamStats.value?.topScamTypes?.length
-    ? Math.max(...scamStats.value.topScamTypes.map(r => Number(r.total_reports)))
-    : 1
-)
 
 const verdictTheme = {
   safe:    { banner: 'bg-green-50 border-green-200',  icon: 'bg-green-200',  iconColor: 'text-green-700', title: 'text-green-800', subtitle: 'text-green-700', badge: 'bg-green-600 text-white' },
@@ -108,7 +92,7 @@ function updateUrl(value) { url.value = value }
           />
         </div>
 
-        <!-- Right: verdict + score + checks + scam stats -->
+        <!-- Right: results or "what we check" explainer -->
         <div class="lg:col-span-3">
           <div v-if="result" class="space-y-4">
             <VerdictBanner
@@ -131,11 +115,35 @@ function updateUrl(value) { url.value = value }
             </button>
           </div>
 
-          <ScamStatsPanel
-            :scam-stats="scamStats"
-            :max-reports="maxReports"
-            :with-top-margin="Boolean(result)"
-          />
+          <!-- What we check — shown when no result yet -->
+          <div v-if="!result" class="bg-white rounded-2xl border border-slate-200 p-7 shadow-sm animate-fade-in-up">
+            <p class="text-sm font-semibold uppercase tracking-widest text-slate-400 mb-1">How it works</p>
+            <h3 class="text-2xl font-bold text-slate-900 mb-6">What SafeCheck looks for</h3>
+            <div class="space-y-5">
+              <div
+                v-for="(check, i) in [
+                  { title: 'Domain reputation',    desc: 'Cross-references the address against known threat databases and blocklists from around the world.' },
+                  { title: 'Domain age',           desc: 'New domains registered just days or weeks ago are a common hallmark of scam and phishing sites.' },
+                  { title: 'HTTPS & SSL',          desc: 'Checks whether the site uses a valid, trusted security certificate for encrypted connections.' },
+                  { title: 'Lookalike detection',  desc: 'Spots domain names designed to impersonate trusted brands — like your bank or a government agency.' },
+                  { title: 'Content signals',      desc: 'Reviews visible page content for urgency language, suspicious patterns, and phishing indicators.' },
+                ]"
+                :key="check.title"
+                class="flex items-start gap-4"
+              >
+                <div
+                  class="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0 text-base font-bold text-white"
+                  style="background-color: var(--navy);"
+                >
+                  {{ i + 1 }}
+                </div>
+                <div>
+                  <p class="text-lg font-bold text-slate-800 mb-1">{{ check.title }}</p>
+                  <p class="text-base text-slate-600 leading-relaxed">{{ check.desc }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
 
       </div>
