@@ -1,4 +1,0 @@
-[SafeCheck] Database name is missing. Related features may be unavailable.
-[SafeCheck] Database configuration is incomplete. Missing: DB_NAME
-[scamStats] database unavailable, using local CSV fallback: Database is not configured. Missing: DB_NAME
-[scamStats] database unavailable, using local CSV fallback: Database is not configured. Missing: DB_NAME
