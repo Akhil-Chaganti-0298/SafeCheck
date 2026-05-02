@@ -105,7 +105,7 @@ function updateUrl(value) { url.value = value }
               :show-score-breakdown="showScoreBreakdown"
               @toggle-breakdown="showScoreBreakdown = !showScoreBreakdown"
             />
-            <ChecksList :checks="result.checks" />
+            <ChecksList :check-groups="result.checkGroups" />
 
             <button
               @click="reset"

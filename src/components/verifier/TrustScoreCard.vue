@@ -15,6 +15,30 @@ const scoreStyle = {
   low:  { text: 'text-red-700',   bar: 'bg-red-600'   },
 }
 
+// Maps the internal category name to a shorter plain-English label
+// shown as the row heading inside the score breakdown panel.
+function plainLabel(label) {
+  const labels = {
+    'API Verification':  'Scam and threat lists',
+    'HTTP Security':     'Connection security',
+    'SSL/TLS Analysis':  'Website identity',
+    'DNS Analysis':      'Website age',
+  }
+  return labels[label] ?? label
+}
+
+// One plain sentence shown below each row label explaining what that
+// category actually checked, so Philip Morris understands the score.
+function plainDescription(label) {
+  const descriptions = {
+    'API Verification':  'We checked this website against 4 different databases used by security experts to track scams, malware, and fake websites.',
+    'HTTP Security':     'We checked whether your connection to this website is private and whether the website has set up the right protections for visitors.',
+    'SSL/TLS Analysis':  'We checked whether this website has a valid identity certificate, who issued it, and whether your connection is properly encrypted.',
+    'DNS Analysis':      'We checked how long this website has existed, whether it is properly registered, and whether its address appears on any known harmful lists.',
+  }
+  return descriptions[label] ?? ''
+}
+
 function scoreLevel(score) {
   if (score >= 70) return 'high'
   if (score >= 40) return 'mid'
@@ -73,7 +97,7 @@ function scoreLevel(score) {
           <div class="flex items-center justify-between mb-2">
             <div class="flex items-center gap-2">
               <StatusIcon :status="cat.status" size="sm" />
-              <span class="text-base font-semibold text-slate-700">{{ cat.label }}</span>
+              <span class="text-base font-semibold text-slate-700">{{ plainLabel(cat.label) }}</span>
             </div>
             <span
               class="text-base font-bold"
@@ -82,6 +106,7 @@ function scoreLevel(score) {
               {{ cat.score }} / {{ cat.maxScore }}
             </span>
           </div>
+          <p class="text-sm text-slate-500 mb-2 leading-relaxed">{{ plainDescription(cat.label) }}</p>
           <div class="w-full bg-slate-200 rounded-full h-2">
             <div
               class="h-2 rounded-full transition-all duration-500"
