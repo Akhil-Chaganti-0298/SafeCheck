@@ -1,14 +1,14 @@
-import axios from 'axios'
+import httpClient from './httpClient.js'
 
 const VT_BASE = 'https://www.virustotal.com/api/v3'
 
 export async function checkVirusTotal(url) {
   const apiKey = process.env.VIRUSTOTAL_API_KEY
 
-  // VirusTotal needs the URL as base64url to do a lookup
+  // VirusTotal identifies URLs by their base64url-encoded form, not the raw URL
   const urlId = Buffer.from(url).toString('base64').replace(/=+$/, '').replace(/\+/g, '-').replace(/\//g, '_')
 
-  const response = await axios.get(`${VT_BASE}/urls/${urlId}`, {
+  const response = await httpClient.get(`${VT_BASE}/urls/${urlId}`, {
     headers: { 'x-apikey': apiKey },
   })
 
