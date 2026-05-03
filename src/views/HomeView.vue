@@ -18,4 +18,4 @@ function go(page) {
 
 <template>
   <HomeForm @navigate="go" />
-</template>
+</template> 
