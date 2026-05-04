@@ -26,7 +26,7 @@ onMounted(async () => {
 })
 
 const scamTypes = [
-  { name: 'Investment scams',    amount: '$1.3B', pct: 100, tooltip: 'The most costly type — scammers pose as financial advisors or offer fake high-return schemes.' },
+  { name: 'Investment scams',    amount: '$1.3B', pct: 100, tooltip: 'The most costly type - scammers pose as financial advisors or offer fake high-return schemes.' },
   { name: 'Remote access scams', amount: '$256M', pct: 20,  tooltip: 'Scammers pretend to be tech support and gain remote access to your computer to "fix" a problem.' },
   { name: 'Payment redirection', amount: '$224M', pct: 17,  tooltip: 'Fraudsters intercept business emails and redirect payments to their own bank accounts.' },
   { name: 'Romance scams',       amount: '$40M',  pct:  3,  tooltip: 'Scammers build fake online relationships over weeks or months, then ask for money.' },
@@ -34,10 +34,10 @@ const scamTypes = [
 ]
 
 const ageGroups = [
-  { group: '65+',      pct: 100, tooltip: 'Australians aged 65+ face the highest risk — the largest average losses per person of any age group.' },
-  { group: '55–64',    pct: 72,  tooltip: 'This age group reports significant losses, particularly from investment and phone-based scams.' },
-  { group: '45–54',    pct: 54,  tooltip: 'Working-age Australians are frequently targeted by phishing and identity theft scams.' },
-  { group: '35–44',    pct: 38,  tooltip: 'This group is often targeted through social media, online shopping and romance scams.' },
+  { group: '65+',      pct: 100, tooltip: 'Australians aged 65+ face the highest risk - the largest average losses per person of any age group.' },
+  { group: '55-64',    pct: 72,  tooltip: 'This age group reports significant losses, particularly from investment and phone-based scams.' },
+  { group: '45-54',    pct: 54,  tooltip: 'Working-age Australians are frequently targeted by phishing and identity theft scams.' },
+  { group: '35-44',    pct: 38,  tooltip: 'This group is often targeted through social media, online shopping and romance scams.' },
   { group: 'Under 35', pct: 26,  tooltip: 'Younger Australians face lower average losses but are increasingly targeted through social platforms.' },
 ]
 
@@ -100,7 +100,7 @@ const features = [
           </div>
 
           <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight mb-6">
-            Stay safe online —<br/>
+            Stay safe online -<br/>
             <span class="text-white">simply and for free</span>
           </h1>
 
