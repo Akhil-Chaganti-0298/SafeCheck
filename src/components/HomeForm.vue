@@ -598,20 +598,19 @@ const features = [
 
             <button
               @click="emit('navigate', 'scam-quiz')"
-              class="group w-full rounded-2xl p-5 text-left shadow-sm border border-transparent hover:shadow-lg transition-all focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-blue-900"
-              style="background-color: var(--navy);"
+              class="group w-full rounded-2xl bg-white p-5 text-left shadow-sm border border-blue-100 hover:border-blue-900 hover:shadow-lg transition-all focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-blue-900"
             >
               <div class="flex items-start gap-4">
-                <div class="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 bg-white/10">
+                <div class="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0" style="background-color: var(--navy);">
                   <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
                   </svg>
                 </div>
                 <div class="flex-1">
-                  <p class="text-xl font-bold text-white mb-1">Want to sharpen your scam radar?</p>
-                  <p class="text-lg text-blue-100 leading-relaxed">Practise with real Australian scam scenarios and learn what to watch for.</p>
+                  <p class="text-xl font-bold text-slate-900 mb-1">Want to sharpen your scam radar?</p>
+                  <p class="text-lg text-slate-600 leading-relaxed">Practise with real Australian scam scenarios and learn what to watch for.</p>
                 </div>
-                <svg class="w-5 h-5 mt-1 flex-shrink-0 text-white transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg class="w-5 h-5 mt-1 flex-shrink-0 transition-transform group-hover:translate-x-1" style="color: var(--navy);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M9 5l7 7-7 7" />
                 </svg>
               </div>
