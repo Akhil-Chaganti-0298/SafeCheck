@@ -20,6 +20,7 @@ export default defineConfig({
     include: ['psl'],
   },
   server: {
+    hmr: { overlay: false },
     proxy: {
       '/api': 'http://localhost:3000',
     },
