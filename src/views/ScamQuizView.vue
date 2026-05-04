@@ -4,4 +4,4 @@ import ScamQuiz from '../components/ScamQuiz.vue'
 
 <template>
   <ScamQuiz />
-</template>
+</template> 

@@ -17,7 +17,11 @@
   },
   "dependencies": {
     "axios": "^1.15.0",
+<<<<<<< HEAD
+    "build": "^0.1.4",
+=======
     "cheerio": "^1.2.0",
+>>>>>>> main
     "cors": "^2.8.6",
     "csv-parser": "^3.2.0",
     "dotenv": "^17.4.1",
