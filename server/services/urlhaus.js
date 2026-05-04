@@ -1,4 +1,4 @@
-import axios from 'axios'
+import httpClient from './httpClient.js'
 
 const URLHAUS_LOOKUP_URL = 'https://urlhaus-api.abuse.ch/v1/url/'
 const URLHAUS_TIMEOUT_MS = 7000
@@ -11,10 +11,11 @@ export async function checkUrlhaus(url) {
     return { error: true, matched: false }
   }
 
+  // URLhaus expects the URL as a form-encoded body, not JSON
   const body = new URLSearchParams({ url }).toString()
 
   try {
-    const response = await axios.post(URLHAUS_LOOKUP_URL, body, {
+    const response = await httpClient.post(URLHAUS_LOOKUP_URL, body, {
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
         'Auth-Key': apiKey,
@@ -23,11 +24,11 @@ export async function checkUrlhaus(url) {
     })
 
     const data = response.data || {}
-    console.log('[URLhaus] raw response:', JSON.stringify(data))
     const queryStatus = String(data.query_status || '').toLowerCase()
     const urlStatus = data.url_status || null
     const tags = Array.isArray(data.tags) ? data.tags : []
 
+    // is_db_match means the URL is in their malware database
     if (queryStatus === 'is_db_match') {
       return {
         matched: true,

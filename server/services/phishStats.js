@@ -1,8 +1,9 @@
-import axios from 'axios'
+import httpClient from './httpClient.js'
 
 const PHISHSTATS_ENDPOINT = 'https://api.phishstats.info/api/phishing'
 const PHISHSTATS_TIMEOUT_MS = 7000
 
+// PhishStats uses a SQL-like filter syntax to query by URL
 function buildParams(url) {
   return {
     _where: `(url,like,${url})`,
@@ -13,11 +14,12 @@ function buildParams(url) {
 
 export async function checkPhishStats(url) {
   try {
-    const response = await axios.get(PHISHSTATS_ENDPOINT, {
+    const response = await httpClient.get(PHISHSTATS_ENDPOINT, {
       params: buildParams(url),
       timeout: PHISHSTATS_TIMEOUT_MS,
     })
 
+    // The API sometimes wraps results in a data property, sometimes not
     const items = Array.isArray(response.data)
       ? response.data
       : Array.isArray(response.data?.data)

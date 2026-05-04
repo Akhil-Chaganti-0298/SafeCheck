@@ -1,4 +1,4 @@
-import axios from 'axios'
+import httpClient from './httpClient.js'
 
 const SAFE_BROWSING_URL = 'https://safebrowsing.googleapis.com/v4/threatMatches:find'
 
@@ -18,9 +18,9 @@ export async function checkGoogleSafeBrowsing(url) {
     },
   }
 
-  const response = await axios.post(`${SAFE_BROWSING_URL}?key=${apiKey}`, body)
+  const response = await httpClient.post(`${SAFE_BROWSING_URL}?key=${apiKey}`, body)
 
-  // if matches is empty, the URL is clean
+  // Empty matches array means the URL is clean
   const matches = response.data.matches || []
   if (matches.length === 0) {
     return { isThreat: false }

@@ -15,6 +15,30 @@ const scoreStyle = {
   low:  { text: 'text-red-700',   bar: 'bg-red-600'   },
 }
 
+// Maps the internal category name to a shorter plain-English label
+// shown as the row heading inside the score breakdown panel.
+function plainLabel(label) {
+  const labels = {
+    'API Verification':  'Scam and threat lists',
+    'HTTP Security':     'Connection security',
+    'SSL/TLS Analysis':  'Website identity',
+    'DNS Analysis':      'Website age',
+  }
+  return labels[label] ?? label
+}
+
+// One plain sentence shown below each row label explaining what that
+// category actually checked, so Philip Morris understands the score.
+function plainDescription(label) {
+  const descriptions = {
+    'API Verification':  'We checked this website against 4 different databases used by security experts to track scams, malware, and fake websites.',
+    'HTTP Security':     'We checked whether your connection to this website is private and whether the website has set up the right protections for visitors.',
+    'SSL/TLS Analysis':  'We checked whether this website has a valid identity certificate, who issued it, and whether your connection is properly encrypted.',
+    'DNS Analysis':      'We checked how long this website has existed, whether it is properly registered, and whether its address appears on any known harmful lists.',
+  }
+  return descriptions[label] ?? ''
+}
+
 function scoreLevel(score) {
   if (score >= 70) return 'high'
   if (score >= 40) return 'mid'
@@ -63,34 +87,39 @@ function scoreLevel(score) {
 
     <!-- Breakdown table -->
     <div v-if="props.showScoreBreakdown" class="mt-4 border-t border-slate-100 pt-4">
-      <div class="grid grid-cols-12 text-base font-semibold text-slate-400 uppercase tracking-wide mb-2 px-1">
-        <span class="col-span-5">Check</span>
-        <span class="col-span-4">What we found</span>
-        <span class="col-span-2 text-right">Worth</span>
-        <span class="col-span-1 text-right">Lost</span>
-      </div>
-      <div class="space-y-2">
+      <div class="space-y-3">
         <div
           v-for="cat in props.result.scoreCategories"
           :key="cat.label"
-          class="grid grid-cols-12 items-start text-base px-2 py-3 rounded-lg"
+          class="rounded-xl px-4 py-3"
           :class="cat.status === 'pass' ? 'bg-green-50' : cat.status === 'warn' ? 'bg-amber-50' : 'bg-red-50'"
         >
-          <div class="col-span-5 flex items-center gap-1.5">
-            <StatusIcon :status="cat.status || (cat.passed ? 'pass' : 'danger')" size="sm" />
-            <span class="font-medium text-slate-700">{{ cat.label }}</span>
+          <div class="flex items-center justify-between mb-2">
+            <div class="flex items-center gap-2">
+              <StatusIcon :status="cat.status" size="sm" />
+              <span class="text-base font-semibold text-slate-700">{{ plainLabel(cat.label) }}</span>
+            </div>
+            <span
+              class="text-base font-bold"
+              :class="cat.status === 'pass' ? 'text-green-700' : cat.status === 'warn' ? 'text-amber-600' : 'text-red-600'"
+            >
+              {{ cat.score }} / {{ cat.maxScore }}
+            </span>
           </div>
-          <span class="col-span-4 text-slate-500 leading-tight">{{ cat.detail }}</span>
-          <span class="col-span-2 text-right text-slate-400">{{ cat.maxDeduction }} marks</span>
-          <span class="col-span-1 text-right font-semibold" :class="cat.deduction === 0 ? 'text-green-700' : 'text-red-600'">
-            {{ cat.deduction === 0 ? '0' : cat.deduction }}
-          </span>
+          <p class="text-sm text-slate-500 mb-2 leading-relaxed">{{ plainDescription(cat.label) }}</p>
+          <div class="w-full bg-slate-200 rounded-full h-2">
+            <div
+              class="h-2 rounded-full transition-all duration-500"
+              :class="cat.status === 'pass' ? 'bg-green-500' : cat.status === 'warn' ? 'bg-amber-500' : 'bg-red-500'"
+              :style="{ width: (cat.score / cat.maxScore * 100) + '%' }"
+            />
+          </div>
         </div>
       </div>
-      <div class="grid grid-cols-12 text-base font-semibold border-t border-slate-200 mt-3 pt-3 px-1">
-        <span class="col-span-11 text-slate-700">Your score — we start at 100 and remove marks for each warning sign</span>
-        <span class="col-span-1 text-right" :class="scoreStyle[scoreLevel(props.result.trustScore)].text">
-          {{ props.result.trustScore }}
+      <div class="flex items-center justify-between text-base font-semibold border-t border-slate-200 mt-3 pt-3 px-1">
+        <span class="text-slate-700">Total safety score</span>
+        <span :class="scoreStyle[scoreLevel(props.result.trustScore)].text">
+          {{ props.result.trustScore }} / 100
         </span>
       </div>
     </div>
