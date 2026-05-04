@@ -14,11 +14,11 @@ const reassurances = [
 </script>
 
 <template>
-  <!-- Full-width dark navy footer — no max-width constraint, stretches edge to edge -->
+  <!-- Full-width dark navy footer with content aligned to the page rhythm -->
   <footer style="background-color: var(--navy-dark); color: #bfdbfe;">
 
-    <div class="px-4 py-14">
-      <div class="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-3">
+    <div class="max-w-7xl mx-auto px-8 sm:px-16 py-14">
+      <div class="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-[1.1fr_0.75fr_1.15fr] lg:gap-16">
 
         <!-- Brand column -->
         <div class="flex flex-col gap-5">
@@ -89,7 +89,7 @@ const reassurances = [
 
     <!-- Bottom bar — also full-width -->
     <div class="border-t border-white/10">
-      <div class="px-4 py-5 flex flex-col sm:flex-row items-center justify-between gap-2 text-base text-blue-300">
+      <div class="max-w-7xl mx-auto px-8 sm:px-16 py-5 flex flex-col sm:flex-row items-center justify-between gap-3 text-base text-blue-300">
         <span>© 2025 SafeCheck. All rights reserved.</span>
         <span class="text-center text-sm">
           Information only · Not financial or legal advice · Always verify with official sources
