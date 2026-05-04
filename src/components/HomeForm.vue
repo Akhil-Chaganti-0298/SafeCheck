@@ -41,6 +41,13 @@ const ageGroups = [
   { group: 'Under 35', pct: 26,  tooltip: 'Younger Australians face lower average losses but are increasingly targeted through social platforms.' },
 ]
 
+const scamProofCards = [
+  { value: '$2.74B', label: 'reported scam losses in Australia in 2023' },
+  { value: '$1.3B', label: 'lost to investment scams, the largest category' },
+  { value: '65+', label: 'age group with the highest average loss per report' },
+  { value: '3 tools', label: 'to check links, fine print, and scam instincts' },
+]
+
 const features = [
   {
     page: 'url-verifier',
@@ -361,135 +368,123 @@ const features = [
   </section>
 
   <!-- ============================================================
-       SCAM STATISTICS — combined static + live data
-       (moved directly after hero so users see the stakes first)
+       SCAM STATISTICS — compact proof cards with optional detail
        ============================================================ -->
-  <section class="py-16 px-8 sm:px-16" style="background-color: var(--bg);">
+  <section class="py-12 px-8 sm:px-16" style="background-color: var(--bg);">
 
-    <div class="text-center mb-12 animate-fade-in-up">
-      <h2 class="text-4xl sm:text-5xl font-bold text-slate-900 mb-4">The scale of scams in Australia</h2>
-      <p class="text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed">
-        In 2023, Australians reported over $2.74 billion in losses to scams.
-        Seniors aged 65+ are disproportionately targeted — knowing the numbers helps you stay alert.
-      </p>
-    </div>
-
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-
-      <!-- Animated bar chart: top scam types by loss -->
-      <div class="bg-white rounded-2xl p-7 border border-slate-200 shadow-sm animate-fade-in-up">
-        <p class="text-sm font-semibold uppercase tracking-widest text-slate-400 mb-1">ACCC Scamwatch 2023</p>
-        <h3 class="text-2xl font-bold text-slate-900 mb-2">Top scam types by financial loss</h3>
-        <p class="text-sm text-slate-500 mb-6">Hover over any bar to learn more</p>
-        <div class="space-y-5">
-          <div v-for="(type, i) in scamTypes" :key="type.name" class="relative">
-            <div class="flex items-center justify-between mb-2">
-              <span class="text-lg font-medium text-slate-700">{{ type.name }}</span>
-              <span class="text-lg font-bold" style="color: var(--navy);">{{ type.amount }}</span>
-            </div>
-            <div
-              class="w-full bg-slate-100 rounded-full h-4 cursor-pointer"
-              @mouseenter="hoveredScamType = i"
-              @mouseleave="hoveredScamType = null"
-            >
-              <div
-                class="h-4 rounded-full"
-                style="transition: width 0.9s ease-out;"
-                :style="{ width: animated ? type.pct + '%' : '0%', backgroundColor: 'var(--navy)' }"
-              ></div>
-            </div>
-            <!-- Tooltip -->
-            <div
-              v-if="hoveredScamType === i"
-              class="absolute z-20 left-0 bg-slate-900 text-white text-sm rounded-xl px-4 py-3 shadow-xl leading-relaxed animate-fade-in pointer-events-none"
-              style="bottom: calc(100% + 8px); max-width: 300px; min-width: 200px;"
-            >
-              <p class="font-semibold mb-1">{{ type.name }} — {{ type.amount }}</p>
-              <p style="opacity: 0.85;">{{ type.tooltip }}</p>
-              <div class="absolute left-4 top-full w-0 h-0" style="border-left: 6px solid transparent; border-right: 6px solid transparent; border-top: 6px solid #0f172a;"></div>
-            </div>
-          </div>
-        </div>
-        <p class="text-sm text-slate-400 mt-6">Source: ACCC Scamwatch 2023 Annual Report</p>
+    <div class="grid grid-cols-1 lg:grid-cols-[0.85fr_1.15fr] gap-8 items-start mb-8 animate-fade-in-up">
+      <div>
+        <p class="text-sm font-semibold uppercase tracking-widest mb-3" style="color: var(--navy);">Scam proof points</p>
+        <h2 class="text-3xl sm:text-4xl font-bold text-slate-900 mb-3 leading-tight">The risk is real, so the tools stay practical.</h2>
+        <p class="text-lg text-slate-600 leading-relaxed">
+          These numbers give context without getting in the way. Open the detail only if you want the full breakdown.
+        </p>
       </div>
 
-      <!-- Animated age group vulnerability chart -->
-      <div class="bg-white rounded-2xl p-7 border border-slate-200 shadow-sm animate-fade-in-up stagger-1">
-        <p class="text-sm font-semibold uppercase tracking-widest text-slate-400 mb-1">Vulnerability by age</p>
-        <h3 class="text-2xl font-bold text-slate-900 mb-2">Who is most affected?</h3>
-        <p class="text-sm text-slate-500 mb-6">Hover over any bar to learn more</p>
-        <div class="space-y-4">
-          <div v-for="(age, i) in ageGroups" :key="age.group" class="flex items-center gap-4">
-            <span class="text-base font-semibold text-slate-600 w-24 flex-shrink-0">{{ age.group }}</span>
-            <div class="flex-1 relative">
+      <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
+        <div
+          v-for="card in scamProofCards"
+          :key="card.label"
+          class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm"
+        >
+          <p class="text-3xl font-bold mb-2" style="color: var(--navy);">{{ card.value }}</p>
+          <p class="text-base text-slate-600 leading-snug">{{ card.label }}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
+      <details class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden animate-fade-in-up">
+        <summary class="flex items-center justify-between gap-4 px-6 py-5 cursor-pointer hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-blue-900">
+          <span>
+            <span class="block text-sm font-semibold uppercase tracking-widest text-slate-400 mb-1">ACCC Scamwatch 2023</span>
+            <span class="block text-xl font-bold text-slate-900">Top scam types by financial loss</span>
+          </span>
+          <svg class="w-6 h-6 flex-shrink-0" style="color: var(--navy);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+          </svg>
+        </summary>
+
+        <div class="px-6 pb-6 pt-2 border-t border-slate-100">
+          <div class="space-y-5">
+            <div v-for="(type, i) in scamTypes" :key="type.name" class="relative">
+              <div class="flex items-center justify-between mb-2 gap-4">
+                <span class="text-lg font-medium text-slate-700">{{ type.name }}</span>
+                <span class="text-lg font-bold flex-shrink-0" style="color: var(--navy);">{{ type.amount }}</span>
+              </div>
               <div
-                class="bg-slate-100 rounded-full h-5 cursor-pointer"
-                @mouseenter="hoveredAgeGroup = i"
-                @mouseleave="hoveredAgeGroup = null"
+                class="w-full bg-slate-100 rounded-full h-4 cursor-pointer"
+                @mouseenter="hoveredScamType = i"
+                @mouseleave="hoveredScamType = null"
               >
                 <div
-                  class="h-5 rounded-full"
+                  class="h-4 rounded-full"
                   style="transition: width 0.9s ease-out;"
-                  :style="{ width: animated ? age.pct + '%' : '0%', backgroundColor: `rgba(30,58,138,${1 - i * 0.16})` }"
+                  :style="{ width: animated ? type.pct + '%' : '0%', backgroundColor: 'var(--navy)' }"
                 ></div>
               </div>
-              <!-- Tooltip -->
-              <div
-                v-if="hoveredAgeGroup === i"
-                class="absolute z-20 left-0 bg-slate-900 text-white text-sm rounded-xl px-4 py-3 shadow-xl leading-relaxed animate-fade-in pointer-events-none"
-                style="bottom: calc(100% + 8px); max-width: 280px; min-width: 180px;"
-              >
-                <p class="font-semibold mb-1">Age {{ age.group }} — {{ age.pct }}% risk index</p>
-                <p style="opacity: 0.85;">{{ age.tooltip }}</p>
-                <div class="absolute left-4 top-full w-0 h-0" style="border-left: 6px solid transparent; border-right: 6px solid transparent; border-top: 6px solid #0f172a;"></div>
-              </div>
+              <p v-if="hoveredScamType === i" class="mt-2 text-base text-slate-600 leading-relaxed animate-fade-in">
+                {{ type.tooltip }}
+              </p>
             </div>
-            <span class="text-base font-bold w-12 text-right" style="color: var(--navy);">{{ age.pct }}%</span>
           </div>
+          <p class="text-sm text-slate-400 mt-6">Source: ACCC Scamwatch 2023 Annual Report</p>
         </div>
-        <p class="text-sm text-slate-400 mt-5">Relative vulnerability index — 65+ face the highest risk per person</p>
-      </div>
+      </details>
 
-      <!-- Live data from our database -->
-      <div class="lg:col-span-2 animate-fade-in-up stagger-2">
-        <ScamStatsPanel :scam-stats="scamStats" :max-reports="maxReports" />
-      </div>
-
-    </div>
-
-    <!-- Why are older Australians targeted — full-width prominent callout -->
-    <div
-      class="mt-10 rounded-3xl overflow-hidden animate-fade-in-up"
-      style="background: linear-gradient(135deg, var(--navy) 0%, #1d4ed8 100%);"
-    >
-      <div class="px-8 sm:px-12 py-10 sm:py-14 text-center">
-        <div class="inline-flex items-center justify-center w-14 h-14 rounded-full bg-white/15 mb-6">
-          <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.268 16.5c-.77.833.192 2.5 1.732 2.5z" />
+      <details class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden animate-fade-in-up stagger-1">
+        <summary class="flex items-center justify-between gap-4 px-6 py-5 cursor-pointer hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-blue-900">
+          <span>
+            <span class="block text-sm font-semibold uppercase tracking-widest text-slate-400 mb-1">Older Australians</span>
+            <span class="block text-xl font-bold text-slate-900">Why checking links matters for people over 65</span>
+          </span>
+          <svg class="w-6 h-6 flex-shrink-0" style="color: var(--navy);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
           </svg>
+        </summary>
+
+        <div class="px-6 pb-6 pt-2 border-t border-slate-100">
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+            <div class="rounded-xl p-5" style="background-color: var(--navy-tint);">
+              <p class="text-2xl font-bold" style="color: var(--navy);">65+</p>
+              <p class="text-base text-slate-600 leading-snug mt-1">highest risk index in the age comparison</p>
+            </div>
+            <div class="rounded-xl p-5" style="background-color: var(--navy-tint);">
+              <p class="text-2xl font-bold" style="color: var(--navy);">Highest avg</p>
+              <p class="text-base text-slate-600 leading-snug mt-1">largest average loss per individual report</p>
+            </div>
+            <div class="rounded-xl p-5" style="background-color: var(--navy-tint);">
+              <p class="text-2xl font-bold" style="color: var(--navy);">Awareness</p>
+              <p class="text-base text-slate-600 leading-snug mt-1">the strongest first defence against scams</p>
+            </div>
+          </div>
+
+          <div class="space-y-4 mb-6">
+            <div v-for="(age, i) in ageGroups" :key="age.group" class="flex items-center gap-4">
+              <span class="text-base font-semibold text-slate-600 w-24 flex-shrink-0">{{ age.group }}</span>
+              <div class="flex-1 relative">
+                <div
+                  class="bg-slate-100 rounded-full h-5 cursor-pointer"
+                  @mouseenter="hoveredAgeGroup = i"
+                  @mouseleave="hoveredAgeGroup = null"
+                >
+                  <div
+                    class="h-5 rounded-full"
+                    style="transition: width 0.9s ease-out;"
+                    :style="{ width: animated ? age.pct + '%' : '0%', backgroundColor: `rgba(30,58,138,${1 - i * 0.16})` }"
+                  ></div>
+                </div>
+                <p v-if="hoveredAgeGroup === i" class="mt-2 text-base text-slate-600 leading-relaxed animate-fade-in">
+                  {{ age.tooltip }}
+                </p>
+              </div>
+              <span class="text-base font-bold w-12 text-right" style="color: var(--navy);">{{ age.pct }}%</span>
+            </div>
+          </div>
+
+          <ScamStatsPanel :scam-stats="scamStats" :max-reports="maxReports" />
         </div>
-        <h3 class="text-3xl sm:text-4xl font-bold text-white mb-5">Why are older Australians targeted?</h3>
-        <p class="text-xl sm:text-2xl text-white max-w-3xl mx-auto leading-relaxed mb-10" style="opacity: 0.9;">
-          Scammers specifically target people aged 65+ because they are more likely to have accumulated savings,
-          may be less familiar with digital warning signs, and can be more susceptible to unsolicited contact.
-          Knowledge is the most powerful protection.
-        </p>
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-5 max-w-4xl mx-auto">
-          <div class="bg-white/10 rounded-2xl p-6 text-center">
-            <p class="text-3xl font-bold text-white mb-2">$2.74B</p>
-            <p class="text-base text-blue-200 leading-relaxed">Total losses reported to Scamwatch in 2023 — a record high</p>
-          </div>
-          <div class="bg-white/10 rounded-2xl p-6 text-center">
-            <p class="text-3xl font-bold text-white mb-2">Highest avg</p>
-            <p class="text-base text-blue-200 leading-relaxed">People aged 65+ have the highest average loss per individual report</p>
-          </div>
-          <div class="bg-white/10 rounded-2xl p-6 text-center">
-            <p class="text-3xl font-bold text-white mb-2">Awareness</p>
-            <p class="text-base text-blue-200 leading-relaxed">The single most effective defence against online scams</p>
-          </div>
-        </div>
-      </div>
+      </details>
     </div>
 
   </section>
@@ -549,106 +544,77 @@ const features = [
   <section class="py-16 px-8 sm:px-16 bg-white">
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
 
-      <!-- Left: secondary senior lady illustration above scenario tiles -->
+      <!-- Left: real-life moments -->
       <div class="animate-fade-in-up">
-        <div class="flex justify-center mb-8">
-          <div class="relative inline-block">
-            <div class="w-56 h-56 rounded-3xl flex items-center justify-center" style="background-color: var(--navy-tint);">
-              <svg viewBox="0 0 200 210" class="w-48 h-48" fill="none" xmlns="http://www.w3.org/2000/svg"
-                aria-label="Illustration of an older Australian woman safely using her phone">
-                <path d="M55 215 Q53 165 72 152 Q87 143 100 140 Q113 143 128 152 Q147 165 145 215Z" fill="rgba(100,130,190,0.65)"/>
-                <path d="M90 140 L100 136 L110 140 L106 158 L100 162 L94 158Z" fill="rgba(220,230,248,0.7)"/>
-                <rect x="94" y="127" width="12" height="16" rx="5" fill="rgba(252,198,158,0.95)"/>
-                <ellipse cx="100" cy="95" rx="36" ry="40" fill="rgba(252,198,158,0.95)"/>
-                <path d="M64 88 Q62 58 84 46 Q100 38 116 46 Q138 58 136 88 Q128 68 100 65 Q72 68 64 88Z" fill="rgba(212,212,222,0.97)"/>
-                <path d="M64 88 Q58 97 60 111 Q65 108 69 100Z" fill="rgba(212,212,222,0.94)"/>
-                <path d="M136 88 Q142 97 140 111 Q135 108 131 100Z" fill="rgba(212,212,222,0.94)"/>
-                <path d="M80 80 Q87 76 93 78" stroke="rgba(160,140,120,0.55)" stroke-width="2" fill="none" stroke-linecap="round"/>
-                <path d="M107 78 Q113 76 120 80" stroke="rgba(160,140,120,0.55)" stroke-width="2" fill="none" stroke-linecap="round"/>
-                <ellipse cx="88" cy="92" rx="6.5" ry="5.5" fill="rgba(88,62,44,0.9)"/>
-                <ellipse cx="112" cy="92" rx="6.5" ry="5.5" fill="rgba(88,62,44,0.9)"/>
-                <circle cx="89" cy="90" r="2" fill="rgba(255,255,255,0.92)"/>
-                <circle cx="113" cy="90" r="2" fill="rgba(255,255,255,0.92)"/>
-                <rect x="80" y="87" width="18" height="12" rx="4" fill="rgba(255,255,255,0.1)" stroke="rgba(80,82,106,0.88)" stroke-width="2"/>
-                <rect x="102" y="87" width="18" height="12" rx="4" fill="rgba(255,255,255,0.1)" stroke="rgba(80,82,106,0.88)" stroke-width="2"/>
-                <path d="M98 93 L102 93" stroke="rgba(80,82,106,0.88)" stroke-width="1.8"/>
-                <path d="M80 93 Q73 92 71 89" stroke="rgba(80,82,106,0.85)" stroke-width="1.6" stroke-linecap="round" fill="none"/>
-                <path d="M120 93 Q127 92 129 89" stroke="rgba(80,82,106,0.85)" stroke-width="1.6" stroke-linecap="round" fill="none"/>
-                <path d="M87 113 Q100 128 113 113" stroke="rgba(190,110,65,0.78)" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-                <ellipse cx="81" cy="108" rx="10" ry="6" fill="rgba(255,140,110,0.13)"/>
-                <ellipse cx="119" cy="108" rx="10" ry="6" fill="rgba(255,140,110,0.13)"/>
-                <path d="M128 158 Q152 166 162 178" stroke="rgba(252,198,158,0.92)" stroke-width="12" stroke-linecap="round" fill="none"/>
-                <ellipse cx="164" cy="183" rx="9" ry="7" fill="rgba(252,198,158,0.92)"/>
-                <rect x="158" y="172" width="24" height="40" rx="5" fill="rgba(255,255,255,0.9)" stroke="rgba(30,58,138,0.35)" stroke-width="1.5"/>
-                <rect x="161" y="175" width="18" height="30" rx="3" fill="rgba(239,246,255,0.8)"/>
-                <rect x="163" y="178" width="14" height="3" rx="1.5" fill="rgba(30,58,138,0.3)"/>
-                <circle cx="170" cy="194" r="8" fill="rgba(74,222,128,0.28)" stroke="rgba(74,222,128,0.75)" stroke-width="1.5"/>
-                <path d="M166 194 l3 3 l6-6" stroke="rgba(74,222,128,1)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M72 158 Q52 167 44 180" stroke="rgba(252,198,158,0.88)" stroke-width="11" stroke-linecap="round" fill="none"/>
-              </svg>
-            </div>
-            <div class="absolute -bottom-3 -right-3 bg-white rounded-xl px-3 py-2 shadow-lg flex items-center gap-2 border border-slate-100">
-              <div class="w-5 h-5 rounded-full bg-green-100 flex items-center justify-center">
-                <svg class="w-3 h-3 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
+        <div class="rounded-3xl p-7 sm:p-8 shadow-sm" style="background-color: var(--navy-tint); border: 1px solid #bfdbfe;">
+          <p class="text-sm font-semibold uppercase tracking-widest mb-3" style="color: var(--navy);">Built for real moments</p>
+          <h3 class="text-3xl font-bold text-slate-900 leading-tight mb-3">
+            When something online feels off, SafeCheck gives you a simple next step.
+          </h3>
+          <p class="text-lg text-slate-600 leading-relaxed mb-7">
+            No jargon, no accounts, no pressure. Just paste, read, and decide with more confidence.
+          </p>
+
+          <div class="grid gap-4">
+            <button
+              @click="emit('navigate', 'url-verifier')"
+              class="group w-full rounded-2xl bg-white p-5 text-left shadow-sm border border-blue-100 hover:border-blue-900 hover:shadow-lg transition-all focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-blue-900"
+            >
+              <div class="flex items-start gap-4">
+                <div class="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0" style="background-color: var(--navy);">
+                  <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
+                  </svg>
+                </div>
+                <div class="flex-1">
+                  <p class="text-xl font-bold text-slate-900 mb-1">Received a suspicious link by text?</p>
+                  <p class="text-lg text-slate-600 leading-relaxed">Check it before you tap. SafeCheck explains the result in seconds.</p>
+                </div>
+                <svg class="w-5 h-5 mt-1 flex-shrink-0 transition-transform group-hover:translate-x-1" style="color: var(--navy);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M9 5l7 7-7 7" />
                 </svg>
               </div>
-              <span class="text-sm font-bold text-slate-800">Scam detected — stay safe!</span>
-            </div>
-          </div>
-        </div>
+            </button>
 
-        <!-- Scenario tiles -->
-        <div class="grid grid-cols-2 gap-4">
-          <div class="col-span-2 rounded-2xl p-8 flex items-center gap-6" style="background-color: var(--navy-tint); border: 1px solid #bfdbfe;">
-            <div class="flex-shrink-0">
-              <svg viewBox="0 0 120 120" class="w-24 h-24" fill="none">
-                <rect x="38" y="25" width="44" height="72" rx="7" fill="#1e3a8a" />
-                <rect x="42" y="31" width="36" height="58" rx="4" fill="#e8f4fd" />
-                <rect x="46" y="36" width="28" height="3" rx="1.5" fill="#1e3a8a" opacity="0.5"/>
-                <rect x="46" y="42" width="24" height="3" rx="1.5" fill="#93c5fd" opacity="0.7"/>
-                <rect x="46" y="48" width="28" height="3" rx="1.5" fill="#93c5fd" opacity="0.5"/>
-                <circle cx="60" cy="68" r="10" fill="#dcfce7" stroke="#16a34a" stroke-width="1.5"/>
-                <path d="M55 68 l3 3 l7-7" stroke="#16a34a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                <circle cx="60" cy="92" r="4" fill="#374151" opacity="0.3"/>
-                <circle cx="22" cy="50" r="14" fill="#fde68a" opacity="0.9"/>
-                <path d="M10 50 Q10 36 22 36 Q34 36 34 50" fill="#d1d5db"/>
-                <path d="M17 54 Q22 59 27 54" stroke="#92400e" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-                <rect x="15" y="48" width="6" height="4" rx="2" fill="none" stroke="#374151" stroke-width="1.2"/>
-                <rect x="23" y="48" width="6" height="4" rx="2" fill="none" stroke="#374151" stroke-width="1.2"/>
-                <path d="M21 50 L23 50" stroke="#374151" stroke-width="1.2"/>
-                <path d="M30 60 Q36 65 38 72" stroke="#fde68a" stroke-width="7" stroke-linecap="round" fill="none" opacity="0.9"/>
-              </svg>
-            </div>
-            <div>
-              <p class="text-xl font-bold text-slate-900 mb-2">Received a suspicious link by text?</p>
-              <p class="text-lg text-slate-600 leading-relaxed">Paste it into SafeCheck before you tap. Takes just a few seconds.</p>
-            </div>
-          </div>
+            <button
+              @click="emit('navigate', 'tnc-simplifier')"
+              class="group w-full rounded-2xl bg-white p-5 text-left shadow-sm border border-blue-100 hover:border-blue-900 hover:shadow-lg transition-all focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-blue-900"
+            >
+              <div class="flex items-start gap-4">
+                <div class="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0" style="background-color: var(--navy);">
+                  <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                  </svg>
+                </div>
+                <div class="flex-1">
+                  <p class="text-xl font-bold text-slate-900 mb-1">Confused by the fine print?</p>
+                  <p class="text-lg text-slate-600 leading-relaxed">Paste the terms and see the parts that could affect your privacy, money, or rights.</p>
+                </div>
+                <svg class="w-5 h-5 mt-1 flex-shrink-0 transition-transform group-hover:translate-x-1" style="color: var(--navy);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M9 5l7 7-7 7" />
+                </svg>
+              </div>
+            </button>
 
-          <div class="rounded-2xl p-6 flex flex-col items-center text-center" style="background-color: var(--navy-tint); border: 1px solid #bfdbfe;">
-            <svg viewBox="0 0 100 80" class="w-20 h-16 mb-3" fill="none">
-              <rect x="15" y="30" width="70" height="40" rx="4" fill="#1e3a8a"/>
-              <rect x="19" y="34" width="62" height="32" rx="2" fill="#bfdbfe"/>
-              <rect x="23" y="38" width="40" height="3" rx="1.5" fill="#1e3a8a" opacity="0.4"/>
-              <rect x="23" y="44" width="30" height="3" rx="1.5" fill="#93c5fd" opacity="0.6"/>
-              <rect x="10" y="70" width="80" height="6" rx="3" fill="#374151" opacity="0.5"/>
-              <circle cx="50" cy="18" r="12" fill="#fde68a" opacity="0.9"/>
-              <path d="M38 18 Q38 6 50 6 Q62 6 62 18" fill="#d1d5db"/>
-            </svg>
-            <p class="text-base font-bold text-slate-900">Confused by fine print?</p>
-            <p class="text-sm text-slate-600 mt-1">We translate it for you</p>
-          </div>
-
-          <div class="rounded-2xl p-6 flex flex-col items-center text-center" style="background-color: var(--navy);">
-            <div class="w-14 h-14 rounded-full mb-3 flex items-center justify-center bg-white/10">
-              <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
-              </svg>
-            </div>
-            <p class="text-base font-bold text-white">Test your scam radar</p>
-            <p class="text-sm text-blue-200 mt-1">8 quick questions</p>
+            <button
+              @click="emit('navigate', 'scam-quiz')"
+              class="group w-full rounded-2xl bg-white p-5 text-left shadow-sm border border-blue-100 hover:border-blue-900 hover:shadow-lg transition-all focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-blue-900"
+            >
+              <div class="flex items-start gap-4">
+                <div class="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0" style="background-color: var(--navy);">
+                  <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                  </svg>
+                </div>
+                <div class="flex-1">
+                  <p class="text-xl font-bold text-slate-900 mb-1">Want to sharpen your scam radar?</p>
+                  <p class="text-lg text-slate-600 leading-relaxed">Practise with real Australian scam scenarios and learn what to watch for.</p>
+                </div>
+                <svg class="w-5 h-5 mt-1 flex-shrink-0 transition-transform group-hover:translate-x-1" style="color: var(--navy);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M9 5l7 7-7 7" />
+                </svg>
+              </div>
+            </button>
           </div>
         </div>
       </div>
