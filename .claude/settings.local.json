@@ -1,0 +1,40 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(node server/index.js)",
+      "Bash(curl -s http://localhost:3000/api/health)",
+      "Bash(pkill -f \"node server/index.js\")",
+      "Bash(curl -sv -X POST http://localhost:3000/api/tnc-simplify -H 'Content-Type: application/json' -d '{\"mode\":\"text\",\"text\":\"test terms and conditions document for debugging purposes only\"}')",
+      "Bash(taskkill /F /IM node.exe)",
+      "Read(//tmp/**)",
+      "Bash(curl -s -X POST http://localhost:3000/api/tnc-simplify -H 'Content-Type: application/json' -d '{\"mode\":\"text\",\"text\":\"test\"}')",
+      "Bash(curl -s -X POST http://localhost:3000/api/tnc-simplify -H \"Content-Type: application/json\" -d '{\"mode\":\"text\",\"text\":\"test\"}')",
+      "Bash(curl -s -X POST http://localhost:3000/api/tnc-simplify-direct -H \"Content-Type: application/json\" -d '{}')",
+      "Bash(curl -s -X POST http://localhost:3000/api/tnc-simplify -H \"Content-Type: application/json\" -d '{\"mode\":\"text\",\"text\":\"test terms\"}')",
+      "Bash(netstat -ano)",
+      "Bash(curl -s -X POST http://localhost:3000/api/tnc-simplify -H \"Content-Type: application/json\" -d '{\"mode\":\"text\",\"text\":\"short test\"}')",
+      "Bash(curl -s -X POST http://localhost:3000/api/tnc-simplify -H 'Content-Type: application/json' -d '{\"mode\":\"url\",\"url\":\"https://www.apple.com/legal/internet-services/itunes/\"}' --max-time 90)",
+      "Bash(xxd /tmp/server.log)",
+      "Bash(node --input-type=module)",
+      "Bash(cat /tmp/gemini_raw.json)",
+      "PowerShell(netstat *)",
+      "PowerShell(Get-NetTCPConnection *)",
+      "Bash(curl -s -X POST http://localhost:3000/api/tnc-simplify -H 'Content-Type: application/json' -d '{\"mode\":\"text\",\"text\":\"By using this service you agree to data collection. We share your data with third parties. Cancellation requires 30 days notice. Your content may be used to train AI.\"}' --max-time 60)",
+      "PowerShell(Get-Process -Name node -ErrorAction SilentlyContinue | Where-Object { $_.Id -ne 9680 } | Select-Object Id, CommandLine | Format-List)",
+      "PowerShell(Stop-Process *)",
+      "Bash(curl -s -o /dev/null -w \"Vite frontend: %{http_code}\\\\n\" http://localhost:5173/)",
+      "Bash(curl -s -o /dev/null -w \"Backend health: %{http_code}\\\\n\" http://localhost:3000/api/health)",
+      "Bash(start *)",
+      "Bash(curl -s -X POST http://localhost:5173/api/tnc-simplify -H 'Content-Type: application/json' -d '{\"mode\":\"url\",\"url\":\"https://www.apple.com/legal/internet-services/itunes/\"}' --max-time 90)",
+      "Bash(python3 -c ' *)",
+      "mcp__ide__getDiagnostics",
+      "Bash(node -e \"JSON.parse\\(require\\('fs'\\).readFileSync\\('package.json','utf8'\\)\\); console.log\\('package.json valid'\\)\")",
+      "Bash(npm run *)",
+      "Bash(python3 -)",
+      "Bash(node -e ' *)",
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)",
+      "Bash(git push *)"
+    ]
+  }
+}

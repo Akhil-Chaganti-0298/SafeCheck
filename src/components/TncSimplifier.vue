@@ -1,19 +1,39 @@
 <script setup>
 import { ref } from 'vue'
+import { simplifyTnC } from '../services/api.js'
 
 const inputMode = ref('url')
 const inputValue = ref('')
 const loading = ref(false)
 const hasResult = ref(false)
+const result = ref(null)
+const error = ref('')
 
-function handleAnalyze() {
+async function handleAnalyze() {
   if (!inputValue.value.trim()) return
   loading.value = true
   hasResult.value = false
-  setTimeout(() => {
-    loading.value = false
+  error.value = ''
+  result.value = null
+
+  try {
+    const data = await simplifyTnC({
+      mode: inputMode.value,
+      url: inputMode.value === 'url' ? inputValue.value.trim() : undefined,
+      text: inputMode.value === 'text' ? inputValue.value.trim() : undefined,
+    })
+    result.value = data
     hasResult.value = true
-  }, 1800)
+  } catch (err) {
+    if (err.response?.status === 429) {
+      const seconds = Number.isFinite(err.retryAfterSeconds) ? err.retryAfterSeconds : 30
+      error.value = `AI service is busy right now. Please wait about ${seconds} seconds, then try again.`
+    } else {
+      error.value = err.response?.data?.error || 'Something went wrong. Please try again.'
+    }
+  } finally {
+    loading.value = false
+  }
 }
 
 const sampleTnC = `By using this service, you agree to our collection of information about your usage patterns, device details, and browsing activity within the platform. This information is used to improve our products and to serve personalised advertisements.
@@ -29,60 +49,6 @@ These terms may be updated at any time without individual notice. Continued use 
 function trySample() {
   inputMode.value = 'text'
   inputValue.value = sampleTnC
-}
-
-const sampleResult = {
-  overallRisk: 'medium',
-  summary: `This service collects data about how you use it and may share that data with
-    third-party advertising partners. Your conversations or activity may be used
-    to improve or train future versions of the product. Cancelling your subscription
-    requires written notice 30 days in advance.`,
-  flaggedClauses: [
-    {
-      category: 'Data collection',
-      severity: 'warn',
-      clause: 'We collect your usage data, device information, and browsing activity within the app.',
-      consequence: 'The service builds a detailed profile of your habits. This profile can be sold or shared with advertisers — even if you never knew.',
-      realCase: {
-        name: 'Facebook / Cambridge Analytica (2016)',
-        detail: 'Millions of Facebook users had their personal data harvested and used to build political profiles without their knowledge or consent, influencing the 2016 US election.',
-      },
-    },
-    {
-      category: 'Data sharing with third parties',
-      severity: 'danger',
-      clause: 'We may share your personal information with our advertising and analytics partners.',
-      consequence: 'Your personal data — including things you search for or read — may be sold to companies you have never heard of, who use it to target you with ads.',
-      realCase: {
-        name: 'Meta Privacy Policy',
-        detail: 'User data across Facebook, Instagram, and WhatsApp was shared and used for advertising. Most users did not understand the extent of this until it became a major news story.',
-      },
-    },
-    {
-      category: 'AI training data',
-      severity: 'warn',
-      clause: 'Your conversations and submitted content may be used to train and improve our AI models.',
-      consequence: 'Anything you type — questions, complaints, personal details — could be used to teach an AI system. This data may be kept and processed for years.',
-      realCase: {
-        name: 'OpenAI Privacy Policy scrutiny',
-        detail: 'OpenAI\'s terms raised concerns that user conversations submitted to ChatGPT could be used to train future AI models, prompting regulatory investigations in several countries.',
-      },
-    },
-    {
-      category: 'Cancellation trap',
-      severity: 'warn',
-      clause: 'To cancel your subscription, you must provide written notice 30 days before your renewal date.',
-      consequence: 'If you forget to cancel in time, you will be charged for another full year. Many people discover this only after seeing an unexpected charge on their bank statement.',
-      realCase: null,
-    },
-    {
-      category: 'Chat data retention',
-      severity: 'warn',
-      clause: 'Chat logs and support conversations are retained for up to 7 years for quality assurance purposes.',
-      consequence: 'Private conversations with customer support — which may include sensitive details — are stored for many years and could be accessed in legal proceedings or data breaches.',
-      realCase: null,
-    },
-  ],
 }
 
 const riskConfig = {
@@ -217,7 +183,7 @@ const severityConfig = {
       <div class="lg:col-span-3">
 
         <!-- Educational empty state — fills the space usefully -->
-        <div v-if="!loading && !hasResult" class="space-y-5 animate-fade-in">
+        <div v-if="!loading && !hasResult && !error" class="space-y-5 animate-fade-in">
 
           <!-- Why T&Cs matter -->
           <div class="bg-white border border-slate-200 rounded-2xl p-7 shadow-sm">
@@ -269,6 +235,24 @@ const severityConfig = {
 
         </div>
 
+        <!-- Error state -->
+        <div v-if="error && !loading" class="animate-fade-in">
+          <div class="bg-white border border-red-200 rounded-2xl p-6 shadow-sm">
+            <div class="flex items-start gap-4">
+              <div class="w-10 h-10 rounded-full bg-red-100 flex items-center justify-center flex-shrink-0">
+                <svg class="w-5 h-5 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.268 16.5c-.77.833.192 2.5 1.732 2.5z" />
+                </svg>
+              </div>
+              <div>
+                <p class="text-lg font-bold text-red-800 mb-1">Analysis failed</p>
+                <p class="text-base text-red-700 leading-relaxed">{{ error }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <!-- Loading state -->
         <div v-if="loading" class="space-y-4 animate-fade-in">
           <div class="bg-white rounded-2xl border border-slate-200 p-6">
@@ -293,38 +277,38 @@ const severityConfig = {
         </div>
 
         <!-- Results -->
-        <div v-if="hasResult && !loading" class="space-y-5 animate-slide-in-right">
+        <div v-if="hasResult && !loading && result" class="space-y-5 animate-slide-in-right">
 
           <div
             class="rounded-2xl border-4 p-6"
             :style="{
-              background: riskConfig[sampleResult.overallRisk].bg,
-              borderColor: riskConfig[sampleResult.overallRisk].border,
+              background: riskConfig[result.overallRisk].bg,
+              borderColor: riskConfig[result.overallRisk].border,
             }"
           >
             <div class="flex items-center justify-between mb-3">
               <div class="flex items-center gap-3">
                 <div class="w-14 h-14 rounded-full flex items-center justify-center"
-                  :style="{ background: riskConfig[sampleResult.overallRisk].bg, border: '2px solid ' + riskConfig[sampleResult.overallRisk].border }">
-                  <svg class="w-7 h-7" :style="{ color: riskConfig[sampleResult.overallRisk].icon }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path v-if="sampleResult.overallRisk === 'low'"
+                  :style="{ background: riskConfig[result.overallRisk].bg, border: '2px solid ' + riskConfig[result.overallRisk].border }">
+                  <svg class="w-7 h-7" :style="{ color: riskConfig[result.overallRisk].icon }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path v-if="result.overallRisk === 'low'"
                       stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" />
                     <path v-else
                       stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.268 16.5c-.77.833.192 2.5 1.732 2.5z" />
                   </svg>
                 </div>
                 <div>
-                  <p class="text-base font-semibold uppercase tracking-widest" :style="{ color: riskConfig[sampleResult.overallRisk].text, opacity: 0.7 }">
+                  <p class="text-base font-semibold uppercase tracking-widest" :style="{ color: riskConfig[result.overallRisk].text, opacity: 0.7 }">
                     Overall assessment
                   </p>
-                  <p class="text-3xl font-bold" :style="{ color: riskConfig[sampleResult.overallRisk].text }">
-                    {{ riskConfig[sampleResult.overallRisk].label }}
+                  <p class="text-3xl font-bold" :style="{ color: riskConfig[result.overallRisk].text }">
+                    {{ riskConfig[result.overallRisk].label }}
                   </p>
                 </div>
               </div>
             </div>
-            <p class="text-lg leading-relaxed" :style="{ color: riskConfig[sampleResult.overallRisk].text }">
-              {{ sampleResult.summary }}
+            <p class="text-lg leading-relaxed" :style="{ color: riskConfig[result.overallRisk].text }">
+              {{ result.summary }}
             </p>
           </div>
 
@@ -335,7 +319,7 @@ const severityConfig = {
 
             <div class="space-y-5">
               <div
-                v-for="clause in sampleResult.flaggedClauses"
+                v-for="clause in result.flaggedClauses"
                 :key="clause.category"
                 class="rounded-xl border p-5"
                 :style="{
