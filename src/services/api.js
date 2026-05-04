@@ -19,3 +19,8 @@ export async function getOnlineSeniorStats() {
   const response = await api.get('/scam-stats/online-seniors')
   return response.data
 }
+
+export async function simplifyTnC({ url, text, mode }) {
+  const response = await api.post('/tnc-simplify', { url, text, mode })
+  return response.data
+}

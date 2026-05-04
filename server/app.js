@@ -22,6 +22,7 @@ for (const [envName, label] of [
   ['VIRUSTOTAL_API_KEY', 'VirusTotal'],
   ['WHOIS_API_KEY', 'WHOIS (domain age)'],
   ['DB_NAME', 'Database name'],
+  ['GEMINI_API_KEY', 'Gemini (T&C Simplifier)'],
 ]) {
   if (!process.env[envName]) {
     console.warn(`[SafeCheck] ${label} is missing. Related features may be unavailable.`)
@@ -30,6 +31,7 @@ for (const [envName, label] of [
 
 const { default: urlCheckRouter } = await import('./routes/urlCheck.js')
 const { default: scamStatsRouter } = await import('./routes/scamStats.js')
+const { default: tncSimplifierRouter } = await import('./routes/tncSimplifier.js')
 
 const app = express()
 const allowedOrigins = [
@@ -53,6 +55,7 @@ app.post('/api/auth', (req, res) => {
 })
 
 app.use('/api/scam-stats', scamStatsRouter)
+app.use('/api', tncSimplifierRouter)
 app.use('/api', urlCheckRouter)
 
 app.get('/health', (req, res) => {
