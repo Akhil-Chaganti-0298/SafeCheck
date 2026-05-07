@@ -1,4 +1,6 @@
 <script setup>
+const logoSrc = `${import.meta.env.BASE_URL}logo.png`
+
 const navLinks = [
   { label: 'Home',           to: '/'               },
   { label: 'URL Verifier',   to: '/url-verifier'   },
@@ -23,7 +25,7 @@ const reassurances = [
         <!-- Brand column -->
         <div class="flex flex-col gap-5">
           <RouterLink to="/" class="flex items-center gap-3 w-fit">
-            <img src="/logo.png" alt="SafeCheck logo" class="h-12 w-12 rounded-xl object-contain bg-white/10 p-1" />
+            <img :src="logoSrc" alt="SafeCheck logo" class="h-12 w-12 rounded-xl object-contain bg-white/10 p-1" />
             <span class="text-2xl font-bold tracking-wide text-white">SafeCheck</span>
           </RouterLink>
           <p class="text-lg leading-relaxed text-blue-200 max-w-xs">

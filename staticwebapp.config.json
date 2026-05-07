@@ -1,6 +1,16 @@
 {
+  "routes": [
+    {
+      "route": "/iteration1",
+      "rewrite": "/iteration1/index.html"
+    },
+    {
+      "route": "/iteration2",
+      "rewrite": "/iteration2/index.html"
+    }
+  ],
   "navigationFallback": {
     "rewrite": "/index.html",
-    "exclude": ["/assets/*","/iteration1/*"]
+    "exclude": ["/assets/*","/iteration1","/iteration1/*","/iteration2","/iteration2/*"]
   }
 }
