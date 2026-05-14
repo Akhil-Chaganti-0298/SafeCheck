@@ -8,6 +8,7 @@ import { PDFParse } from 'pdf-parse'
 const router = express.Router()
 const MAX_FILE_SIZE = 5 * 1024 * 1024
 const MIN_WORD_COUNT = 30
+const URL_READ_ERROR_MESSAGE = 'SafeCheck could not read this page automatically. Some websites prevent tools from accessing their content. Please copy the Terms and Conditions text from the website and paste it into the box instead.'
 
 const upload = multer({
   storage: multer.memoryStorage(),
@@ -179,14 +180,16 @@ router.post('/tnc-simplify', (req, res, next) => {
     try {
       tncText = await scrapeUrl(url)
     } catch (err) {
-      return res.status(422).json({ error: `Could not fetch the page: ${err.message}` })
+      return res.status(422).json({ error: URL_READ_ERROR_MESSAGE })
     }
   }
 
   if (!tncText || tncText.split(/\s+/).length < MIN_WORD_COUNT) {
     const message = mode === 'file'
       ? 'Not enough readable text was found in the uploaded file. Please upload a text-based PDF or paste the T&C text directly.'
-      : 'Not enough text to analyse. Paste the T&C text directly.'
+      : mode === 'url' || (url && !text)
+        ? URL_READ_ERROR_MESSAGE
+        : 'Not enough text to analyse. Please paste more of the T&C text directly.'
     return res.status(422).json({ error: message })
   }
 
