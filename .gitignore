@@ -39,6 +39,10 @@ src/.env
 
 # Vitest
 __screenshots__/
+test-results/
+
+# Playwright
+playwright-report/
 
 # Vite
 *.timestamp-*-*.mjs
