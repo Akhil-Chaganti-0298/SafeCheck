@@ -32,7 +32,17 @@ vi.mock('openai', () => ({
 vi.mock('multer', () => {
   function multer() {
     return {
-      single: () => (req, res, next) => next(),
+      single: () => (req, res, next) => {
+        if (req.headers['x-test-file-error'] === 'limit') {
+          return next(new multer.MulterError('LIMIT_FILE_SIZE'))
+        }
+
+        if (req.headers['x-test-file-error'] === 'unsupported') {
+          return next(new Error('Only PDF and plain text files can be uploaded.'))
+        }
+
+        next()
+      },
     }
   }
 
@@ -92,6 +102,44 @@ describe('T&C Simplifier API', () => {
 
     expect(response.status).toBe(422)
     expect(response.body.error).toBe('Not enough text to analyse. Please paste more of the T&C text directly.')
+    expect(openAiCreate).not.toHaveBeenCalled()
+  })
+
+  it('rejects file mode when no file is uploaded', async () => {
+    const response = await request(app)
+      .post('/api/tnc-simplify')
+      .send({ mode: 'file' })
+
+    expect(response.status).toBe(400)
+    expect(response.body).toEqual({
+      error: 'Please upload a PDF or plain text file to analyse.',
+    })
+    expect(openAiCreate).not.toHaveBeenCalled()
+  })
+
+  it('rejects unsupported uploaded file types', async () => {
+    const response = await request(app)
+      .post('/api/tnc-simplify')
+      .set('x-test-file-error', 'unsupported')
+      .field('mode', 'file')
+
+    expect(response.status).toBe(400)
+    expect(response.body).toEqual({
+      error: 'Only PDF and plain text files can be uploaded.',
+    })
+    expect(openAiCreate).not.toHaveBeenCalled()
+  })
+
+  it('rejects uploaded files over the size limit', async () => {
+    const response = await request(app)
+      .post('/api/tnc-simplify')
+      .set('x-test-file-error', 'limit')
+      .field('mode', 'file')
+
+    expect(response.status).toBe(400)
+    expect(response.body).toEqual({
+      error: 'File is too large. Please upload a file smaller than 5 MB.',
+    })
     expect(openAiCreate).not.toHaveBeenCalled()
   })
 

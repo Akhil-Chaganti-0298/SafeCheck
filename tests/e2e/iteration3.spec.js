@@ -36,9 +36,28 @@ test.describe('Iteration 3 functional and acceptance tests', () => {
     await expect(page.getByRole('heading', { name: 'Scam Awareness' })).toBeVisible()
     await expect(page.getByText('80')).toBeVisible()
     await expect(page.getByText('$240,000')).toBeVisible()
+    await expect(page.getByText('Investment scams', { exact: true })).toBeVisible()
+    await expect(page.getByText('Phishing', { exact: true })).toBeVisible()
     await expect(page.getByRole('heading', { name: 'Fake bank message' })).toBeVisible()
     await expect(page.getByRole('heading', { name: 'Remote access or tech support scam' })).toBeVisible()
     await expect(page.getByRole('link', { name: /Scamwatch/i })).toHaveAttribute('href', 'https://www.scamwatch.gov.au/')
+  })
+
+  test('scam awareness page shows an error state when statistics cannot load', async ({ page }) => {
+    await page.route('**/api/scam-stats/online-seniors', async (route) => {
+      await route.fulfill({
+        status: 500,
+        contentType: 'application/json',
+        body: JSON.stringify({ error: 'Could not load scam data' }),
+      })
+    })
+    await unlock(page)
+
+    await page.goto('/awareness')
+
+    await expect(page.getByRole('heading', { name: 'Scam Awareness' })).toBeVisible()
+    await expect(page.getByText('Scam statistics could not be loaded right now. You can still read the safety information below.')).toBeVisible()
+    await expect(page.getByRole('heading', { name: 'Common scam types' })).toBeVisible()
   })
 
   test('scam quiz accepts answers, shows feedback, and reaches the final score screen', async ({ page }) => {

@@ -71,6 +71,30 @@ describe('Scam Stats API', () => {
     expect(dbQuery.mock.calls[0][0]).toContain("contact_method = 'Online'")
   })
 
+  it('returns the expected scam stats response shape', async () => {
+    const topScamTypes = [
+      { scam_type: 'Investment scams', total_reports: 42, total_lost: 120000 },
+    ]
+    const summary = { total_reports: 42, total_lost: 120000 }
+
+    dbQuery
+      .mockResolvedValueOnce([topScamTypes])
+      .mockResolvedValueOnce([[summary]])
+
+    const response = await request(app).get('/api/scam-stats/online-seniors')
+
+    expect(response.status).toBe(200)
+    expect(response.body.summary).toEqual(summary)
+    expect(Array.isArray(response.body.topScamTypes)).toBe(true)
+    expect(response.body.topScamTypes[0]).toEqual(
+      expect.objectContaining({
+        scam_type: expect.any(String),
+        total_reports: expect.any(Number),
+        total_lost: expect.any(Number),
+      }),
+    )
+  })
+
   it('falls back to local CSV data when the database is unavailable', async () => {
     dbQuery.mockRejectedValue(new Error('Database unavailable during test'))
 
