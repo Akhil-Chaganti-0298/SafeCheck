@@ -13,9 +13,27 @@ const seniorStats = ref(null)
 
 const topScamTypes = computed(() => seniorStats.value?.topScamTypes || [])
 const summary = computed(() => seniorStats.value?.summary || null)
+const chartRows = computed(() => topScamTypes.value.slice(0, 6))
 
 const maxReports = computed(() => {
   return Math.max(...topScamTypes.value.map(item => Number(item.total_reports) || 0), 1)
+})
+
+const summaryCards = computed(() => {
+  if (!summary.value) return []
+
+  return [
+    {
+      label: 'Reported online scam cases',
+      value: formatNumber(summary.value.total_reports),
+      helper: 'Reports from people aged 65 and over',
+    },
+    {
+      label: 'Reported money lost',
+      value: formatCurrency(summary.value.total_lost),
+      helper: 'Reported losses from online scam cases',
+    },
+  ]
 })
 
 function formatNumber(value) {
@@ -90,59 +108,63 @@ onMounted(async () => {
           </p>
         </div>
 
-        <div v-else-if="summary" class="space-y-6">
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div class="rounded-xl border border-blue-100 p-5" style="background-color: var(--navy-tint);">
-              <p class="text-base font-semibold text-slate-600 uppercase tracking-wide mb-2">
-                Reported online scam cases
-              </p>
-              <p class="text-4xl font-bold" style="color: var(--navy);">
-                {{ formatNumber(summary.total_reports) }}
-              </p>
-              <p class="text-lg text-slate-700 mt-2">
-                Reports from people aged 65 and over.
-              </p>
-            </div>
-
-            <div class="rounded-xl border border-blue-100 p-5" style="background-color: var(--navy-tint);">
-              <p class="text-base font-semibold text-slate-600 uppercase tracking-wide mb-2">
-                Reported money lost
-              </p>
-              <p class="text-4xl font-bold" style="color: var(--navy);">
-                {{ formatCurrency(summary.total_lost) }}
-              </p>
-              <p class="text-lg text-slate-700 mt-2">
-                Reported losses from online scam cases.
-              </p>
+        <div v-else-if="summary" class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+          <div class="lg:col-span-4 rounded-xl border border-slate-200 bg-slate-50 p-5">
+            <p class="text-sm font-semibold uppercase tracking-widest text-slate-400 mb-4">
+              At a glance
+            </p>
+            <div class="divide-y divide-slate-200">
+              <div
+                v-for="card in summaryCards"
+                :key="card.label"
+                class="py-4 first:pt-0 last:pb-0"
+              >
+                <p class="text-base font-semibold text-slate-600 uppercase tracking-wide">
+                  {{ card.label }}
+                </p>
+                <p class="text-4xl font-bold mt-1" style="color: var(--navy);">
+                  {{ card.value }}
+                </p>
+                <p class="text-base text-slate-600 leading-snug mt-1">
+                  {{ card.helper }}
+                </p>
+              </div>
             </div>
           </div>
 
-          <div class="rounded-xl border border-slate-200 p-5">
-            <h3 class="text-2xl font-bold text-slate-900 mb-2">
-              Common online scam types
-            </h3>
-            <p class="text-lg text-slate-600 leading-relaxed mb-5">
-              Longer bars mean more reports. This chart uses simple comparison instead of complex numbers.
-            </p>
+          <div class="lg:col-span-8 rounded-xl border border-slate-200 p-5">
+            <div class="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between mb-5">
+              <div>
+                <h3 class="text-2xl font-bold text-slate-900">
+                  Common online scam types
+                </h3>
+                <p class="text-base text-slate-600 leading-relaxed mt-1">
+                  Ranked by report volume. Longer bars mean more reports.
+                </p>
+              </div>
+              <p class="text-sm font-semibold uppercase tracking-widest text-slate-400">
+                Reports
+              </p>
+            </div>
 
-            <div v-if="topScamTypes.length" class="space-y-4">
+            <div v-if="chartRows.length" class="space-y-4">
               <div
-                v-for="item in topScamTypes"
+                v-for="item in chartRows"
                 :key="item.scam_type"
-                class="space-y-2"
+                class="grid gap-2"
               >
-                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1">
-                  <p class="text-lg font-semibold text-slate-800">
+                <div class="flex items-baseline justify-between gap-3">
+                  <p class="text-lg font-semibold text-slate-800 leading-tight">
                     {{ item.scam_type }}
                   </p>
-                  <p class="text-base text-slate-600">
-                    {{ formatNumber(item.total_reports) }} reports
+                  <p class="text-base font-bold shrink-0" style="color: var(--navy);">
+                    {{ formatNumber(item.total_reports) }}
                   </p>
                 </div>
 
-                <div class="w-full bg-slate-100 rounded-full h-5 overflow-hidden">
+                <div class="w-full bg-slate-100 rounded-full h-3 overflow-hidden">
                   <div
-                    class="h-5 rounded-full"
+                    class="h-3 rounded-full"
                     style="background-color: var(--navy);"
                     :style="{ width: getBarWidth(item.total_reports) }"
                   ></div>

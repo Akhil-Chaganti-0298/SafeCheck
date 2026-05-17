@@ -61,7 +61,7 @@ test.describe('T&C Simplifier integration, validation, error handling, and secur
     await expect(page.getByText('Medium Risk', { exact: true })).toBeVisible()
     await expect(page.getByText('This is a medium risk summary for the pasted terms.')).toBeVisible()
     await expect(page.getByText('Data sharing', { exact: true })).toBeVisible()
-    await expect(page.getByText('Worth noting')).toBeVisible()
+    await expect(page.getByText('Worth noting').first()).toBeVisible()
   })
 
   test('analyse button is disabled when input is empty', async ({ page }) => {
@@ -187,8 +187,112 @@ test.describe('T&C Simplifier integration, validation, error handling, and secur
     await fillPastedTerms(page)
     await page.getByRole('button', { name: /Analyse these T&Cs/i }).click()
 
-    await expect(page.getByText('High concern')).toBeVisible()
-    await expect(page.getByText('Worth noting')).toBeVisible()
-    await expect(page.getByText('Fine', { exact: true })).toBeVisible()
+    await expect(page.getByText('High concern').first()).toBeVisible()
+    await expect(page.getByText('Worth noting').first()).toBeVisible()
+    await expect(page.getByText('Fine', { exact: true }).first()).toBeVisible()
+  })
+
+  test('flagged clauses are displayed from highest to lowest risk', async ({ page }) => {
+    await mockTncAnalysis(page, analysisResponse('high', [
+      {
+        category: 'Security contact',
+        severity: 'pass',
+        clause: 'You can contact support to review account security.',
+        consequence: 'This gives you a clear support path.',
+        realCase: null,
+      },
+      {
+        category: 'Data sharing',
+        severity: 'warn',
+        clause: 'We may share personal information with analytics providers.',
+        consequence: 'Your data may be used by another company.',
+        realCase: null,
+      },
+      {
+        category: 'AI training',
+        severity: 'danger',
+        clause: 'Submitted content may be used to train artificial intelligence systems.',
+        consequence: 'Your private content may be reused to train AI models.',
+        realCase: null,
+      },
+      {
+        category: 'Cancellation',
+        severity: 'warn',
+        clause: 'You must cancel thirty days before renewal.',
+        consequence: 'You may be charged again if you miss the deadline.',
+        realCase: null,
+      },
+    ]))
+    await openTncSimplifier(page)
+
+    await fillPastedTerms(page)
+    await page.getByRole('button', { name: /Analyse these T&Cs/i }).click()
+    await page.getByRole('button', { name: 'Full summary' }).click()
+
+    await expect(page.getByTestId('flagged-clause-category')).toHaveText([
+      'AI training',
+      'Data sharing',
+      'Cancellation',
+      'Security contact',
+    ])
+  })
+
+  test('users can switch to risk cards and page through each risk group', async ({ page }) => {
+    await mockTncAnalysis(page, analysisResponse('high', [
+      {
+        category: 'AI training',
+        severity: 'danger',
+        clause: 'Submitted content may be used to train artificial intelligence systems.',
+        consequence: 'Your private content may be reused to train AI models.',
+        realCase: null,
+      },
+      {
+        category: 'Data sharing',
+        severity: 'warn',
+        clause: 'We may share personal information with analytics providers.',
+        consequence: 'Your data may be used by another company.',
+        realCase: null,
+      },
+      {
+        category: 'Cancellation',
+        severity: 'warn',
+        clause: 'You must cancel thirty days before renewal.',
+        consequence: 'You may be charged again if you miss the deadline.',
+        realCase: null,
+      },
+      {
+        category: 'Security contact',
+        severity: 'pass',
+        clause: 'You can contact support to review account security.',
+        consequence: 'This gives you a clear support path.',
+        realCase: null,
+      },
+    ]))
+    await openTncSimplifier(page)
+
+    await fillPastedTerms(page)
+    await page.getByRole('button', { name: /Analyse these T&Cs/i }).click()
+
+    await expect(page.getByTestId('risk-card-category')).toHaveText([
+      'AI training',
+      'Data sharing',
+      'Security contact',
+    ])
+
+    await page.getByRole('button', { name: 'Next Worth noting risk' }).click()
+
+    await expect(page.getByTestId('risk-card-category')).toHaveText([
+      'AI training',
+      'Cancellation',
+      'Security contact',
+    ])
+
+    await page.getByRole('button', { name: 'Full summary' }).click()
+    await expect(page.getByTestId('flagged-clause-category')).toHaveText([
+      'AI training',
+      'Data sharing',
+      'Cancellation',
+      'Security contact',
+    ])
   })
 })

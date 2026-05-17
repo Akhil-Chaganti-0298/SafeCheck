@@ -14,6 +14,12 @@ const hasResult = ref(false)
 const result = ref(null)
 const error = ref('')
 const resultSourceMode = ref('')
+const resultViewMode = ref('cards')
+const riskCardIndexes = ref({
+  danger: 0,
+  warn: 0,
+  pass: 0,
+})
 const MAX_FILE_SIZE = 5 * 1024 * 1024
 const allowedFileTypes = ['application/pdf', 'text/plain']
 
@@ -103,6 +109,8 @@ async function handleAnalyze() {
   error.value = ''
   result.value = null
   resultSourceMode.value = ''
+  resultViewMode.value = 'cards'
+  riskCardIndexes.value = { danger: 0, warn: 0, pass: 0 }
 
   try {
     const data = await simplifyTnC({
@@ -153,6 +161,52 @@ const severityConfig = {
   danger: { label: 'High concern', bg: '#fef2f2', border: '#fca5a5', icon: '#dc2626', iconBg: '#fee2e2' },
   warn:   { label: 'Worth noting', bg: '#fffbeb', border: '#fde68a', icon: '#d97706', iconBg: '#fef3c7' },
   pass:   { label: 'Fine',         bg: '#f0fdf4', border: '#86efac', icon: '#16a34a', iconBg: '#dcfce7' },
+}
+
+const severityRank = {
+  danger: 3,
+  warn: 2,
+  pass: 1,
+}
+
+const severityOrder = ['danger', 'warn', 'pass']
+
+const sortedFlaggedClauses = computed(() => {
+  const clauses = result.value?.flaggedClauses
+  if (!Array.isArray(clauses)) return []
+
+  return clauses
+    .map((clause, index) => ({ clause, index }))
+    .sort((a, b) => {
+      const riskDifference = (severityRank[b.clause.severity] || 0) - (severityRank[a.clause.severity] || 0)
+      return riskDifference || a.index - b.index
+    })
+    .map(({ clause }) => clause)
+})
+
+const riskCardGroups = computed(() => {
+  return severityOrder
+    .map((severity) => ({
+      severity,
+      clauses: sortedFlaggedClauses.value.filter((clause) => clause.severity === severity),
+    }))
+    .filter((group) => group.clauses.length > 0)
+})
+
+function setResultViewMode(mode) {
+  resultViewMode.value = mode
+}
+
+function currentRiskCard(group) {
+  const index = riskCardIndexes.value[group.severity] || 0
+  return group.clauses[Math.min(index, group.clauses.length - 1)]
+}
+
+function setRiskCardIndex(severity, index, total) {
+  riskCardIndexes.value = {
+    ...riskCardIndexes.value,
+    [severity]: Math.min(Math.max(index, 0), total - 1),
+  }
 }
 </script>
 
@@ -482,13 +536,35 @@ const severityConfig = {
           </div>
 
           <div class="bg-white rounded-2xl border border-slate-200 p-6">
-            <p class="text-base font-semibold text-slate-600 uppercase tracking-wide mb-5">
-              Clauses worth knowing about
-            </p>
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-5">
+              <p class="text-base font-semibold text-slate-600 uppercase tracking-wide">
+                Clauses worth knowing about
+              </p>
+              <div class="inline-flex rounded-xl border border-slate-200 bg-slate-50 p-1">
+                <button
+                  type="button"
+                  @click="setResultViewMode('full')"
+                  class="px-4 py-2 rounded-lg text-base font-semibold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-900"
+                  :class="resultViewMode === 'full' ? 'text-white' : 'text-slate-600 hover:text-slate-800'"
+                  :style="resultViewMode === 'full' ? 'background-color: var(--navy);' : ''"
+                >
+                  Full summary
+                </button>
+                <button
+                  type="button"
+                  @click="setResultViewMode('cards')"
+                  class="px-4 py-2 rounded-lg text-base font-semibold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-900"
+                  :class="resultViewMode === 'cards' ? 'text-white' : 'text-slate-600 hover:text-slate-800'"
+                  :style="resultViewMode === 'cards' ? 'background-color: var(--navy);' : ''"
+                >
+                  Risk cards
+                </button>
+              </div>
+            </div>
 
-            <div class="space-y-5">
+            <div v-if="resultViewMode === 'full'" class="space-y-5">
               <div
-                v-for="clause in result.flaggedClauses"
+                v-for="clause in sortedFlaggedClauses"
                 :key="clause.category"
                 class="rounded-xl border p-5"
                 :style="{
@@ -509,7 +585,7 @@ const severityConfig = {
                     </svg>
                   </div>
                   <div class="flex items-center justify-between flex-1 flex-wrap gap-2">
-                    <span class="text-lg font-bold text-slate-800">{{ clause.category }}</span>
+                    <span data-testid="flagged-clause-category" class="text-lg font-bold text-slate-800">{{ clause.category }}</span>
                     <span class="text-sm font-semibold px-3 py-1 rounded-full text-white"
                       :style="{ background: severityConfig[clause.severity].icon }">
                       {{ severityConfig[clause.severity].label }}
@@ -537,6 +613,102 @@ const severityConfig = {
                   <p class="text-base text-slate-600 leading-relaxed">{{ clause.realCase.detail }}</p>
                 </div>
               </div>
+            </div>
+
+            <div v-else class="space-y-5">
+              <section
+                v-for="group in riskCardGroups"
+                :key="group.severity"
+                class="rounded-xl border p-5"
+                :style="{
+                  background: severityConfig[group.severity].bg,
+                  borderColor: severityConfig[group.severity].border,
+                }"
+              >
+                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4">
+                  <div class="flex items-center gap-3">
+                    <div class="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0"
+                      :style="{ background: severityConfig[group.severity].iconBg }">
+                      <svg class="w-4 h-4" :style="{ color: severityConfig[group.severity].icon }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path v-if="group.severity === 'danger'"
+                          stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12" />
+                        <path v-else-if="group.severity === 'warn'"
+                          stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 9v2m0 4h.01" />
+                        <path v-else
+                          stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" />
+                      </svg>
+                    </div>
+                    <div>
+                      <p class="text-lg font-bold text-slate-800">{{ severityConfig[group.severity].label }}</p>
+                      <p class="text-sm font-semibold text-slate-600">
+                        {{ (riskCardIndexes[group.severity] || 0) + 1 }} of {{ group.clauses.length }}
+                      </p>
+                    </div>
+                  </div>
+                  <div class="flex items-center gap-2">
+                    <button
+                      type="button"
+                      :aria-label="`Previous ${severityConfig[group.severity].label} risk`"
+                      :disabled="(riskCardIndexes[group.severity] || 0) === 0"
+                      @click="setRiskCardIndex(group.severity, (riskCardIndexes[group.severity] || 0) - 1, group.clauses.length)"
+                      class="w-10 h-10 inline-flex items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 disabled:opacity-40 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-900 transition-all"
+                    >
+                      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7" />
+                      </svg>
+                    </button>
+                    <button
+                      type="button"
+                      :aria-label="`Next ${severityConfig[group.severity].label} risk`"
+                      :disabled="(riskCardIndexes[group.severity] || 0) >= group.clauses.length - 1"
+                      @click="setRiskCardIndex(group.severity, (riskCardIndexes[group.severity] || 0) + 1, group.clauses.length)"
+                      class="w-10 h-10 inline-flex items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 disabled:opacity-40 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-900 transition-all"
+                    >
+                      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7" />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+
+                <article
+                  v-if="currentRiskCard(group)"
+                  class="bg-white rounded-xl border p-5 shadow-sm"
+                  :style="{ borderColor: severityConfig[group.severity].border }"
+                >
+                  <div class="flex items-center justify-between gap-3 mb-4">
+                    <h3 data-testid="risk-card-category" class="text-2xl font-bold text-slate-900 leading-tight">
+                      {{ currentRiskCard(group).category }}
+                    </h3>
+                    <span class="text-sm font-semibold px-3 py-1 rounded-full text-white flex-shrink-0"
+                      :style="{ background: severityConfig[group.severity].icon }">
+                      {{ severityConfig[group.severity].label }}
+                    </span>
+                  </div>
+
+                  <div class="space-y-4">
+                    <div>
+                      <p class="text-sm font-semibold text-slate-600 uppercase tracking-wide mb-1">What the T&Cs say</p>
+                      <p class="text-base text-slate-600 italic leading-relaxed border-l-4 pl-3" :style="{ borderColor: severityConfig[group.severity].border }">
+                        "{{ currentRiskCard(group).clause }}"
+                      </p>
+                    </div>
+
+                    <div>
+                      <p class="text-sm font-semibold text-slate-600 uppercase tracking-wide mb-1">What this means for you</p>
+                      <p class="text-lg text-slate-800 leading-relaxed font-medium">{{ currentRiskCard(group).consequence }}</p>
+                    </div>
+
+                    <div v-if="currentRiskCard(group).realCase"
+                      class="rounded-lg p-4"
+                      style="background: rgba(0,0,0,0.04);"
+                    >
+                      <p class="text-sm font-bold text-slate-600 uppercase tracking-wide mb-1">Real case: {{ currentRiskCard(group).realCase.name }}</p>
+                      <p class="text-base text-slate-600 leading-relaxed">{{ currentRiskCard(group).realCase.detail }}</p>
+                    </div>
+                  </div>
+                </article>
+              </section>
             </div>
           </div>
 

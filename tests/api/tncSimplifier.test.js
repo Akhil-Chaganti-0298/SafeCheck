@@ -159,4 +159,57 @@ describe('T&C Simplifier API', () => {
     expect(openAiCreate).toHaveBeenCalledTimes(1)
     expect(openAiCreate.mock.calls[0][0].messages[0].content).toContain('advertising partners')
   })
+
+  it('returns flagged clauses from highest to lowest severity', async () => {
+    openAiCreate.mockResolvedValue({
+      choices: [{
+        message: {
+          content: JSON.stringify({
+            overallRisk: 'high',
+            summary: 'The terms include several risks.',
+            flaggedClauses: [
+              {
+                category: 'Security contact',
+                severity: 'pass',
+                clause: 'You can contact support to review account security.',
+                consequence: 'This gives you a clear support path.',
+                realCase: null,
+              },
+              {
+                category: 'Data sharing',
+                severity: 'warn',
+                clause: 'We may share personal information with advertising partners.',
+                consequence: 'Your data may be used outside the service.',
+                realCase: null,
+              },
+              {
+                category: 'AI training',
+                severity: 'danger',
+                clause: 'Submitted content may be used to train artificial intelligence systems.',
+                consequence: 'Your private content may be reused to train AI models.',
+                realCase: null,
+              },
+            ],
+          }),
+        },
+      }],
+    })
+
+    const text = [
+      'By using this service, you agree that we may collect information about account usage, device details, browsing activity, and submitted content.',
+      'We may share this information with advertising partners and analytics providers to improve products and personalise offers.',
+      'Cancellation requests must be made before renewal, and some submitted data may be retained after account closure for legal or operational reasons.',
+    ].join(' ')
+
+    const response = await request(app)
+      .post('/api/tnc-simplify')
+      .send({ mode: 'text', text })
+
+    expect(response.status).toBe(200)
+    expect(response.body.flaggedClauses.map(clause => clause.category)).toEqual([
+      'AI training',
+      'Data sharing',
+      'Security contact',
+    ])
+  })
 })

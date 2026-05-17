@@ -62,6 +62,27 @@ function truncateToWords(text, maxWords = 10000) {
   return words.length <= maxWords ? text : words.slice(0, maxWords).join(' ')
 }
 
+const severityRank = {
+  danger: 3,
+  warn: 2,
+  pass: 1,
+}
+
+function sortFlaggedClausesByRisk(result) {
+  if (!Array.isArray(result?.flaggedClauses)) return result
+
+  return {
+    ...result,
+    flaggedClauses: result.flaggedClauses
+      .map((clause, index) => ({ clause, index }))
+      .sort((a, b) => {
+        const riskDifference = (severityRank[b.clause.severity] || 0) - (severityRank[a.clause.severity] || 0)
+        return riskDifference || a.index - b.index
+      })
+      .map(({ clause }) => clause),
+  }
+}
+
 async function extractTextFromFile(file) {
   if (!file) {
     const error = new Error('Please upload a PDF or plain text file to analyse.')
@@ -115,6 +136,7 @@ Analyze these Terms and Conditions and return exactly this structure:
 }
 
 Include 3 to 7 flaggedClauses. Focus on: data collection, third-party sharing, AI training data usage, cancellation traps, data retention, arbitration, liability waivers.
+Return flaggedClauses in descending severity order: danger first, then warn, then pass.
 
 T&Cs text:
 ${text}`
@@ -197,7 +219,7 @@ router.post('/tnc-simplify', (req, res, next) => {
 
   try {
     const result = await analyzeWithDO(tncText)
-    res.json(result)
+    res.json(sortFlaggedClausesByRisk(result))
   } catch (err) {
     const status = err.status || err.response?.status
     if (status === 429) return res.status(429).json({ error: 'Rate limit reached. Wait a moment and retry.' })
