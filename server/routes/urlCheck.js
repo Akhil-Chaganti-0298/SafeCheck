@@ -303,13 +303,13 @@ function buildCheckGroups(apiDetails, httpDetails, sslDetails, dnsDetails) {
 
   if (dnsDetails.blocklist) {
     ageItems.push({
-      label: 'Known scam and harmful website lists',
+      label: 'Network spam and malware blocklists',
       status: dnsDetails.blocklist.status,
       detail: dnsDetails.blocklist.status === 'pass'
-        ? "The website's internet address was not found on any list of known scam or harmful websites."
+        ? "The website's current IP address was not found on the network blocklists we checked."
         : dnsDetails.blocklist.status === 'warn'
-        ? 'We could not check the known scam and harmful website lists right now.'
-        : "The website's internet address was found on a known harmful list.",
+        ? 'We could not check the network spam and malware blocklists right now.'
+        : "The website's current IP address was found on a network spam or malware blocklist.",
     })
   }
 
@@ -334,20 +334,62 @@ function buildCheckGroups(apiDetails, httpDetails, sslDetails, dnsDetails) {
   }
 
   const ageStatus = worstStatus(ageItems)
+  const domainExistsStatus = dnsDetails.domainExists?.status
+  const domainAgeStatus = dnsDetails.domainAge?.status
+  const blocklistStatus = dnsDetails.blocklist?.status
+
+  let ageGroupCopy
+  if (domainExistsStatus === 'danger') {
+    ageGroupCopy = {
+      badge: 'Not found',
+      summary: 'This website address could not be found',
+      detail: 'We could not find this address in the internet records websites need in order to work.',
+    }
+  } else if (domainAgeStatus === 'danger') {
+    ageGroupCopy = {
+      badge: 'Brand new',
+      summary: 'This website was created very recently',
+      detail: 'Scammers often create brand new websites to trick people. This site was created very recently.',
+    }
+  } else if (blocklistStatus === 'danger') {
+    ageGroupCopy = {
+      badge: 'Listed IP',
+      summary: "This website's internet address is on a network blocklist",
+      detail: 'The domain itself is not brand new, but its current IP address appears on a spam or malware blocklist.',
+    }
+  } else if (ageStatus === 'danger') {
+    ageGroupCopy = {
+      badge: 'Setup issue',
+      summary: 'This website has a serious setup warning',
+      detail: 'One of the website setup checks found a serious warning sign. See the details below.',
+    }
+  } else if (domainAgeStatus === 'warn') {
+    const ageUnknown = dnsDetails.domainAge?.domainStatus === 'unknown_age'
+    ageGroupCopy = {
+      badge: ageUnknown ? 'Age unknown' : 'Fairly new',
+      summary: ageUnknown ? 'We could not confirm when this website was created' : 'This website is relatively new',
+      detail: ageUnknown
+        ? 'The registration record exists, but the creation date was not available.'
+        : 'Newer websites are not always unsafe, but it is worth being careful.',
+    }
+  } else if (ageStatus === 'warn') {
+    ageGroupCopy = {
+      badge: 'Setup note',
+      summary: 'Some website setup checks need attention',
+      detail: 'The website age looks fine, but one or more setup checks could not be fully confirmed.',
+    }
+  } else {
+    ageGroupCopy = {
+      badge: 'Established',
+      summary: 'This website has been around for a long time',
+      detail: 'Scam sites are usually brand new. This one is not.',
+    }
+  }
+
   const ageGroup = {
     id: 'website-age',
     status: ageStatus,
-    badge:   ageStatus === 'pass' ? 'Established' : ageStatus === 'warn' ? 'Fairly new' : 'Brand new',
-    summary: ageStatus === 'pass'
-      ? 'This website has been around for a long time'
-      : ageStatus === 'warn'
-      ? 'This website is relatively new'
-      : 'This website was created very recently',
-    detail: ageStatus === 'pass'
-      ? 'Scam sites are usually brand new. This one is not.'
-      : ageStatus === 'warn'
-      ? 'Newer websites are not always unsafe, but it is worth being careful.'
-      : 'Scammers often create brand new websites to trick people. This site was created very recently.',
+    ...ageGroupCopy,
     items: ageItems,
   }
 
