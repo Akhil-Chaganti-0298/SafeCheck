@@ -534,23 +534,6 @@ const features = [
     </div>
   </section>
 
-  <!-- ============================================================
-       TRUST STATS
-       ============================================================ -->
-  <section class="py-12 px-8 sm:px-16 border-t border-slate-100" style="background-color: var(--bg);">
-    <div class="grid grid-cols-2 sm:grid-cols-4 gap-6 text-center">
-      <div v-for="stat in [
-        { value: 'Free',  label: 'Always free to use'        },
-        { value: '3',     label: 'Tools in one place'        },
-        { value: '0',     label: 'Personal details needed'   },
-        { value: '24/7',  label: 'Available any time'        },
-      ]" :key="stat.label" class="flex flex-col items-center gap-1">
-        <span class="text-4xl font-bold" style="color: var(--navy);">{{ stat.value }}</span>
-        <span class="text-base text-slate-600">{{ stat.label }}</span>
-      </div>
-    </div>
-  </section>
-
 </template>
 
 <style scoped>
