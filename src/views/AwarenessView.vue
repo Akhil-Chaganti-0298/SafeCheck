@@ -3,6 +3,7 @@ import { computed, onMounted, ref } from 'vue'
 import {
   awarenessInsights,
   scamAwarenessCards,
+  scamProofPoints,
   supportLinks,
 } from '../data/scamAwarenessData.js'
 import { getOnlineSeniorStats } from '../services/api.js'
@@ -176,6 +177,46 @@ onMounted(async () => {
               No scam type data is available right now.
             </p>
           </div>
+        </div>
+      </section>
+
+      <section class="animate-fade-in-up">
+        <div class="mb-6">
+          <h2 class="text-3xl font-bold text-slate-900 mb-3">Scam proof points</h2>
+          <p class="text-lg text-slate-600 leading-relaxed">
+            These cards explain the headline numbers used on the home page, with links to the original Australian guidance.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+          <article
+            v-for="point in scamProofPoints"
+            :id="`proof-${point.id}`"
+            :key="point.id"
+            class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm scroll-mt-24 transition-colors target:border-blue-900 target:bg-blue-50"
+          >
+            <p class="text-sm font-semibold uppercase tracking-widest text-slate-400 mb-2">{{ point.source }}</p>
+            <div class="flex items-start gap-4 mb-4">
+              <p class="text-4xl font-bold shrink-0" style="color: var(--navy);">{{ point.value }}</p>
+              <div>
+                <h3 class="text-2xl font-bold text-slate-900 leading-tight">{{ point.awarenessTitle }}</h3>
+                <p class="text-base text-slate-600 leading-snug mt-1">{{ point.label }}</p>
+              </div>
+            </div>
+            <p class="text-lg text-slate-700 leading-relaxed mb-4">{{ point.awarenessText }}</p>
+            <a
+              :href="point.sourceUrl"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center gap-2 text-lg font-semibold rounded focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-blue-200"
+              style="color: var(--navy);"
+            >
+              {{ point.sourceLabel }}
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M7 17 17 7M9 7h8v8" />
+              </svg>
+            </a>
+          </article>
         </div>
       </section>
 

@@ -1,6 +1,7 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue'
 import { getOnlineSeniorStats } from '../services/api.js'
+import { scamProofPoints } from '../data/scamAwarenessData.js'
 import ScamStatsPanel from './verifier/ScamStatsPanel.vue'
 
 const emit = defineEmits(['navigate'])
@@ -9,6 +10,7 @@ const scamStats = ref(null)
 const animated = ref(false)
 const hoveredScamType = ref(null)
 const hoveredAgeGroup = ref(null)
+const flippedProofCards = ref({})
 
 const maxReports = computed(() =>
   scamStats.value?.topScamTypes?.length
@@ -41,13 +43,6 @@ const ageGroups = [
   { group: 'Under 35', pct: 26,  tooltip: 'Younger Australians face lower average losses but are increasingly targeted through social platforms.' },
 ]
 
-const scamProofCards = [
-  { value: '$2.74B', label: 'reported scam losses in Australia in 2023' },
-  { value: '$1.3B', label: 'lost to investment scams, the largest category' },
-  { value: '65+', label: 'age group with the highest average loss per report' },
-  { value: '3 tools', label: 'to check links, fine print, and scam instincts' },
-]
-
 const features = [
   {
     page: 'url-verifier',
@@ -71,6 +66,23 @@ const features = [
     cta: 'Take the quiz',
   },
 ]
+
+function toggleProofCard(cardId) {
+  flippedProofCards.value = {
+    ...flippedProofCards.value,
+    [cardId]: !flippedProofCards.value[cardId],
+  }
+}
+
+function handleProofKeydown(event, cardId) {
+  if (event.key !== 'Enter' && event.key !== ' ') return
+  event.preventDefault()
+  toggleProofCard(cardId)
+}
+
+function goToProofPoint(cardId) {
+  emit('navigate', 'awareness', `#proof-${cardId}`)
+}
 </script>
 
 <template>
@@ -383,12 +395,40 @@ const features = [
 
       <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
         <div
-          v-for="card in scamProofCards"
-          :key="card.label"
-          class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm"
+          v-for="card in scamProofPoints"
+          :key="card.id"
+          role="button"
+          tabindex="0"
+          class="proof-flip-card"
+          :aria-label="`${card.value}: ${card.label}. Click to flip for more detail.`"
+          :aria-pressed="!!flippedProofCards[card.id]"
+          @click="toggleProofCard(card.id)"
+          @keydown="handleProofKeydown($event, card.id)"
         >
-          <p class="text-3xl font-bold mb-2" style="color: var(--navy);">{{ card.value }}</p>
-          <p class="text-base text-slate-600 leading-snug">{{ card.label }}</p>
+          <div class="proof-flip-card-inner" :class="flippedProofCards[card.id] ? 'is-flipped' : ''">
+            <div class="proof-flip-face proof-flip-front">
+              <p class="text-3xl font-bold mb-2" style="color: var(--navy);">{{ card.value }}</p>
+              <p class="text-base text-slate-600 leading-snug">{{ card.label }}</p>
+              <p class="text-xs font-semibold uppercase tracking-widest text-slate-400 mt-4">Click to flip</p>
+            </div>
+
+            <div class="proof-flip-face proof-flip-back">
+              <p class="text-sm font-semibold uppercase tracking-widest text-slate-400 mb-2">{{ card.source }}</p>
+              <h3 class="text-xl font-bold text-slate-900 leading-snug mb-2">{{ card.detailTitle }}</h3>
+              <p class="text-base text-slate-700 leading-relaxed">{{ card.detail }}</p>
+              <button
+                type="button"
+                class="mt-4 inline-flex items-center gap-2 text-base font-semibold underline decoration-dotted underline-offset-4 hover:no-underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-900 rounded"
+                style="color: var(--navy);"
+                @click.stop="goToProofPoint(card.id)"
+              >
+                Know more
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M9 5l7 7-7 7" />
+                </svg>
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -539,6 +579,60 @@ const features = [
 <style scoped>
 .hero-visual-column {
   min-height: 24rem;
+}
+
+.proof-flip-card {
+  min-height: 17rem;
+  perspective: 1000px;
+  cursor: pointer;
+  outline: none;
+}
+
+.proof-flip-card:focus-visible .proof-flip-card-inner {
+  box-shadow: 0 0 0 4px rgba(30, 58, 138, 0.28);
+}
+
+.proof-flip-card-inner {
+  position: relative;
+  width: 100%;
+  min-height: 17rem;
+  transform-style: preserve-3d;
+  transition: transform 0.55s ease, box-shadow 0.2s ease;
+  border-radius: 1rem;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+}
+
+.proof-flip-card:hover .proof-flip-card-inner {
+  box-shadow: 0 12px 28px rgba(15, 23, 42, 0.12);
+}
+
+.proof-flip-card-inner.is-flipped {
+  transform: rotateY(180deg);
+}
+
+.proof-flip-face {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 17rem;
+  padding: 1.25rem;
+  border: 1px solid rgb(226, 232, 240);
+  border-radius: 1rem;
+  background: white;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.proof-flip-front {
+  align-items: flex-start;
+}
+
+.proof-flip-back {
+  transform: rotateY(180deg);
+  justify-content: flex-start;
+  overflow: auto;
 }
 
 .senior-shield-stage {

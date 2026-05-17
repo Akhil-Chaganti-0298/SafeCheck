@@ -9,10 +9,14 @@ const pageToPath = {
   'url-verifier': '/url-verifier',
   'tnc-simplifier': '/tnc-simplifier',
   'scam-quiz': '/scam-quiz',
+  awareness: '/awareness',
 }
 
-function go(page) {
-  router.push(pageToPath[page] || '/')
+function go(page, hash = '') {
+  router.push({
+    path: pageToPath[page] || '/',
+    hash,
+  })
 }
 </script>
 
