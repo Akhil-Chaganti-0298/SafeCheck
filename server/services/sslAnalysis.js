@@ -1,46 +1,55 @@
-import https from 'https'
+import tls from 'tls'
 
 // Points: valid cert 10, expiry 8, TLS version 4, trusted issuer 3 = 25 total.
-// Uses Node's built-in https module because we need raw TLS socket access to
-// read certificate details -- axios abstracts that away.
+// Uses a direct TLS handshake because we only need certificate details.
 export async function checkSslCertificate(hostname) {
   const cleanHostname = hostname.replace(/^https?:\/\//, '').split('/')[0]
 
   return new Promise((resolve) => {
     let score = 0
     const details = {}
+    let settled = false
+    let socket
 
-    const timer = setTimeout(() => {
-      resolve({
+    function finish(result) {
+      if (settled) return
+      settled = true
+      clearTimeout(timer)
+      socket?.destroy()
+      resolve(result)
+    }
+
+    function softFailure(key, message) {
+      finish({
         category: 'SSL/TLS Analysis',
-        score: 0,
+        score: 12,
         maxScore: 25,
         status: 'warn',
-        details: { timeout: { status: 'warn', points: 0, message: 'SSL check timed out' } },
+        details: { [key]: { status: 'warn', points: 12, message } },
       })
+    }
+
+    const timer = setTimeout(() => {
+      softFailure('timeout', 'We could not fully check the security certificate right now')
     }, 6000)
 
-    // rejectUnauthorized: false so we can inspect bad certs rather than Node throwing before we see them
-    const req = https.request(
-      { host: cleanHostname, port: 443, method: 'GET', rejectUnauthorized: false },
-      (res) => {
-        clearTimeout(timer)
-        const cert = res.socket.getPeerCertificate()
+    // rejectUnauthorized: false lets us inspect untrusted certificates instead of failing early.
+    socket = tls.connect({
+      host: cleanHostname,
+      port: 443,
+      servername: /^\d{1,3}(?:\.\d{1,3}){3}$/.test(cleanHostname) ? undefined : cleanHostname,
+      rejectUnauthorized: false,
+    }, () => {
+        const cert = socket.getPeerCertificate()
 
         if (!cert || Object.keys(cert).length === 0) {
-          return resolve({
-            category: 'SSL/TLS Analysis',
-            score: 0,
-            maxScore: 25,
-            status: 'danger',
-            details: { noCert: { status: 'danger', points: 0, message: 'No SSL certificate was found on this site' } },
-          })
+          return softFailure('noCert', 'We could not fully check the security certificate right now')
         }
 
         const now = new Date()
         const validTo = new Date(cert.valid_to)
         const daysLeft = Math.floor((validTo - now) / (1000 * 60 * 60 * 24))
-        const isAuthorized = res.socket.authorized
+        const isAuthorized = socket.authorized
 
         // Valid and trusted cert: 10 points
         if (isAuthorized) {
@@ -50,7 +59,7 @@ export async function checkSslCertificate(hostname) {
           details.validity = {
             status: 'danger',
             points: 0,
-            message: `Certificate problem: ${res.socket.authorizationError || 'not trusted'}`,
+            message: `Certificate problem: ${socket.authorizationError || 'not trusted'}`,
           }
         }
 
@@ -66,7 +75,7 @@ export async function checkSslCertificate(hostname) {
         }
 
         // TLS 1.2 and 1.3 are current standards -- anything older has known vulnerabilities
-        const tlsVersion = res.socket.getProtocol?.() || 'Unknown'
+        const tlsVersion = socket.getProtocol?.() || 'Unknown'
         if (tlsVersion === 'TLSv1.3' || tlsVersion === 'TLSv1.2') {
           score += 4
           details.tlsVersion = { status: 'pass', points: 4, version: tlsVersion, message: `Uses modern encryption (${tlsVersion})` }
@@ -90,7 +99,7 @@ export async function checkSslCertificate(hostname) {
         const statuses = [details.validity?.status, details.expiry?.status, details.tlsVersion?.status, details.issuer?.status]
         const categoryStatus = statuses.includes('danger') ? 'danger' : statuses.includes('warn') ? 'warn' : 'pass'
 
-        resolve({
+        finish({
           category: 'SSL/TLS Analysis',
           score: Math.min(score, 25),
           maxScore: 25,
@@ -100,18 +109,9 @@ export async function checkSslCertificate(hostname) {
       }
     )
 
-    req.on('error', (err) => {
-      clearTimeout(timer)
+    socket.on('error', (err) => {
       console.error('[sslAnalysis] connection error:', err.message)
-      resolve({
-        category: 'SSL/TLS Analysis',
-        score: 0,
-        maxScore: 25,
-        status: 'danger',
-        details: { connectionError: { status: 'danger', points: 0, message: 'Could not connect to check the SSL certificate' } },
-      })
+      softFailure('connectionError', 'We could not fully check the security certificate right now')
     })
-
-    req.end()
   })
 }

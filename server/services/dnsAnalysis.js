@@ -156,7 +156,8 @@ export async function checkDnsAnalysis(hostname) {
   }
 
   // DNS blocklist check: reverse the IP and query each blocklist as a DNS name.
-  // If the lookup resolves, the IP is listed (bad). If it throws NXDOMAIN, it is clean.
+  // These lists are network reputation signals, not proof that the website itself is unsafe.
+  // Shared hosting and CDN IPs can appear here, so a listing is a soft warning.
   try {
     const reversedIp = aRecords[0].split('.').reverse().join('.')
     const blocklists = ['zen.spamhaus.org', 'bl.spamcop.net', 'dnsbl.sorbs.net']
@@ -178,7 +179,8 @@ export async function checkDnsAnalysis(hostname) {
       score += 6
       details.blocklist = { status: 'pass', points: 6, message: 'Not found on any spam or malware blocklist' }
     } else {
-      details.blocklist = { status: 'danger', points: 0, listedOn, message: `IP is on a blocklist (${listedOn})` }
+      score += 3
+      details.blocklist = { status: 'warn', points: 3, listedOn, message: `IP has a network reputation warning (${listedOn})` }
     }
   } catch {
     score += 3

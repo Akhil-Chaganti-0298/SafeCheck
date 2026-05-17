@@ -27,14 +27,14 @@ router.post('/check-url', async (req, res) => {
     return res.status(400).json({ error: WEBSITE_INPUT_ERROR })
   }
 
-  const { normalized, hostname } = parsed
+  const { normalized, hostname, registrableDomain } = parsed
 
   // All 5 checks run in parallel. If one throws, the others still complete.
   const [apiResult, httpResult, sslResult, dnsResult, contentResult] = await Promise.allSettled([
     checkApiAggregation(normalized, hostname),
     checkHttpSecurity(normalized),
     checkSslCertificate(hostname),
-    checkDnsAnalysis(hostname),
+    checkDnsAnalysis(registrableDomain),
     summarisePageContent(normalized),
   ])
 
@@ -302,11 +302,14 @@ function buildCheckGroups(apiDetails, httpDetails, sslDetails, dnsDetails) {
   }
 
   if (dnsDetails.blocklist) {
+    const blocklistWasListed = Boolean(dnsDetails.blocklist.listedOn)
     ageItems.push({
       label: 'Network spam and malware blocklists',
       status: dnsDetails.blocklist.status,
       detail: dnsDetails.blocklist.status === 'pass'
         ? "The website's current IP address was not found on the network blocklists we checked."
+        : dnsDetails.blocklist.status === 'warn' && blocklistWasListed
+        ? 'The website uses an IP address with a network reputation warning. This can happen with shared hosting or content delivery networks.'
         : dnsDetails.blocklist.status === 'warn'
         ? 'We could not check the network spam and malware blocklists right now.'
         : "The website's current IP address was found on a network spam or malware blocklist.",
@@ -372,6 +375,12 @@ function buildCheckGroups(apiDetails, httpDetails, sslDetails, dnsDetails) {
         ? 'The registration record exists, but the creation date was not available.'
         : 'Newer websites are not always unsafe, but it is worth being careful.',
     }
+  } else if (blocklistStatus === 'warn' && dnsDetails.blocklist?.listedOn) {
+    ageGroupCopy = {
+      badge: 'Network note',
+      summary: 'This website has a network reputation note',
+      detail: 'The website age and setup look okay, but its current IP address has a network reputation warning.',
+    }
   } else if (ageStatus === 'warn') {
     ageGroupCopy = {
       badge: 'Setup note',
@@ -408,8 +417,6 @@ function buildRiskFactors(apiDetails, httpDetails, sslDetails, dnsDetails, domai
   if (httpDetails.https?.status     === 'danger')  factors.push('Site does not use HTTPS -- your connection is not secure')
   if (sslDetails.validity?.status   === 'danger')  factors.push('The SSL certificate is invalid or not trusted')
   if (sslDetails.expiry?.status     === 'danger')  factors.push('The SSL certificate has expired')
-  if (dnsDetails.blocklist?.status  === 'danger')  factors.push("The site's IP address is on a security blocklist")
-
   return factors
 }
 

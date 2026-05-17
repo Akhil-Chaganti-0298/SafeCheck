@@ -30,6 +30,14 @@ export function isValidWebsiteHostname(hostname) {
   return psl.isValid(hostname)
 }
 
+export function getRegistrableDomain(hostname) {
+  if (!hostname || isIpAddress(hostname)) {
+    return hostname
+  }
+
+  return psl.get(hostname) || hostname
+}
+
 export function parseWebsiteInput(value) {
   const normalized = normalizeWebsiteInput(value)
   if (!normalized) {
@@ -51,6 +59,7 @@ export function parseWebsiteInput(value) {
   return {
     normalized,
     hostname,
+    registrableDomain: getRegistrableDomain(hostname),
     isIpAddress: isIpAddress(hostname),
   }
 }
