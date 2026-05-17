@@ -406,19 +406,19 @@ const features = [
         </summary>
 
         <div class="px-6 pb-6 pt-2 border-t border-slate-100">
-          <div class="space-y-5">
+          <div class="space-y-4">
             <div v-for="(type, i) in scamTypes" :key="type.name" class="relative">
               <div class="flex items-center justify-between mb-2 gap-4">
-                <span class="text-lg font-medium text-slate-700">{{ type.name }}</span>
-                <span class="text-lg font-bold flex-shrink-0" style="color: var(--navy);">{{ type.amount }}</span>
+                <span class="text-base font-semibold text-slate-700 leading-tight">{{ type.name }}</span>
+                <span class="text-base font-bold flex-shrink-0" style="color: var(--navy);">{{ type.amount }}</span>
               </div>
               <div
-                class="w-full bg-slate-100 rounded-full h-4 cursor-pointer"
+                class="w-full bg-slate-100 rounded-full h-3 cursor-pointer"
                 @mouseenter="hoveredScamType = i"
                 @mouseleave="hoveredScamType = null"
               >
                 <div
-                  class="h-4 rounded-full"
+                  class="h-3 rounded-full"
                   style="transition: width 0.9s ease-out;"
                   :style="{ width: animated ? type.pct + '%' : '0%', backgroundColor: 'var(--navy)' }"
                 ></div>
@@ -444,41 +444,37 @@ const features = [
         </summary>
 
         <div class="px-6 pb-6 pt-2 border-t border-slate-100">
-          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
-            <div class="rounded-xl p-5" style="background-color: var(--navy-tint);">
-              <p class="text-2xl font-bold" style="color: var(--navy);">65+</p>
-              <p class="text-base text-slate-600 leading-snug mt-1">highest risk index in the age comparison</p>
-            </div>
-            <div class="rounded-xl p-5" style="background-color: var(--navy-tint);">
-              <p class="text-2xl font-bold" style="color: var(--navy);">Highest avg</p>
-              <p class="text-base text-slate-600 leading-snug mt-1">largest average loss per individual report</p>
-            </div>
-            <div class="rounded-xl p-5" style="background-color: var(--navy-tint);">
-              <p class="text-2xl font-bold" style="color: var(--navy);">Awareness</p>
-              <p class="text-base text-slate-600 leading-snug mt-1">the strongest first defence against scams</p>
-            </div>
+          <div class="rounded-xl border border-slate-200 bg-slate-50 p-4 mb-6">
+            <p class="text-sm font-semibold uppercase tracking-widest text-slate-400 mb-2">
+              Main takeaway
+            </p>
+            <p class="text-lg font-semibold text-slate-800 leading-relaxed">
+              Australians aged 65+ show the highest risk in this comparison, with awareness and link checking acting as practical first steps.
+            </p>
           </div>
 
           <div class="space-y-4 mb-6">
-            <div v-for="(age, i) in ageGroups" :key="age.group" class="flex items-center gap-4">
-              <span class="text-base font-semibold text-slate-600 w-24 flex-shrink-0">{{ age.group }}</span>
-              <div class="flex-1 relative">
+            <div v-for="(age, i) in ageGroups" :key="age.group" class="grid gap-2">
+              <div class="flex items-baseline justify-between gap-3">
+                <span class="text-base font-semibold text-slate-700">{{ age.group }}</span>
+                <span class="text-base font-bold shrink-0" style="color: var(--navy);">{{ age.pct }}%</span>
+              </div>
+              <div class="relative">
                 <div
-                  class="bg-slate-100 rounded-full h-5 cursor-pointer"
+                  class="bg-slate-100 rounded-full h-3 cursor-pointer overflow-hidden"
                   @mouseenter="hoveredAgeGroup = i"
                   @mouseleave="hoveredAgeGroup = null"
                 >
                   <div
-                    class="h-5 rounded-full"
+                    class="h-3 rounded-full"
                     style="transition: width 0.9s ease-out;"
-                    :style="{ width: animated ? age.pct + '%' : '0%', backgroundColor: `rgba(30,58,138,${1 - i * 0.16})` }"
+                    :style="{ width: animated ? age.pct + '%' : '0%', backgroundColor: `rgba(30,58,138,${1 - i * 0.12})` }"
                   ></div>
                 </div>
                 <p v-if="hoveredAgeGroup === i" class="mt-2 text-base text-slate-600 leading-relaxed animate-fade-in">
                   {{ age.tooltip }}
                 </p>
               </div>
-              <span class="text-base font-bold w-12 text-right" style="color: var(--navy);">{{ age.pct }}%</span>
             </div>
           </div>
 

@@ -154,6 +154,25 @@ const severityConfig = {
   warn:   { label: 'Worth noting', bg: '#fffbeb', border: '#fde68a', icon: '#d97706', iconBg: '#fef3c7' },
   pass:   { label: 'Fine',         bg: '#f0fdf4', border: '#86efac', icon: '#16a34a', iconBg: '#dcfce7' },
 }
+
+const severityRank = {
+  danger: 3,
+  warn: 2,
+  pass: 1,
+}
+
+const sortedFlaggedClauses = computed(() => {
+  const clauses = result.value?.flaggedClauses
+  if (!Array.isArray(clauses)) return []
+
+  return clauses
+    .map((clause, index) => ({ clause, index }))
+    .sort((a, b) => {
+      const riskDifference = (severityRank[b.clause.severity] || 0) - (severityRank[a.clause.severity] || 0)
+      return riskDifference || a.index - b.index
+    })
+    .map(({ clause }) => clause)
+})
 </script>
 
 <template>
@@ -488,7 +507,7 @@ const severityConfig = {
 
             <div class="space-y-5">
               <div
-                v-for="clause in result.flaggedClauses"
+                v-for="clause in sortedFlaggedClauses"
                 :key="clause.category"
                 class="rounded-xl border p-5"
                 :style="{
@@ -509,7 +528,7 @@ const severityConfig = {
                     </svg>
                   </div>
                   <div class="flex items-center justify-between flex-1 flex-wrap gap-2">
-                    <span class="text-lg font-bold text-slate-800">{{ clause.category }}</span>
+                    <span data-testid="flagged-clause-category" class="text-lg font-bold text-slate-800">{{ clause.category }}</span>
                     <span class="text-sm font-semibold px-3 py-1 rounded-full text-white"
                       :style="{ background: severityConfig[clause.severity].icon }">
                       {{ severityConfig[clause.severity].label }}
