@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 /* ------------------------------------------------------------------ *
- *  Design tokens: navy + off-white + amber accent
+ *  Design tokens: navy + off-white + blue accent
  *  Red / amber / green are reserved for risk indicators only
  * ------------------------------------------------------------------ */
 :root {
@@ -9,8 +9,8 @@
   --navy-dark:   #172554; /* blue-950, hover state  */
   --navy-mid:    #1d4ed8; /* blue-700, lighter navy for accents */
   --navy-tint:   #eff6ff; /* blue-50, very light tint */
-  --accent:      #d97706; /* amber-600, CTA buttons only */
-  --accent-dark: #b45309; /* amber-700, CTA hover */
+  --accent:      #2563eb; /* blue-600, CTA buttons only */
+  --accent-dark: #1d4ed8; /* blue-700, CTA hover */
   --bg:          #f8fafc; /* slate-50, page background */
 }
 
@@ -79,7 +79,7 @@ button { cursor: pointer; }
 }
 
 /* ------------------------------------------------------------------ *
- *  Utility: amber accent button (CTAs only)
+ *  Utility: blue accent button (CTAs only)
  * ------------------------------------------------------------------ */
 .btn-accent {
   background-color: var(--accent);

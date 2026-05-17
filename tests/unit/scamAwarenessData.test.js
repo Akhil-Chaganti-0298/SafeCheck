@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest'
 import {
   awarenessInsights,
   scamAwarenessCards,
+  scamProofPoints,
   supportLinks,
 } from '../../src/data/scamAwarenessData.js'
 
@@ -33,6 +34,21 @@ describe('scamAwarenessData', () => {
       expect(link.label.trim()).not.toBe('')
       expect(link.description.trim().length).toBeGreaterThan(20)
       expect(link.url).toMatch(/^https:\/\/.+/)
+    })
+  })
+
+  it('provides source-backed scam proof points for the home and awareness pages', () => {
+    expect(scamProofPoints.map(point => point.id)).toEqual([
+      'total-losses',
+      'investment-losses',
+      'older-australians',
+    ])
+
+    scamProofPoints.forEach((point) => {
+      expect(point.value.trim()).not.toBe('')
+      expect(point.detail.length).toBeGreaterThan(60)
+      expect(point.awarenessText.length).toBeGreaterThan(50)
+      expect(point.sourceUrl).toMatch(/^https:\/\/.+/)
     })
   })
 })
