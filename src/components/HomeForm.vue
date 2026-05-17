@@ -429,6 +429,50 @@ function getSeniorBarWidth(value) {
         </p>
       </div>
 
+      <svg class="proof-visual-symbols" aria-hidden="true" focusable="false">
+        <symbol id="proof-visual-total-losses" viewBox="0 0 420 230">
+          <rect x="0" y="0" width="420" height="230" rx="18" class="visual-scene-bg"/>
+          <circle cx="316" cy="72" r="70" class="visual-danger-glow"/>
+          <rect x="58" y="48" width="154" height="122" rx="16" class="visual-paper"/>
+          <path d="M188 50 l22 22 h-22z" fill="#dbeafe"/>
+          <rect x="78" y="72" width="82" height="8" rx="4" fill="#1e3a8a" opacity="0.24"/>
+          <rect x="78" y="98" width="104" height="8" rx="4" class="visual-muted-fill"/>
+          <rect x="78" y="118" width="78" height="8" rx="4" class="visual-muted-fill"/>
+          <path d="M104 152 h62" fill="none" stroke="#dc2626" stroke-width="7" stroke-linecap="round"/>
+          <circle cx="292" cy="112" r="52" fill="#fee2e2" stroke="rgba(153,27,27,0.28)" stroke-width="2"/>
+          <text x="292" y="125" text-anchor="middle" fill="#991b1b" font-size="48" font-weight="900">$</text>
+          <path d="M338 150 l22 22M360 150 l-22 22" stroke="#991b1b" stroke-width="8" stroke-linecap="round" opacity="0.76"/>
+        </symbol>
+
+        <symbol id="proof-visual-investment-losses" viewBox="0 0 420 230">
+          <rect x="0" y="0" width="420" height="230" rx="18" class="visual-scene-bg"/>
+          <circle cx="306" cy="76" r="72" class="visual-danger-glow"/>
+          <rect x="70" y="54" width="280" height="126" rx="18" class="visual-paper"/>
+          <rect x="96" y="82" width="86" height="10" rx="5" fill="#1e3a8a" opacity="0.24"/>
+          <rect x="96" y="104" width="54" height="54" rx="10" fill="#eff6ff" stroke="rgba(30,58,138,0.22)" stroke-width="2"/>
+          <text x="123" y="140" text-anchor="middle" fill="#1e3a8a" font-size="30" font-weight="900">$</text>
+          <path d="M186 146 L220 116 L252 126 L300 82" fill="none" stroke="#dc2626" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M300 82 l-2 30M300 82 l-31 1" fill="none" stroke="#dc2626" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+          <rect x="210" y="150" width="82" height="8" rx="4" class="visual-muted-fill"/>
+          <rect x="306" y="146" width="22" height="22" rx="6" fill="#fee2e2" stroke="rgba(153,27,27,0.35)" stroke-width="2"/>
+          <path d="M317 151v8M317 163v1" stroke="#991b1b" stroke-width="4" stroke-linecap="round"/>
+        </symbol>
+
+        <symbol id="proof-visual-older-australians" viewBox="0 0 420 230">
+          <rect x="0" y="0" width="420" height="230" rx="18" class="visual-scene-bg"/>
+          <circle cx="304" cy="86" r="78" class="visual-danger-glow strong"/>
+          <rect x="76" y="54" width="142" height="122" rx="18" class="visual-paper"/>
+          <text x="147" y="118" text-anchor="middle" fill="#1e3a8a" font-size="48" font-weight="900">65+</text>
+          <rect x="104" y="136" width="84" height="8" rx="4" class="visual-muted-fill"/>
+          <rect x="118" y="154" width="56" height="8" rx="4" class="visual-muted-fill"/>
+          <rect x="246" y="54" width="98" height="122" rx="18" class="visual-phone"/>
+          <rect x="262" y="76" width="66" height="72" rx="9" fill="#fee2e2"/>
+          <path d="M295 92 l19 33 H276 z" class="visual-warning"/>
+          <path d="M295 104v12M295 122v2" class="visual-warning-mark"/>
+          <path d="M284 174h22M312 174h4" class="visual-phone-button"/>
+        </symbol>
+      </svg>
+
       <div class="proof-points-grid home-card-grid grid grid-cols-1 md:grid-cols-3 gap-5">
         <div
           v-for="card in scamProofPoints"
@@ -444,25 +488,41 @@ function getSeniorBarWidth(value) {
         >
           <div class="proof-flip-card-inner" :class="flippedProofCards[card.id] ? 'is-flipped' : ''">
             <div class="proof-flip-face proof-flip-front">
-              <p class="text-3xl font-bold mb-2" style="color: var(--navy);">{{ card.value }}</p>
-              <p class="text-base text-slate-600 leading-snug">{{ card.label }}</p>
-              <p class="text-xs font-semibold uppercase tracking-widest text-slate-400 mt-4">Click to flip</p>
+              <div class="proof-card-visual" :class="`proof-card-visual-${card.id}`" aria-hidden="true">
+                <svg viewBox="0 0 420 230" role="img">
+                  <use :href="`#proof-visual-${card.id}`" />
+                </svg>
+              </div>
+
+              <div class="proof-front-copy">
+                <p class="proof-card-value">{{ card.value }}</p>
+                <p class="proof-card-label">{{ card.label }}</p>
+                <p class="proof-card-flip-hint">Click to flip</p>
+              </div>
             </div>
 
             <div class="proof-flip-face proof-flip-back">
-              <p class="text-sm font-semibold uppercase tracking-widest text-slate-400 mb-2">{{ card.source }}</p>
-              <h3 class="text-xl font-bold text-slate-900 leading-snug mb-2">{{ card.detailTitle }}</h3>
-              <p class="text-base text-slate-700 leading-relaxed">{{ card.detail }}</p>
-              <button
-                type="button"
-                class="readable-cta-pill mt-4 inline-flex items-center gap-2 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-blue-900"
-                @click.stop="goToProofPoint(card.id)"
-              >
-                Know more
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M9 5l7 7-7 7" />
+              <div class="proof-card-visual proof-card-visual-back" :class="`proof-card-visual-${card.id}`" aria-hidden="true">
+                <svg viewBox="0 0 420 230" role="img">
+                  <use :href="`#proof-visual-${card.id}`" />
                 </svg>
-              </button>
+              </div>
+
+              <div class="proof-back-copy">
+                <p class="text-sm font-semibold uppercase tracking-widest text-slate-400 mb-2">{{ card.source }}</p>
+                <h3 class="text-xl font-bold text-slate-900 leading-snug mb-2">{{ card.detailTitle }}</h3>
+                <p class="text-base text-slate-700 leading-relaxed">{{ card.detail }}</p>
+                <button
+                  type="button"
+                  class="readable-cta-pill mt-4 inline-flex items-center gap-2 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-blue-900"
+                  @click.stop="goToProofPoint(card.id)"
+                >
+                  Know more
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M9 5l7 7-7 7" />
+                  </svg>
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -805,6 +865,7 @@ function getSeniorBarWidth(value) {
   justify-content: center;
   width: 100%;
   min-height: 3.25rem;
+  margin-top: auto;
   padding: 0.5rem 0.75rem;
   border-radius: 0.85rem;
   font-size: 1.05rem;
@@ -912,17 +973,181 @@ function getSeniorBarWidth(value) {
 
 .proof-flip-front {
   align-items: flex-start;
+  justify-content: space-between;
+  gap: 1.1rem;
+  overflow: hidden;
 }
 
 .proof-flip-back {
   transform: rotateY(180deg);
-  justify-content: flex-start;
-  overflow: visible;
+  justify-content: space-between;
+  gap: 1.1rem;
+  overflow: hidden;
 }
 
 .proof-flip-card-inner:not(.is-flipped) .proof-flip-back,
 .proof-flip-card-inner.is-flipped .proof-flip-front {
   pointer-events: none;
+}
+
+.proof-visual-symbols {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+.proof-card-visual {
+  width: 100%;
+  aspect-ratio: 420 / 230;
+  min-height: 12.5rem;
+  border: 1px solid rgba(203, 213, 225, 0.72);
+  border-radius: 0.85rem;
+  overflow: hidden;
+  background:
+    linear-gradient(135deg, rgba(248, 250, 252, 0.92), rgba(239, 246, 255, 0.76)),
+    #f8fafc;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.75);
+}
+
+.proof-card-visual svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.proof-front-copy {
+  width: 100%;
+  position: relative;
+  z-index: 1;
+}
+
+.proof-card-value {
+  margin-bottom: 0.45rem;
+  color: var(--navy);
+  font-size: clamp(2.75rem, 4.4vw, 4.5rem);
+  font-weight: 950;
+  line-height: 0.92;
+}
+
+.proof-card-label {
+  color: rgb(71, 85, 105);
+  font-size: clamp(1.1rem, 1.35vw, 1.3rem);
+  font-weight: 500;
+  line-height: 1.35;
+}
+
+.proof-card-flip-hint {
+  margin-top: 1rem;
+  color: rgb(100, 116, 139);
+  font-size: 0.9rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  line-height: 1.25;
+  text-transform: uppercase;
+}
+
+.proof-back-copy {
+  width: 100%;
+  position: relative;
+  z-index: 1;
+}
+
+.proof-card-visual-back {
+  min-height: 11rem;
+}
+
+.proof-card-visual-total-losses {
+  background:
+    linear-gradient(145deg, rgba(254, 242, 242, 0.94), rgba(239, 246, 255, 0.78) 58%, rgba(248, 250, 252, 0.94)),
+    #f8fafc;
+}
+
+.proof-card-visual-investment-losses {
+  background:
+    linear-gradient(145deg, rgba(240, 249, 255, 0.96), rgba(254, 242, 242, 0.82) 62%, rgba(248, 250, 252, 0.92)),
+    #f8fafc;
+}
+
+.proof-card-visual-older-australians {
+  background:
+    linear-gradient(145deg, rgba(239, 246, 255, 0.96), rgba(254, 242, 242, 0.9) 66%, rgba(248, 250, 252, 0.94)),
+    #f8fafc;
+}
+
+.visual-scene-bg {
+  fill: rgba(255, 255, 255, 0.18);
+}
+
+.visual-danger-glow {
+  fill: rgba(220, 38, 38, 0.18);
+}
+
+.visual-danger-glow.strong {
+  fill: rgba(220, 38, 38, 0.24);
+}
+
+.visual-paper {
+  fill: rgba(255, 255, 255, 0.94);
+  stroke: rgba(148, 163, 184, 0.7);
+  stroke-width: 1.5;
+}
+
+.visual-warning {
+  fill: #dc2626;
+}
+
+.visual-warning-mark {
+  fill: none;
+  stroke: #ffffff;
+  stroke-width: 4;
+  stroke-linecap: round;
+}
+
+.visual-muted-fill {
+  fill: #64748b;
+  opacity: 0.24;
+}
+
+.visual-bill {
+  fill: #fee2e2;
+  stroke: rgba(153, 27, 27, 0.45);
+  stroke-width: 1.5;
+}
+
+.visual-money-hole {
+  fill: rgba(15, 23, 42, 0.54);
+}
+
+.visual-phone {
+  fill: #1e293b;
+  stroke: rgba(15, 23, 42, 0.18);
+  stroke-width: 1.5;
+}
+
+.visual-chart-loss {
+  fill: none;
+  stroke: #dc2626;
+  stroke-width: 6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.visual-phone-button {
+  fill: none;
+  stroke: rgba(226, 232, 240, 0.92);
+  stroke-width: 5;
+  stroke-linecap: round;
+}
+
+.visual-coin {
+  fill: #facc15;
+  stroke: rgba(180, 83, 9, 0.6);
+  stroke-width: 1.5;
+}
+
+.visual-coin.lost {
+  filter: drop-shadow(0 4px 5px rgba(15, 23, 42, 0.2));
 }
 
 .visualisation-flip-card {
