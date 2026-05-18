@@ -116,7 +116,7 @@ function updateUrl(value) { url.value = value }
           </div>
 
           <!-- What we check - shown when no result yet -->
-          <div v-if="!result" class="bg-white rounded-2xl border border-slate-200 p-7 shadow-sm animate-fade-in-up">
+          <div id="what-safecheck-looks-for" v-if="!result" class="bg-white rounded-2xl border border-slate-200 p-7 shadow-sm animate-fade-in-up scroll-mt-24">
             <p class="text-sm font-semibold uppercase tracking-widest text-slate-400 mb-1">How it works</p>
             <h3 class="text-2xl font-bold text-slate-900 mb-6">What SafeCheck looks for</h3>
             <div class="space-y-5">

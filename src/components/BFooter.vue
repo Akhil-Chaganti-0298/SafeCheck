@@ -8,6 +8,13 @@ const navLinks = [
   { label: 'Scam Quiz',      to: '/scam-quiz'       },
 ]
 
+const informationLinks = [
+  { label: 'How checks work', to: { path: '/url-verifier', hash: '#what-safecheck-looks-for' } },
+  { label: 'Our data sources', to: '/data-sources' },
+  { label: 'Privacy', to: '/privacy' },
+  { label: 'Get emergency help', to: '/emergency-help' },
+]
+
 const reassurances = [
   { icon: 'free',    text: 'Free for all Australians'         },
   { icon: 'private', text: 'We do not store what you type'    },
@@ -20,7 +27,7 @@ const reassurances = [
   <footer style="background-color: var(--navy-dark); color: #bfdbfe;">
 
     <div class="max-w-7xl mx-auto px-8 sm:px-16 py-14">
-      <div class="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-[1.1fr_0.75fr_1.15fr] lg:gap-16">
+      <div class="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-[1.1fr_0.7fr_1.05fr_0.8fr] lg:gap-12">
 
         <!-- Brand column -->
         <div class="flex flex-col gap-5">
@@ -84,6 +91,19 @@ const reassurances = [
               <p class="text-base text-blue-300 leading-snug">{{ tool.desc }}</p>
             </div>
           </div>
+        </div>
+
+        <!-- Information column -->
+        <div class="flex flex-col gap-3">
+          <h3 class="text-sm font-semibold uppercase tracking-widest text-blue-300 mb-1">Information</h3>
+          <RouterLink
+            v-for="link in informationLinks"
+            :key="link.label"
+            :to="link.to"
+            class="text-lg text-blue-200 transition hover:text-white focus-visible:outline-none focus-visible:underline w-fit"
+          >
+            {{ link.label }}
+          </RouterLink>
         </div>
 
       </div>
