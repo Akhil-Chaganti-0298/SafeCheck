@@ -154,53 +154,53 @@ function getSeniorBarWidth(value) {
             <span class="text-blue-200">SafeCheck</span>
           </h1>
 
-          <p class="text-xl text-white leading-relaxed mb-8 max-w-xl" style="opacity: 0.92;">
+          <p class="home-hero-copy">
             Stop your personal information from getting leaked, prevent endless scam calls, and protect your hard-earned savings. SafeCheck helps you spot suspicious links and hidden traps instantly.
           </p>
 
           <!-- Three horizontal CTA buttons -->
-          <div class="grid grid-cols-3 gap-3 sm:gap-4">
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-5">
             <button
               @click="emit('navigate', 'url-verifier')"
-              class="home-hero-cta h-full flex flex-col items-center justify-start gap-1 sm:gap-2 px-3 sm:px-4 py-4 rounded-xl text-center bg-white hover:bg-blue-50 shadow-lg hover:shadow-xl hover:scale-105 active:scale-95 transition-all duration-200 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-white group"
+              class="home-hero-cta h-full flex flex-col items-center justify-start rounded-xl text-center bg-white hover:bg-blue-50 shadow-lg hover:shadow-xl hover:scale-105 active:scale-95 transition-all duration-200 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-white group"
             >
-              <svg class="w-6 h-6 sm:w-8 sm:h-8 flex-shrink-0 text-blue-600 mb-1 transition-transform duration-200 group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg class="home-hero-cta-icon flex-shrink-0 text-blue-600 transition-transform duration-200 group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
                   d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
               </svg>
-              <span class="text-xs sm:text-sm font-semibold text-slate-700 leading-tight">Not sure if a website is safe?</span>
+              <span class="home-hero-cta-prompt">Not sure if a website is safe?</span>
               <span class="home-cta-label">Use Our URL Verifier</span>
             </button>
             <button
               @click="emit('navigate', 'tnc-simplifier')"
-              class="home-hero-cta h-full flex flex-col items-center justify-start gap-1 sm:gap-2 px-3 sm:px-4 py-4 rounded-xl text-center bg-white hover:bg-blue-50 shadow-lg hover:shadow-xl hover:scale-105 active:scale-95 transition-all duration-200 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-white group"
+              class="home-hero-cta h-full flex flex-col items-center justify-start rounded-xl text-center bg-white hover:bg-blue-50 shadow-lg hover:shadow-xl hover:scale-105 active:scale-95 transition-all duration-200 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-white group"
             >
-              <svg class="w-6 h-6 sm:w-8 sm:h-8 flex-shrink-0 text-blue-600 mb-1 transition-transform duration-200 group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg class="home-hero-cta-icon flex-shrink-0 text-blue-600 transition-transform duration-200 group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                   d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
               </svg>
-              <span class="text-xs sm:text-sm font-semibold text-slate-700 leading-tight">Confused by the language of terms and conditions?</span>
+              <span class="home-hero-cta-prompt">Confused by the language of terms and conditions?</span>
               <span class="home-cta-label">Simplify T&amp;Cs</span>
             </button>
             <button
               @click="emit('navigate', 'scam-quiz')"
-              class="home-hero-cta h-full flex flex-col items-center justify-start gap-1 sm:gap-2 px-3 sm:px-4 py-4 rounded-xl text-center bg-white hover:bg-blue-50 shadow-lg hover:shadow-xl hover:scale-105 active:scale-95 transition-all duration-200 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-white group"
+              class="home-hero-cta h-full flex flex-col items-center justify-start rounded-xl text-center bg-white hover:bg-blue-50 shadow-lg hover:shadow-xl hover:scale-105 active:scale-95 transition-all duration-200 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-white group"
             >
-              <svg class="w-6 h-6 sm:w-8 sm:h-8 flex-shrink-0 text-blue-600 mb-1 transition-transform duration-200 group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg class="home-hero-cta-icon flex-shrink-0 text-blue-600 transition-transform duration-200 group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                   d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
               </svg>
-              <span class="text-xs sm:text-sm font-semibold text-slate-700 leading-tight">Want to test your scam knowledge?</span>
+              <span class="home-hero-cta-prompt">Want to test your scam knowledge?</span>
               <span class="home-cta-label">Take Scam Quiz</span>
             </button>
           </div>
 
-          <div class="flex flex-col sm:flex-row flex-wrap gap-4 sm:gap-6 mt-8">
-            <div v-for="item in ['Free', 'No sign-up required', 'Nothing stored']" :key="item" class="flex items-center gap-2">
-              <svg class="w-5 h-5 text-green-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+          <div class="home-hero-trust flex flex-col sm:flex-row flex-wrap">
+            <div v-for="item in ['Free', 'No sign-up required', 'Nothing stored']" :key="item" class="home-hero-trust-item flex items-center">
+              <svg class="home-hero-trust-icon text-green-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                 <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
               </svg>
-              <span class="text-base sm:text-lg font-medium text-white" style="opacity: 0.92;">{{ item }}</span>
+              <span class="home-hero-trust-text">{{ item }}</span>
             </div>
           </div>
         </div>
@@ -429,6 +429,50 @@ function getSeniorBarWidth(value) {
         </p>
       </div>
 
+      <svg class="proof-visual-symbols" aria-hidden="true" focusable="false">
+        <symbol id="proof-visual-total-losses" viewBox="0 0 420 230">
+          <rect x="0" y="0" width="420" height="230" rx="18" class="visual-scene-bg"/>
+          <circle cx="316" cy="72" r="70" class="visual-danger-glow"/>
+          <rect x="58" y="48" width="154" height="122" rx="16" class="visual-paper"/>
+          <path d="M188 50 l22 22 h-22z" fill="#dbeafe"/>
+          <rect x="78" y="72" width="82" height="8" rx="4" fill="#1e3a8a" opacity="0.24"/>
+          <rect x="78" y="98" width="104" height="8" rx="4" class="visual-muted-fill"/>
+          <rect x="78" y="118" width="78" height="8" rx="4" class="visual-muted-fill"/>
+          <path d="M104 152 h62" fill="none" stroke="#dc2626" stroke-width="7" stroke-linecap="round"/>
+          <circle cx="292" cy="112" r="52" fill="#fee2e2" stroke="rgba(153,27,27,0.28)" stroke-width="2"/>
+          <text x="292" y="125" text-anchor="middle" fill="#991b1b" font-size="48" font-weight="900">$</text>
+          <path d="M338 150 l22 22M360 150 l-22 22" stroke="#991b1b" stroke-width="8" stroke-linecap="round" opacity="0.76"/>
+        </symbol>
+
+        <symbol id="proof-visual-investment-losses" viewBox="0 0 420 230">
+          <rect x="0" y="0" width="420" height="230" rx="18" class="visual-scene-bg"/>
+          <circle cx="306" cy="76" r="72" class="visual-danger-glow"/>
+          <rect x="70" y="54" width="280" height="126" rx="18" class="visual-paper"/>
+          <rect x="96" y="82" width="86" height="10" rx="5" fill="#1e3a8a" opacity="0.24"/>
+          <rect x="96" y="104" width="54" height="54" rx="10" fill="#eff6ff" stroke="rgba(30,58,138,0.22)" stroke-width="2"/>
+          <text x="123" y="140" text-anchor="middle" fill="#1e3a8a" font-size="30" font-weight="900">$</text>
+          <path d="M186 146 L220 116 L252 126 L300 82" fill="none" stroke="#dc2626" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M300 82 l-2 30M300 82 l-31 1" fill="none" stroke="#dc2626" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+          <rect x="210" y="150" width="82" height="8" rx="4" class="visual-muted-fill"/>
+          <rect x="306" y="146" width="22" height="22" rx="6" fill="#fee2e2" stroke="rgba(153,27,27,0.35)" stroke-width="2"/>
+          <path d="M317 151v8M317 163v1" stroke="#991b1b" stroke-width="4" stroke-linecap="round"/>
+        </symbol>
+
+        <symbol id="proof-visual-older-australians" viewBox="0 0 420 230">
+          <rect x="0" y="0" width="420" height="230" rx="18" class="visual-scene-bg"/>
+          <circle cx="304" cy="86" r="78" class="visual-danger-glow strong"/>
+          <rect x="76" y="54" width="142" height="122" rx="18" class="visual-paper"/>
+          <text x="147" y="118" text-anchor="middle" fill="#1e3a8a" font-size="48" font-weight="900">65+</text>
+          <rect x="104" y="136" width="84" height="8" rx="4" class="visual-muted-fill"/>
+          <rect x="118" y="154" width="56" height="8" rx="4" class="visual-muted-fill"/>
+          <rect x="246" y="54" width="98" height="122" rx="18" class="visual-phone"/>
+          <rect x="262" y="76" width="66" height="72" rx="9" fill="#fee2e2"/>
+          <path d="M295 92 l19 33 H276 z" class="visual-warning"/>
+          <path d="M295 104v12M295 122v2" class="visual-warning-mark"/>
+          <path d="M284 174h22M312 174h4" class="visual-phone-button"/>
+        </symbol>
+      </svg>
+
       <div class="proof-points-grid home-card-grid grid grid-cols-1 md:grid-cols-3 gap-5">
         <div
           v-for="card in scamProofPoints"
@@ -444,25 +488,41 @@ function getSeniorBarWidth(value) {
         >
           <div class="proof-flip-card-inner" :class="flippedProofCards[card.id] ? 'is-flipped' : ''">
             <div class="proof-flip-face proof-flip-front">
-              <p class="text-3xl font-bold mb-2" style="color: var(--navy);">{{ card.value }}</p>
-              <p class="text-base text-slate-600 leading-snug">{{ card.label }}</p>
-              <p class="text-xs font-semibold uppercase tracking-widest text-slate-400 mt-4">Click to flip</p>
+              <div class="proof-card-visual" :class="`proof-card-visual-${card.id}`" aria-hidden="true">
+                <svg viewBox="0 0 420 230" role="img">
+                  <use :href="`#proof-visual-${card.id}`" />
+                </svg>
+              </div>
+
+              <div class="proof-front-copy">
+                <p class="proof-card-value">{{ card.value }}</p>
+                <p class="proof-card-label">{{ card.label }}</p>
+                <p class="proof-card-flip-hint">Click to flip</p>
+              </div>
             </div>
 
             <div class="proof-flip-face proof-flip-back">
-              <p class="text-sm font-semibold uppercase tracking-widest text-slate-400 mb-2">{{ card.source }}</p>
-              <h3 class="text-xl font-bold text-slate-900 leading-snug mb-2">{{ card.detailTitle }}</h3>
-              <p class="text-base text-slate-700 leading-relaxed">{{ card.detail }}</p>
-              <button
-                type="button"
-                class="readable-cta-pill mt-4 inline-flex items-center gap-2 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-blue-900"
-                @click.stop="goToProofPoint(card.id)"
-              >
-                Know more
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M9 5l7 7-7 7" />
+              <div class="proof-card-visual proof-card-visual-back" :class="`proof-card-visual-${card.id}`" aria-hidden="true">
+                <svg viewBox="0 0 420 230" role="img">
+                  <use :href="`#proof-visual-${card.id}`" />
                 </svg>
-              </button>
+              </div>
+
+              <div class="proof-back-copy">
+                <p class="text-sm font-semibold uppercase tracking-widest text-slate-400 mb-2">{{ card.source }}</p>
+                <h3 class="text-xl font-bold text-slate-900 leading-snug mb-2">{{ card.detailTitle }}</h3>
+                <p class="text-base text-slate-700 leading-relaxed">{{ card.detail }}</p>
+                <button
+                  type="button"
+                  class="readable-cta-pill mt-4 inline-flex items-center gap-2 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-blue-900"
+                  @click.stop="goToProofPoint(card.id)"
+                >
+                  Know more
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M9 5l7 7-7 7" />
+                  </svg>
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -496,39 +556,55 @@ function getSeniorBarWidth(value) {
       >
         <div class="visualisation-flip-card-inner" :class="flippedVisualisationCards.losses ? 'is-flipped' : ''">
           <div class="visualisation-flip-face visualisation-flip-front">
-            <p class="text-sm font-semibold uppercase tracking-widest text-slate-400 mb-2">ACCC Scamwatch 2023</p>
-            <h3 class="text-2xl font-bold text-slate-900 leading-tight mb-3">Top scam types by financial loss</h3>
-            <p class="text-lg text-slate-600 leading-relaxed">
-              Investment scams caused the largest reported losses in 2023, followed by remote access and payment redirection scams.
-            </p>
-            <p class="flip-card-cta-text mt-5">Click to view chart</p>
+            <div class="visualisation-card-visual visualisation-card-visual-losses" aria-hidden="true">
+              <svg viewBox="0 0 420 230" role="img">
+                <rect x="0" y="0" width="420" height="230" rx="18" class="visual-scene-bg"/>
+                <circle cx="318" cy="70" r="74" class="visual-danger-glow"/>
+                <rect x="58" y="48" width="304" height="132" rx="18" class="visual-paper"/>
+                <rect x="86" y="138" width="44" height="18" rx="6" fill="#1e3a8a" opacity="0.34"/>
+                <rect x="146" y="108" width="44" height="48" rx="6" fill="#1e3a8a" opacity="0.5"/>
+                <rect x="206" y="82" width="44" height="74" rx="6" fill="#1e3a8a" opacity="0.72"/>
+                <rect x="266" y="60" width="44" height="96" rx="6" fill="#dc2626" opacity="0.86"/>
+                <path d="M82 166h246" stroke="#94a3b8" stroke-width="5" stroke-linecap="round" opacity="0.38"/>
+                <circle cx="330" cy="150" r="18" fill="#fee2e2" stroke="rgba(153,27,27,0.38)" stroke-width="2"/>
+                <text x="330" y="158" text-anchor="middle" fill="#991b1b" font-size="22" font-weight="900">$</text>
+              </svg>
+            </div>
+            <div class="visualisation-front-copy">
+              <p class="visualisation-card-kicker">ACCC Scamwatch 2023</p>
+              <h3 class="visualisation-card-title">Top scam types by financial loss</h3>
+              <p class="visualisation-card-description">
+                Investment scams caused the largest reported losses in 2023, followed by remote access and payment redirection scams.
+              </p>
+              <p class="flip-card-cta-text">Click to view chart</p>
+            </div>
           </div>
 
           <div class="visualisation-flip-face visualisation-flip-back">
-            <p class="text-sm font-semibold uppercase tracking-widest text-slate-400 mb-4">Financial loss by scam type</p>
-            <div class="space-y-4">
+            <p class="visualisation-back-heading">Financial loss by scam type</p>
+            <div class="visualisation-chart-stack">
               <div v-for="(type, i) in scamTypes" :key="type.name" class="relative">
-                <div class="flex items-center justify-between mb-2 gap-4">
-                  <span class="text-base font-semibold text-slate-700 leading-tight">{{ type.name }}</span>
-                  <span class="text-base font-bold flex-shrink-0" style="color: var(--navy);">{{ type.amount }}</span>
+                <div class="visualisation-chart-row-label">
+                  <span>{{ type.name }}</span>
+                  <span class="visualisation-chart-value">{{ type.amount }}</span>
                 </div>
                 <div
-                  class="w-full bg-slate-100 rounded-full h-3 cursor-pointer"
+                  class="visualisation-chart-track cursor-pointer"
                   @mouseenter="hoveredScamType = i"
                   @mouseleave="hoveredScamType = null"
                 >
                   <div
-                    class="h-3 rounded-full"
+                    class="visualisation-chart-fill"
                     style="transition: width 0.9s ease-out;"
                     :style="{ width: animated ? type.pct + '%' : '0%', backgroundColor: 'var(--navy)' }"
                   ></div>
                 </div>
-                <p v-if="hoveredScamType === i" class="mt-2 text-sm text-slate-600 leading-relaxed animate-fade-in">
+                <p v-if="hoveredScamType === i" class="visualisation-chart-tooltip animate-fade-in">
                   {{ type.tooltip }}
                 </p>
               </div>
             </div>
-            <p class="text-sm text-slate-400 mt-5">Source: ACCC Scamwatch 2023 Annual Report</p>
+            <p class="visualisation-source-note">Source: ACCC Scamwatch 2023 Annual Report</p>
           </div>
         </div>
       </div>
@@ -545,40 +621,58 @@ function getSeniorBarWidth(value) {
       >
         <div class="visualisation-flip-card-inner" :class="flippedVisualisationCards.age ? 'is-flipped' : ''">
           <div class="visualisation-flip-face visualisation-flip-front">
-            <p class="text-sm font-semibold uppercase tracking-widest text-slate-400 mb-2">Older Australians</p>
-            <h3 class="text-2xl font-bold text-slate-900 leading-tight mb-3">Why checking links matters for people over 65</h3>
-            <p class="text-lg text-slate-600 leading-relaxed">
-              Australians aged 65+ show the highest risk in this comparison, with awareness and link checking acting as practical first steps.
-            </p>
-            <p class="flip-card-cta-text mt-5">Click to view chart</p>
+            <div class="visualisation-card-visual visualisation-card-visual-age" aria-hidden="true">
+              <svg viewBox="0 0 420 230" role="img">
+                <rect x="0" y="0" width="420" height="230" rx="18" class="visual-scene-bg"/>
+                <circle cx="306" cy="82" r="76" class="visual-danger-glow strong"/>
+                <rect x="66" y="52" width="132" height="126" rx="18" class="visual-paper"/>
+                <text x="132" y="122" text-anchor="middle" fill="#1e3a8a" font-size="50" font-weight="900">65+</text>
+                <rect x="96" y="142" width="72" height="8" rx="4" class="visual-muted-fill"/>
+                <rect x="252" y="52" width="92" height="126" rx="18" class="visual-phone"/>
+                <rect x="266" y="76" width="64" height="64" rx="9" fill="#eff6ff"/>
+                <path d="M284 108 l10 10 22-26" fill="none" stroke="#1e3a8a" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M290 174h18M314 174h4" class="visual-phone-button"/>
+                <path d="M202 114h38" stroke="#dc2626" stroke-width="7" stroke-linecap="round"/>
+                <path d="M230 98l16 16-16 16" fill="none" stroke="#dc2626" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <div class="visualisation-front-copy">
+              <p class="visualisation-card-kicker">Older Australians</p>
+              <h3 class="visualisation-card-title">Why checking links matters for people over 65</h3>
+              <p class="visualisation-card-description">
+                Australians aged 65+ show the highest risk in this comparison, with awareness and link checking acting as practical first steps.
+              </p>
+              <p class="flip-card-cta-text">Click to view chart</p>
+            </div>
           </div>
 
           <div class="visualisation-flip-face visualisation-flip-back">
-            <p class="text-sm font-semibold uppercase tracking-widest text-slate-400 mb-4">Relative risk by age group</p>
-            <div class="space-y-4">
+            <p class="visualisation-back-heading">Relative risk by age group</p>
+            <div class="visualisation-chart-stack">
               <div v-for="(age, i) in ageGroups" :key="age.group" class="grid gap-2">
-                <div class="flex items-baseline justify-between gap-3">
-                  <span class="text-base font-semibold text-slate-700">{{ age.group }}</span>
-                  <span class="text-base font-bold shrink-0" style="color: var(--navy);">{{ age.pct }}%</span>
+                <div class="visualisation-chart-row-label">
+                  <span>{{ age.group }}</span>
+                  <span class="visualisation-chart-value">{{ age.pct }}%</span>
                 </div>
                 <div class="relative">
                   <div
-                    class="bg-slate-100 rounded-full h-3 cursor-pointer overflow-hidden"
+                    class="visualisation-chart-track cursor-pointer overflow-hidden"
                     @mouseenter="hoveredAgeGroup = i"
                     @mouseleave="hoveredAgeGroup = null"
                   >
                     <div
-                      class="h-3 rounded-full"
+                      class="visualisation-chart-fill"
                       style="transition: width 0.9s ease-out;"
                       :style="{ width: animated ? age.pct + '%' : '0%', backgroundColor: `rgba(30,58,138,${1 - i * 0.12})` }"
                     ></div>
                   </div>
-                  <p v-if="hoveredAgeGroup === i" class="mt-2 text-sm text-slate-600 leading-relaxed animate-fade-in">
+                  <p v-if="hoveredAgeGroup === i" class="visualisation-chart-tooltip animate-fade-in">
                     {{ age.tooltip }}
                   </p>
                 </div>
               </div>
             </div>
+            <p class="visualisation-source-note">Source: ACCC Targeting Scams 2023 and Scamwatch guidance</p>
           </div>
         </div>
       </div>
@@ -595,40 +689,58 @@ function getSeniorBarWidth(value) {
       >
         <div class="visualisation-flip-card-inner" :class="flippedVisualisationCards.seniors ? 'is-flipped' : ''">
           <div class="visualisation-flip-face visualisation-flip-front">
-            <p class="text-sm font-semibold uppercase tracking-widest text-slate-400 mb-2">Scamwatch &amp; NASC</p>
-            <h3 class="text-2xl font-bold text-slate-900 leading-tight mb-3">Online scams affecting people over 65</h3>
-            <p class="text-lg text-slate-600 leading-relaxed">
-              This view uses the senior online scam dataset to show reported losses, report volume, and the most reported scam types.
-            </p>
-            <p class="flip-card-cta-text mt-5">Click to view chart</p>
+            <div class="visualisation-card-visual visualisation-card-visual-seniors" aria-hidden="true">
+              <svg viewBox="0 0 420 230" role="img">
+                <rect x="0" y="0" width="420" height="230" rx="18" class="visual-scene-bg"/>
+                <circle cx="318" cy="78" r="76" class="visual-danger-glow"/>
+                <rect x="58" y="54" width="168" height="126" rx="18" class="visual-paper"/>
+                <rect x="82" y="78" width="70" height="9" rx="4.5" fill="#1e3a8a" opacity="0.24"/>
+                <rect x="82" y="106" width="108" height="12" rx="6" fill="#dc2626" opacity="0.75"/>
+                <rect x="82" y="132" width="82" height="12" rx="6" fill="#1e3a8a" opacity="0.42"/>
+                <rect x="82" y="158" width="124" height="12" rx="6" fill="#1e3a8a" opacity="0.58"/>
+                <rect x="258" y="52" width="104" height="128" rx="18" class="visual-phone"/>
+                <rect x="274" y="76" width="72" height="68" rx="10" fill="#fee2e2"/>
+                <path d="M310 91 l17 30 H293 z" class="visual-warning"/>
+                <path d="M310 102v11M310 118v2" class="visual-warning-mark"/>
+                <path d="M298 178h22M326 178h4" class="visual-phone-button"/>
+              </svg>
+            </div>
+            <div class="visualisation-front-copy">
+              <p class="visualisation-card-kicker">Scamwatch &amp; NASC</p>
+              <h3 class="visualisation-card-title">Online scams affecting people over 65</h3>
+              <p class="visualisation-card-description">
+                This view uses the senior online scam dataset to show reported losses, report volume, and the most reported scam types.
+              </p>
+              <p class="flip-card-cta-text">Click to view chart</p>
+            </div>
           </div>
 
           <div class="visualisation-flip-face visualisation-flip-back">
-            <p class="text-sm font-semibold uppercase tracking-widest text-slate-400 mb-4">65+ online scam reports</p>
-            <div v-if="scamStats">
-              <div class="grid grid-cols-2 gap-3 mb-5">
+            <p class="visualisation-back-heading">65+ online scam reports</p>
+            <div v-if="scamStats" class="visualisation-senior-back-content">
+              <div class="visualisation-summary-grid grid grid-cols-2 gap-3">
                 <div
                   v-for="stat in seniorSummaryCards"
                   :key="stat.label"
-                  class="rounded-xl border border-slate-200 bg-slate-50 p-3"
+                  class="visualisation-summary-tile"
                 >
-                  <p class="text-xs font-semibold uppercase tracking-wide text-slate-500">{{ stat.label }}</p>
-                  <p class="text-2xl font-bold mt-1" style="color: var(--navy);">{{ stat.value }}</p>
-                  <p class="text-sm text-slate-600 leading-snug mt-1">{{ stat.helper }}</p>
+                  <p class="visualisation-summary-label">{{ stat.label }}</p>
+                  <p class="visualisation-summary-value">{{ stat.value }}</p>
+                  <p class="visualisation-summary-helper">{{ stat.helper }}</p>
                 </div>
               </div>
 
-              <div class="space-y-3">
+              <div class="visualisation-senior-chart-stack">
                 <div v-for="row in seniorChartRows" :key="row.scam_type" class="grid gap-2">
-                  <div class="flex items-baseline justify-between gap-3">
-                    <span class="text-base font-semibold text-slate-700 leading-tight">{{ row.scam_type }}</span>
-                    <span class="text-base font-bold shrink-0" style="color: var(--navy);">
+                  <div class="visualisation-chart-row-label">
+                    <span>{{ row.scam_type }}</span>
+                    <span class="visualisation-chart-value">
                       {{ Number(row.total_reports || 0).toLocaleString('en-AU') }}
                     </span>
                   </div>
-                  <div class="h-2.5 bg-slate-100 rounded-full overflow-hidden">
+                  <div class="visualisation-chart-track">
                     <div
-                      class="h-full rounded-full transition-all duration-700"
+                      class="visualisation-chart-fill transition-all duration-700"
                       style="background-color: var(--navy);"
                       :style="{ width: getSeniorBarWidth(row.total_reports) }"
                     ></div>
@@ -636,7 +748,7 @@ function getSeniorBarWidth(value) {
                 </div>
               </div>
 
-              <p class="text-sm text-slate-400 mt-4 leading-relaxed">65+ age group, online contact method only.</p>
+              <p class="visualisation-source-note">Source: Scamwatch &amp; NASC dataset, 65+ online reports.</p>
             </div>
 
             <div v-else class="space-y-3">
@@ -679,24 +791,24 @@ function getSeniorBarWidth(value) {
         style="box-shadow: 0 1px 4px rgba(0,0,0,0.06);"
       >
         <div
-          class="w-16 h-16 rounded-2xl flex items-center justify-center mb-6 transition-transform group-hover:scale-105 duration-200"
+          class="tool-card-icon rounded-2xl flex items-center justify-center transition-transform group-hover:scale-105 duration-200"
           style="background-color: var(--navy-tint);"
         >
-          <svg v-if="f.icon === 'link'" class="w-8 h-8" style="color: var(--navy);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg v-if="f.icon === 'link'" style="color: var(--navy);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
               d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
           </svg>
-          <svg v-else-if="f.icon === 'doc'" class="w-8 h-8" style="color: var(--navy);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg v-else-if="f.icon === 'doc'" style="color: var(--navy);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
               d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
           </svg>
-          <svg v-else class="w-8 h-8" style="color: var(--navy);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg v-else style="color: var(--navy);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
               d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
           </svg>
         </div>
-        <p class="text-2xl font-bold text-slate-900 mb-3 leading-snug">{{ f.title }}</p>
-        <p class="text-lg text-slate-600 leading-relaxed mb-6">{{ f.desc }}</p>
+        <p class="tool-card-title">{{ f.title }}</p>
+        <p class="tool-card-desc">{{ f.desc }}</p>
         <div class="readable-cta-pill feature-card-cta inline-flex items-center gap-2 group-hover:gap-3 transition-all">
           {{ f.cta }}
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -738,8 +850,44 @@ function getSeniorBarWidth(value) {
   border-bottom: 1px solid rgb(219, 234, 254);
 }
 
+.home-visualisation-band .home-section-kicker {
+  font-size: 1.08rem;
+  font-weight: 950;
+}
+
+.home-visualisation-band .home-section-header h2 {
+  max-width: 58rem;
+  font-size: clamp(2.55rem, 4.6vw, 3.65rem);
+  font-weight: 950;
+}
+
+.home-visualisation-band .home-section-header p {
+  max-width: 58rem;
+  font-size: clamp(1.25rem, 1.55vw, 1.48rem);
+  font-weight: 500;
+  line-height: 1.55;
+}
+
 .home-tools-band {
   background: var(--navy-tint);
+}
+
+.home-tools-band .home-section-kicker {
+  font-size: 1.08rem;
+  font-weight: 950;
+}
+
+.home-tools-band .home-section-header h2 {
+  max-width: 58rem;
+  font-size: clamp(2.45rem, 4.4vw, 3.55rem);
+  font-weight: 950;
+}
+
+.home-tools-band .home-section-header p {
+  max-width: 58rem;
+  font-size: clamp(1.22rem, 1.5vw, 1.45rem);
+  font-weight: 550;
+  line-height: 1.55;
 }
 
 .home-section-inner {
@@ -776,6 +924,16 @@ function getSeniorBarWidth(value) {
   line-height: 1.65;
 }
 
+.home-hero-copy {
+  max-width: 48rem;
+  margin-bottom: 2.4rem;
+  color: #ffffff;
+  font-size: clamp(1.45rem, 2vw, 2rem);
+  font-weight: 500;
+  line-height: 1.58;
+  opacity: 0.94;
+}
+
 .home-card-grid {
   align-items: stretch;
 }
@@ -786,8 +944,50 @@ function getSeniorBarWidth(value) {
   flex-direction: column;
 }
 
+.tool-card-icon {
+  width: 4.4rem;
+  height: 4.4rem;
+  margin-bottom: 1.85rem;
+}
+
+.tool-card-icon svg {
+  width: 2.25rem;
+  height: 2.25rem;
+}
+
+.tool-card-title {
+  margin-bottom: 1rem;
+  color: rgb(15, 23, 42);
+  font-size: clamp(1.65rem, 2vw, 2.05rem);
+  font-weight: 950;
+  line-height: 1.12;
+}
+
+.tool-card-desc {
+  margin-bottom: 1.8rem;
+  color: rgb(71, 85, 105);
+  font-size: clamp(1.15rem, 1.35vw, 1.35rem);
+  font-weight: 500;
+  line-height: 1.5;
+}
+
 .home-hero-cta {
-  min-height: 10.75rem;
+  min-height: 13.25rem;
+  gap: 0.85rem;
+  padding: 1.45rem 1.25rem;
+}
+
+.home-hero-cta-icon {
+  width: 3rem;
+  height: 3rem;
+  margin-bottom: 0.1rem;
+}
+
+.home-hero-cta-prompt {
+  color: rgb(51, 65, 85);
+  font-size: clamp(1.15rem, 1.35vw, 1.35rem);
+  font-weight: 800;
+  line-height: 1.2;
 }
 
 .home-cta-label,
@@ -804,12 +1004,35 @@ function getSeniorBarWidth(value) {
   align-items: center;
   justify-content: center;
   width: 100%;
-  min-height: 3.25rem;
-  padding: 0.5rem 0.75rem;
+  min-height: 4.1rem;
+  margin-top: auto;
+  padding: 0.75rem 1rem;
   border-radius: 0.85rem;
-  font-size: 1.05rem;
+  font-size: clamp(1.25rem, 1.7vw, 1.6rem);
   line-height: 1.15;
   font-weight: 900;
+}
+
+.home-hero-trust {
+  gap: 1.25rem 2rem;
+  margin-top: 2.35rem;
+}
+
+.home-hero-trust-item {
+  gap: 0.75rem;
+}
+
+.home-hero-trust-icon {
+  width: 1.85rem;
+  height: 1.85rem;
+}
+
+.home-hero-trust-text {
+  color: #ffffff;
+  font-size: clamp(1.25rem, 1.6vw, 1.6rem);
+  font-weight: 750;
+  line-height: 1.25;
+  opacity: 0.94;
 }
 
 .readable-cta-pill {
@@ -824,13 +1047,16 @@ function getSeniorBarWidth(value) {
 .feature-card-cta {
   width: fit-content;
   margin-top: auto;
+  padding: 0.95rem 1.25rem;
+  font-size: 1.2rem;
+  font-weight: 950;
 }
 
 .flip-card-cta-text {
   width: fit-content;
   border-radius: 999px;
-  padding: 0.65rem 0.95rem;
-  font-size: 1rem;
+  padding: 0.82rem 1.15rem;
+  font-size: 1.12rem;
   line-height: 1.1;
   font-weight: 900;
   letter-spacing: 0;
@@ -839,7 +1065,7 @@ function getSeniorBarWidth(value) {
 
 @media (min-width: 640px) {
   .home-cta-label {
-    font-size: 1.15rem;
+    font-size: clamp(1.2rem, 1.55vw, 1.5rem);
   }
 }
 
@@ -912,17 +1138,181 @@ function getSeniorBarWidth(value) {
 
 .proof-flip-front {
   align-items: flex-start;
+  justify-content: space-between;
+  gap: 1.1rem;
+  overflow: hidden;
 }
 
 .proof-flip-back {
   transform: rotateY(180deg);
-  justify-content: flex-start;
-  overflow: visible;
+  justify-content: space-between;
+  gap: 1.1rem;
+  overflow: hidden;
 }
 
 .proof-flip-card-inner:not(.is-flipped) .proof-flip-back,
 .proof-flip-card-inner.is-flipped .proof-flip-front {
   pointer-events: none;
+}
+
+.proof-visual-symbols {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+.proof-card-visual {
+  width: 100%;
+  aspect-ratio: 420 / 230;
+  min-height: 12.5rem;
+  border: 1px solid rgba(203, 213, 225, 0.72);
+  border-radius: 0.85rem;
+  overflow: hidden;
+  background:
+    linear-gradient(135deg, rgba(248, 250, 252, 0.92), rgba(239, 246, 255, 0.76)),
+    #f8fafc;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.75);
+}
+
+.proof-card-visual svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.proof-front-copy {
+  width: 100%;
+  position: relative;
+  z-index: 1;
+}
+
+.proof-card-value {
+  margin-bottom: 0.45rem;
+  color: var(--navy);
+  font-size: clamp(2.75rem, 4.4vw, 4.5rem);
+  font-weight: 950;
+  line-height: 0.92;
+}
+
+.proof-card-label {
+  color: rgb(71, 85, 105);
+  font-size: clamp(1.1rem, 1.35vw, 1.3rem);
+  font-weight: 500;
+  line-height: 1.35;
+}
+
+.proof-card-flip-hint {
+  margin-top: 1rem;
+  color: rgb(100, 116, 139);
+  font-size: 0.9rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  line-height: 1.25;
+  text-transform: uppercase;
+}
+
+.proof-back-copy {
+  width: 100%;
+  position: relative;
+  z-index: 1;
+}
+
+.proof-card-visual-back {
+  min-height: 11rem;
+}
+
+.proof-card-visual-total-losses {
+  background:
+    linear-gradient(145deg, rgba(254, 242, 242, 0.94), rgba(239, 246, 255, 0.78) 58%, rgba(248, 250, 252, 0.94)),
+    #f8fafc;
+}
+
+.proof-card-visual-investment-losses {
+  background:
+    linear-gradient(145deg, rgba(240, 249, 255, 0.96), rgba(254, 242, 242, 0.82) 62%, rgba(248, 250, 252, 0.92)),
+    #f8fafc;
+}
+
+.proof-card-visual-older-australians {
+  background:
+    linear-gradient(145deg, rgba(239, 246, 255, 0.96), rgba(254, 242, 242, 0.9) 66%, rgba(248, 250, 252, 0.94)),
+    #f8fafc;
+}
+
+.visual-scene-bg {
+  fill: rgba(255, 255, 255, 0.18);
+}
+
+.visual-danger-glow {
+  fill: rgba(220, 38, 38, 0.18);
+}
+
+.visual-danger-glow.strong {
+  fill: rgba(220, 38, 38, 0.24);
+}
+
+.visual-paper {
+  fill: rgba(255, 255, 255, 0.94);
+  stroke: rgba(148, 163, 184, 0.7);
+  stroke-width: 1.5;
+}
+
+.visual-warning {
+  fill: #dc2626;
+}
+
+.visual-warning-mark {
+  fill: none;
+  stroke: #ffffff;
+  stroke-width: 4;
+  stroke-linecap: round;
+}
+
+.visual-muted-fill {
+  fill: #64748b;
+  opacity: 0.24;
+}
+
+.visual-bill {
+  fill: #fee2e2;
+  stroke: rgba(153, 27, 27, 0.45);
+  stroke-width: 1.5;
+}
+
+.visual-money-hole {
+  fill: rgba(15, 23, 42, 0.54);
+}
+
+.visual-phone {
+  fill: #1e293b;
+  stroke: rgba(15, 23, 42, 0.18);
+  stroke-width: 1.5;
+}
+
+.visual-chart-loss {
+  fill: none;
+  stroke: #dc2626;
+  stroke-width: 6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.visual-phone-button {
+  fill: none;
+  stroke: rgba(226, 232, 240, 0.92);
+  stroke-width: 5;
+  stroke-linecap: round;
+}
+
+.visual-coin {
+  fill: #facc15;
+  stroke: rgba(180, 83, 9, 0.6);
+  stroke-width: 1.5;
+}
+
+.visual-coin.lost {
+  filter: drop-shadow(0 4px 5px rgba(15, 23, 42, 0.2));
 }
 
 .visualisation-flip-card {
@@ -970,18 +1360,222 @@ function getSeniorBarWidth(value) {
 }
 
 .visualisation-flip-front {
-  justify-content: center;
+  justify-content: space-between;
+  gap: 1.1rem;
+  overflow: hidden;
 }
 
 .visualisation-flip-back {
   transform: rotateY(180deg);
   justify-content: flex-start;
-  overflow: visible;
+  overflow: hidden;
 }
 
 .visualisation-flip-card-inner:not(.is-flipped) .visualisation-flip-back,
 .visualisation-flip-card-inner.is-flipped .visualisation-flip-front {
   pointer-events: none;
+}
+
+.visualisation-card-visual {
+  width: 100%;
+  aspect-ratio: 420 / 230;
+  min-height: 12rem;
+  border: 1px solid rgba(203, 213, 225, 0.72);
+  border-radius: 0.85rem;
+  overflow: hidden;
+  background:
+    linear-gradient(135deg, rgba(248, 250, 252, 0.92), rgba(239, 246, 255, 0.76)),
+    #f8fafc;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.75);
+}
+
+.visualisation-card-visual svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.visualisation-card-visual-losses {
+  background:
+    linear-gradient(145deg, rgba(239, 246, 255, 0.96), rgba(254, 242, 242, 0.84) 64%, rgba(248, 250, 252, 0.94)),
+    #f8fafc;
+}
+
+.visualisation-card-visual-age {
+  background:
+    linear-gradient(145deg, rgba(239, 246, 255, 0.96), rgba(240, 249, 255, 0.88) 50%, rgba(254, 242, 242, 0.82)),
+    #f8fafc;
+}
+
+.visualisation-card-visual-seniors {
+  background:
+    linear-gradient(145deg, rgba(248, 250, 252, 0.96), rgba(239, 246, 255, 0.86) 48%, rgba(254, 242, 242, 0.84)),
+    #f8fafc;
+}
+
+.visualisation-front-copy {
+  width: 100%;
+}
+
+.visualisation-card-kicker {
+  margin-bottom: 0.55rem;
+  color: rgb(100, 116, 139);
+  font-size: 0.95rem;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.visualisation-card-title {
+  margin-bottom: 0.75rem;
+  color: rgb(15, 23, 42);
+  font-size: clamp(1.65rem, 2vw, 2.1rem);
+  font-weight: 950;
+  line-height: 1.08;
+}
+
+.visualisation-card-description {
+  margin-bottom: 1.15rem;
+  color: rgb(71, 85, 105);
+  font-size: clamp(1.08rem, 1.3vw, 1.28rem);
+  font-weight: 500;
+  line-height: 1.42;
+}
+
+.visualisation-back-heading {
+  margin-bottom: 1.15rem;
+  color: rgb(100, 116, 139);
+  font-size: 1.02rem;
+  font-weight: 950;
+  letter-spacing: 0.11em;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.visualisation-chart-stack {
+  display: grid;
+  gap: 1.25rem;
+}
+
+.visualisation-senior-chart-stack {
+  display: grid;
+  gap: 0.92rem;
+}
+
+.visualisation-chart-row-label {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.55rem;
+  color: rgb(15, 23, 42);
+  font-size: 1.12rem;
+  font-weight: 800;
+  line-height: 1.16;
+}
+
+.visualisation-chart-value {
+  flex-shrink: 0;
+  color: var(--navy);
+  font-size: 1.13rem;
+  font-weight: 950;
+}
+
+.visualisation-chart-track {
+  width: 100%;
+  height: 0.82rem;
+  border-radius: 999px;
+  background: rgb(241, 245, 249);
+  overflow: hidden;
+}
+
+.visualisation-chart-fill {
+  height: 100%;
+  border-radius: 999px;
+}
+
+.visualisation-chart-tooltip {
+  margin-top: 0.55rem;
+  color: rgb(71, 85, 105);
+  font-size: 0.98rem;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.visualisation-source-note {
+  margin-top: auto;
+  padding-top: 1rem;
+  color: rgb(100, 116, 139);
+  font-size: 0.98rem;
+  font-weight: 650;
+  line-height: 1.35;
+}
+
+.visualisation-senior-back-content {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+  flex-direction: column;
+}
+
+.visualisation-summary-grid {
+  margin-bottom: 0.95rem;
+}
+
+.visualisation-senior-back-content .visualisation-senior-chart-stack {
+  gap: 0.72rem;
+}
+
+.visualisation-senior-back-content .visualisation-chart-row-label {
+  margin-bottom: 0.34rem;
+  font-size: 1.04rem;
+}
+
+.visualisation-senior-back-content .visualisation-chart-value {
+  font-size: 1.05rem;
+}
+
+.visualisation-senior-back-content .visualisation-chart-track {
+  height: 0.68rem;
+}
+
+.visualisation-senior-back-content .visualisation-source-note {
+  padding-top: 0.72rem;
+  font-size: 0.86rem;
+  line-height: 1.25;
+}
+
+.visualisation-summary-tile {
+  border: 1px solid rgb(226, 232, 240);
+  border-radius: 0.85rem;
+  background: rgb(248, 250, 252);
+  padding: 0.78rem;
+}
+
+.visualisation-summary-label {
+  color: rgb(100, 116, 139);
+  font-size: 0.82rem;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.visualisation-summary-value {
+  margin-top: 0.25rem;
+  color: var(--navy);
+  font-size: 1.52rem;
+  font-weight: 950;
+  line-height: 1;
+}
+
+.visualisation-summary-helper {
+  margin-top: 0.4rem;
+  color: rgb(71, 85, 105);
+  font-size: 0.9rem;
+  font-weight: 500;
+  line-height: 1.28;
 }
 
 .senior-shield-stage {

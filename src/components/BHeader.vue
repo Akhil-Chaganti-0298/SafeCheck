@@ -15,28 +15,28 @@ const links = [
 
 <template>
   <!-- Full-width navy header with edge-to-edge background -->
-  <header class="sticky top-0 z-50 shadow-md" style="background-color: var(--navy);">
+  <header class="site-header sticky top-0 z-50 shadow-md" style="background-color: var(--navy);">
 
     <nav>
-      <div class="flex h-20 items-center justify-between px-6 sm:px-10 lg:px-16">
+      <div class="site-header-inner flex items-center justify-between px-6 sm:px-10 lg:px-16">
 
         <!-- Logo + site name -->
         <RouterLink
           to="/"
-          class="flex items-center gap-3 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
+          class="site-brand flex items-center rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
           @click="menuOpen = false"
         >
-          <img :src="logoSrc" alt="SafeCheck logo" class="h-12 w-12 rounded-xl object-contain bg-white/10 p-1" />
-          <span class="text-2xl font-bold tracking-wide text-white">SafeCheck</span>
+          <img :src="logoSrc" alt="SafeCheck logo" class="site-brand-logo rounded-xl object-contain bg-white/10 p-1" />
+          <span class="site-brand-name tracking-wide text-white">SafeCheck</span>
         </RouterLink>
 
         <!-- Desktop nav links -->
-        <div class="hidden items-center gap-1 md:flex">
+        <div class="site-nav-links hidden items-center md:flex">
           <RouterLink
             v-for="link in links"
             :key="link.to"
             :to="link.to"
-            class="rounded-lg px-5 py-2.5 text-lg font-medium text-blue-100 transition-colors hover:bg-white/10 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
+            class="site-nav-link rounded-lg text-blue-100 transition-colors hover:bg-white/10 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
             :exact-active-class="'bg-white text-blue-900 hover:bg-white hover:text-blue-900'"
           >
             {{ link.label }}
@@ -46,7 +46,7 @@ const links = [
         <!-- Hamburger, small screens only -->
         <button
           type="button"
-          class="inline-flex items-center justify-center rounded-lg border border-white/30 p-2.5 text-white transition hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white md:hidden"
+          class="site-menu-button inline-flex items-center justify-center rounded-lg border border-white/30 text-white transition hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white md:hidden"
           :aria-expanded="menuOpen"
           aria-controls="mobile-nav"
           aria-label="Toggle navigation menu"
@@ -74,7 +74,7 @@ const links = [
               v-for="link in links"
               :key="link.to"
               :to="link.to"
-              class="rounded-lg px-4 py-4 text-xl font-medium text-blue-100 transition-colors hover:bg-white/10 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
+              class="site-mobile-nav-link rounded-lg text-blue-100 transition-colors hover:bg-white/10 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
               :exact-active-class="'bg-white text-blue-900'"
               @click="menuOpen = false"
             >
@@ -87,3 +87,57 @@ const links = [
 
   </header>
 </template>
+
+<style scoped>
+.site-header-inner {
+  min-height: 6.75rem;
+}
+
+.site-brand {
+  gap: 1rem;
+}
+
+.site-brand-logo {
+  width: 3.9rem;
+  height: 3.9rem;
+}
+
+.site-brand-name {
+  font-size: clamp(1.82rem, 2.08vw, 2.16rem);
+  font-weight: 900;
+  line-height: 1.1;
+}
+
+.site-nav-links {
+  gap: 0.35rem;
+}
+
+.site-nav-link {
+  min-height: 3.8rem;
+  padding: 1.05rem 1.45rem;
+  font-size: clamp(1.22rem, 1.24vw, 1.36rem);
+  font-weight: 800;
+  line-height: 1.15;
+}
+
+.site-menu-button {
+  padding: 1rem;
+}
+
+.site-mobile-nav-link {
+  padding: 1.2rem 1rem;
+  font-size: 1.45rem;
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+@media (min-width: 1024px) {
+  .site-header-inner {
+    min-height: 7rem;
+  }
+
+  .site-nav-link {
+    padding-inline: 1.6rem;
+  }
+}
+</style>
