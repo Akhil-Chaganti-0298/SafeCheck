@@ -166,8 +166,8 @@ function getSeniorBarWidth(value) {
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
                   d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
               </svg>
-              <span class="home-hero-cta-prompt">Not sure if a website is safe?</span>
-              <span class="home-cta-label">Use Our URL Verifier</span>
+              <span class="home-hero-cta-prompt">Got a suspicious link?</span>
+              <span class="home-cta-label">Check it now</span>
             </button>
             <button
               @click="emit('navigate', 'tnc-simplifier')"
@@ -177,8 +177,8 @@ function getSeniorBarWidth(value) {
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                   d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
               </svg>
-              <span class="home-hero-cta-prompt">Confused by the language of terms and conditions?</span>
-              <span class="home-cta-label">Explain my Terms</span>
+              <span class="home-hero-cta-prompt">Confused by the fine print?</span>
+              <span class="home-cta-label">Explain it to me</span>
             </button>
             <button
               @click="emit('navigate', 'scam-quiz')"
@@ -188,8 +188,8 @@ function getSeniorBarWidth(value) {
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                   d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
               </svg>
-              <span class="home-hero-cta-prompt">Want to test your scam knowledge?</span>
-              <span class="home-cta-label">Take Scam Quiz</span>
+              <span class="home-hero-cta-prompt">Could you spot a scam?</span>
+              <span class="home-cta-label">Test yourself</span>
             </button>
           </div>
 
@@ -990,6 +990,13 @@ function getSeniorBarWidth(value) {
   min-height: 9.6rem;
   gap: 0.55rem;
   padding: 0.95rem 0.85rem;
+  border-left: 3px solid transparent;
+  box-shadow: 0 10px 18px rgba(15, 23, 42, 0.12);
+}
+
+.home-hero-cta:hover {
+  border-left-color: #0D9488;
+  box-shadow: 0 12px 22px rgba(15, 23, 42, 0.16);
 }
 
 .home-hero-cta-icon {
@@ -1026,6 +1033,16 @@ function getSeniorBarWidth(value) {
   font-size: clamp(0.94rem, 1.08vw, 1.08rem);
   line-height: 1.18;
   font-weight: 900;
+}
+
+@media (min-width: 768px) {
+  .home-hero-cta {
+    min-width: 11.5rem;
+  }
+
+  .home-cta-label {
+    white-space: nowrap;
+  }
 }
 
 .home-hero-trust {
