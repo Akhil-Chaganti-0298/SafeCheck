@@ -266,16 +266,6 @@ function getSeniorBarWidth(value) {
                 <span>Malware popup</span>
               </div>
 
-              <div class="threat-label threat-tech-call" aria-hidden="true">
-                <span class="threat-symbol">
-                  <svg viewBox="0 0 24 24" fill="none">
-                    <path d="M7 5c.4 6.2 5 10.8 12 12l-2.2 3c-7.4-1.7-11.5-5.9-13.8-13L6 5h1Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
-                    <path d="M16 5h3v3m-.3-2.7-4.4 4.4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
-                  </svg>
-                </span>
-                <span>Fake support call</span>
-              </div>
-
               <div class="threat-label threat-password-request" aria-hidden="true">
                 <span class="threat-symbol">
                   <svg viewBox="0 0 24 24" fill="none">
@@ -1812,14 +1802,6 @@ function getSeniorBarWidth(value) {
   animation-delay: 6.6s;
 }
 
-.threat-tech-call {
-  right: -3.3rem;
-  top: 3.3rem;
-  background: rgba(153, 27, 27, 0.82);
-  animation-name: techCallApproach;
-  animation-delay: 8.8s;
-}
-
 .threat-password-request {
   left: -2.7rem;
   top: 8.7rem;
@@ -2035,39 +2017,6 @@ function getSeniorBarWidth(value) {
   }
 }
 
-@keyframes techCallApproach {
-  0%,
-  5%,
-  40%,
-  100% {
-    transform: translate(6.4rem, -4.6rem) rotate(5deg) scale(1);
-    opacity: 0;
-  }
-
-  9%,
-  19% {
-    opacity: 0.9;
-  }
-
-  24% {
-    transform: translate(0, 0) rotate(3deg) scale(1);
-  }
-
-  27% {
-    transform: translate(-0.24rem, 0.2rem) rotate(3deg) scaleX(0.9) scaleY(1.06);
-  }
-
-  31% {
-    transform: translate(1.25rem, -1rem) rotate(5deg) scale(1.02);
-    opacity: 0.88;
-  }
-
-  38% {
-    transform: translate(6rem, -4.2rem) rotate(5deg) scale(1);
-    opacity: 0;
-  }
-}
-
 @keyframes passwordRequestApproach {
   0%,
   5%,
@@ -2236,12 +2185,6 @@ function getSeniorBarWidth(value) {
     left: 3.8rem;
     top: -2.2rem;
     transform: rotate(-1deg);
-  }
-
-  .threat-tech-call {
-    right: -5rem;
-    top: 2.1rem;
-    transform: rotate(4deg);
   }
 
   .threat-password-request {
