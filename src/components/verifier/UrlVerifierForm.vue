@@ -78,6 +78,13 @@ function useExample(value) {
       >
         Please allow SafeCheck up to 15 seconds to check this website.
       </div>
+      <div
+        v-if="props.loading"
+        class="mb-4 rounded-xl border border-amber-200 px-4 py-3 text-sm font-semibold text-amber-900"
+        style="background-color: #fffbeb;"
+      >
+        Please allow SafeCheck up to 15 seconds to check this website.
+      </div>
       <button
         @click="emit('submit')"
         :disabled="props.loading"
