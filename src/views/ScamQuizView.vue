@@ -1,15 +1,30 @@
 <script setup>
-import { computed, ref } from 'vue'
-import { scamQuizQuestions } from '../data/scamQuizData.js'
+import { computed, nextTick, ref } from 'vue'
+import { scamQuizCategories, scamQuizQuestions } from '../data/scamQuizData.js'
 
+const selectedCategory = ref(null)
+const quizPanelRef = ref(null)
+const finalScoreRef = ref(null)
 const currentQuestionIndex = ref(0)
 const selectedAnswer = ref(null)
 const showFeedback = ref(false)
 const score = ref(0)
 const quizFinished = ref(false)
 
-function buildShuffledQuestions() {
-  return scamQuizQuestions.map((question) => {
+function getQuestionsForCategory(categoryId) {
+  if (!categoryId) {
+    return []
+  }
+
+  if (categoryId === 'all') {
+    return scamQuizQuestions
+  }
+
+  return scamQuizQuestions.filter(question => question.category === categoryId)
+}
+
+function buildShuffledQuestions(categoryId = selectedCategory.value) {
+  return getQuestionsForCategory(categoryId).map((question) => {
     const optionsWithCorrectFlag = question.options.map((option, index) => ({
       text: option,
       isCorrect: index === question.correctIndex,
@@ -27,6 +42,19 @@ function buildShuffledQuestions() {
 }
 
 const quizQuestions = ref(buildShuffledQuestions())
+
+const allCategory = computed(() => scamQuizCategories.find(category => category.id === 'all'))
+
+const topicCategories = computed(() => scamQuizCategories.filter(category => category.id !== 'all'))
+
+const categoryCounts = computed(() => scamQuizCategories.reduce((counts, category) => {
+  counts[category.id] = getQuestionsForCategory(category.id).length
+  return counts
+}, {}))
+
+const selectedCategoryLabel = computed(() => (
+  scamQuizCategories.find(category => category.id === selectedCategory.value)?.label || 'Choose a category'
+))
 
 const knowledgeTips = [
   {
@@ -49,15 +77,19 @@ const knowledgeTips = [
 
 const currentQuestion = computed(() => quizQuestions.value[currentQuestionIndex.value])
 const totalQuestions = computed(() => quizQuestions.value.length)
-const isCorrect = computed(() => selectedAnswer.value === currentQuestion.value.correctIndex)
-const progressPercent = computed(() => ((currentQuestionIndex.value + 1) / totalQuestions.value) * 100)
+const isCorrect = computed(() => currentQuestion.value && selectedAnswer.value === currentQuestion.value.correctIndex)
+const progressPercent = computed(() => (
+  totalQuestions.value ? ((currentQuestionIndex.value + 1) / totalQuestions.value) * 100 : 0
+))
 
 const scoreMessage = computed(() => {
-  if (score.value <= 1) {
+  const scorePercent = totalQuestions.value ? score.value / totalQuestions.value : 0
+
+  if (scorePercent < 0.5) {
     return 'You may need more practice. Read the tips below before clicking links or sharing your details with anyone.'
   }
 
-  if (score.value <= 3) {
+  if (scorePercent < 0.8) {
     return 'Good start. You recognised some warning signs. A few scams can still be hard to spot, so keep reading the tips.'
   }
 
@@ -65,7 +97,7 @@ const scoreMessage = computed(() => {
 })
 
 function selectAnswer(index) {
-  if (showFeedback.value) return
+  if (showFeedback.value || !currentQuestion.value) return
 
   selectedAnswer.value = index
   showFeedback.value = true
@@ -75,6 +107,33 @@ function selectAnswer(index) {
   }
 }
 
+function resetQuiz(categoryId = selectedCategory.value) {
+  quizQuestions.value = buildShuffledQuestions(categoryId)
+  currentQuestionIndex.value = 0
+  selectedAnswer.value = null
+  showFeedback.value = false
+  score.value = 0
+  quizFinished.value = false
+}
+
+function scrollElementIntoView(element, block = 'start') {
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
+  element?.scrollIntoView({
+    behavior: prefersReducedMotion ? 'auto' : 'smooth',
+    block,
+  })
+}
+
+function selectCategory(categoryId) {
+  selectedCategory.value = categoryId
+  resetQuiz(categoryId)
+
+  nextTick(() => {
+    scrollElementIntoView(quizPanelRef.value)
+  })
+}
+
 function nextQuestion() {
   if (currentQuestionIndex.value < totalQuestions.value - 1) {
     currentQuestionIndex.value += 1
@@ -82,16 +141,15 @@ function nextQuestion() {
     showFeedback.value = false
   } else {
     quizFinished.value = true
+
+    nextTick(() => {
+      scrollElementIntoView(finalScoreRef.value || quizPanelRef.value, 'center')
+    })
   }
 }
 
 function tryAgain() {
-  quizQuestions.value = buildShuffledQuestions()
-  currentQuestionIndex.value = 0
-  selectedAnswer.value = null
-  showFeedback.value = false
-  score.value = 0
-  quizFinished.value = false
+  resetQuiz()
 }
 </script>
 
@@ -118,12 +176,77 @@ function tryAgain() {
 
   <section class="py-12 px-8 sm:px-16" style="background-color: var(--bg);">
     <div class="max-w-5xl mx-auto space-y-8">
-      <div class="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden animate-fade-in-up">
-        <div v-if="!quizFinished" class="p-6 sm:p-8">
+      <div class="bg-white border border-slate-200 rounded-2xl p-6 sm:p-8 shadow-sm animate-fade-in-up">
+        <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-4 mb-5">
+          <div>
+            <p class="text-base font-semibold text-slate-500 uppercase tracking-wide mb-2">Choose a category</p>
+            <h2 class="text-3xl font-bold text-slate-900 mb-2">Practise the scams you are most likely to see</h2>
+            <p class="text-lg text-slate-600 leading-relaxed">
+              Pick one topic, or choose all scenarios for a broader practice quiz.
+            </p>
+          </div>
+          <p class="text-lg font-semibold" style="color: var(--navy);">
+            {{ selectedCategory ? `${totalQuestions} questions selected` : 'Select one to begin' }}
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+          <button
+            v-for="category in topicCategories"
+            :key="category.id"
+            type="button"
+            class="text-left rounded-xl border-2 p-4 transition-all focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-blue-200"
+            :class="selectedCategory === category.id
+              ? 'bg-blue-50 border-blue-900 shadow-sm'
+              : 'bg-white border-slate-200 hover:border-blue-900 hover:bg-blue-50'"
+            @click="selectCategory(category.id)"
+          >
+            <span class="block text-lg font-bold text-slate-900 mb-1">{{ category.label }}</span>
+            <span class="block text-sm text-slate-600 leading-snug mb-3">{{ category.description }}</span>
+            <span class="inline-flex rounded-full px-3 py-1 text-sm font-bold" style="color: var(--navy); background-color: var(--navy-tint);">
+              {{ categoryCounts[category.id] }} questions
+            </span>
+          </button>
+        </div>
+
+        <button
+          v-if="allCategory"
+          type="button"
+          class="mt-4 w-full text-left rounded-xl border-2 p-5 transition-all focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-blue-200 sm:flex sm:items-center sm:justify-between sm:gap-5"
+          :class="selectedCategory === allCategory.id
+            ? 'bg-blue-50 border-blue-900 shadow-sm'
+            : 'bg-white border-slate-200 hover:border-blue-900 hover:bg-blue-50'"
+          @click="selectCategory(allCategory.id)"
+        >
+          <span>
+            <span class="block text-xl font-bold text-slate-900 mb-1">{{ allCategory.label }}</span>
+            <span class="block text-base text-slate-600 leading-snug">{{ allCategory.description }}</span>
+          </span>
+          <span class="mt-3 inline-flex rounded-full px-4 py-2 text-base font-bold sm:mt-0" style="color: var(--navy); background-color: var(--navy-tint);">
+            {{ categoryCounts[allCategory.id] }} questions
+          </span>
+        </button>
+      </div>
+
+      <div ref="quizPanelRef" class="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden animate-fade-in-up scroll-mt-24">
+        <div v-if="!selectedCategory" class="p-8 sm:p-10 text-center">
+          <div class="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-5" style="background-color: var(--navy-tint);">
+            <svg class="w-10 h-10" style="color: var(--navy);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a3 3 0 006 0M9 5a3 3 0 016 0m-5 8 2 2 4-4" />
+            </svg>
+          </div>
+          <h2 class="text-3xl font-bold text-slate-900 mb-3">Select a category to begin</h2>
+          <p class="text-xl text-slate-600 leading-relaxed max-w-2xl mx-auto">
+            Choose one scam topic above, or use the All Scenarios bar if you want the full practice set.
+          </p>
+        </div>
+
+        <div v-else-if="!quizFinished" class="p-6 sm:p-8">
           <div class="mb-7">
             <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-3">
               <p class="text-lg font-semibold" style="color: var(--navy);">
-                Question {{ currentQuestionIndex + 1 }} of {{ totalQuestions }}
+                {{ selectedCategoryLabel }} · Question {{ currentQuestionIndex + 1 }} of {{ totalQuestions }}
               </p>
               <p class="text-lg font-semibold text-slate-600">
                 Score: {{ score }} / {{ totalQuestions }}
@@ -139,7 +262,12 @@ function tryAgain() {
           </div>
 
           <div class="mb-7">
-            <p class="text-base font-semibold text-slate-500 uppercase tracking-wide mb-3">Scenario</p>
+            <div class="flex flex-wrap items-center gap-3 mb-3">
+              <p class="text-base font-semibold text-slate-500 uppercase tracking-wide">Scenario</p>
+              <span class="rounded-full px-3 py-1 text-sm font-bold" style="color: var(--navy); background-color: var(--navy-tint);">
+                {{ currentQuestion.categoryLabel }}
+              </span>
+            </div>
             <p class="text-2xl text-slate-800 leading-relaxed">
               {{ currentQuestion.scenario }}
             </p>
@@ -200,7 +328,7 @@ function tryAgain() {
           </div>
         </div>
 
-        <div v-else class="p-8 sm:p-10 text-center animate-fade-in-up">
+        <div v-else ref="finalScoreRef" class="p-8 sm:p-10 text-center animate-fade-in-up scroll-mt-24">
           <div class="w-24 h-24 rounded-full flex items-center justify-center mx-auto mb-6" style="background-color: var(--navy-tint);">
             <svg class="w-12 h-12" style="color: var(--navy);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" />
@@ -210,6 +338,9 @@ function tryAgain() {
           <h2 class="text-4xl sm:text-5xl font-bold text-slate-900 mb-4">
             {{ score }} out of {{ totalQuestions }}
           </h2>
+          <p class="text-lg font-semibold mb-3" style="color: var(--navy);">
+            Category: {{ selectedCategoryLabel }}
+          </p>
           <p class="text-xl text-slate-700 leading-relaxed max-w-2xl mx-auto mb-8">
             {{ scoreMessage }}
           </p>
