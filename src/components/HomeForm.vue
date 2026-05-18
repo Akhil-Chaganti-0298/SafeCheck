@@ -39,7 +39,12 @@ const seniorSummaryCards = computed(() => {
 })
 
 onMounted(async () => {
-  setTimeout(() => { animated.value = true }, 150)
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    animated.value = true
+  } else {
+    setTimeout(() => { animated.value = true }, 150)
+  }
+
   try {
     scamStats.value = await getOnlineSeniorStats()
   } catch (e) {
@@ -2170,38 +2175,120 @@ function getSeniorBarWidth(value) {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .proof-flip-card-inner,
+  .visualisation-flip-card-inner,
+  .visualisation-chart-fill,
+  .home-hero-cta,
+  .home-hero-cta-icon,
+  .tool-card,
+  .tool-card-icon,
+  .feature-card-cta {
+    transition: none !important;
+  }
+
+  .protective-bubble,
   .senior-shield-stage::before,
   .bubble-ripple,
   .threat-label,
   .blocked-badge {
-    animation: none;
+    animation: none !important;
+    transition: none !important;
   }
 
-  .bubble-ripple,
-  .blocked-badge {
+  .protective-bubble {
+    background: rgba(219, 234, 254, 0.13);
+    box-shadow:
+      inset 0 0 38px rgba(255, 255, 255, 0.12),
+      0 0 34px rgba(147, 197, 253, 0.16);
+  }
+
+  .bubble-ripple {
     display: none;
+  }
+
+  .threat-label,
+  .blocked-badge {
+    display: inline-flex;
+    opacity: 0.94;
+    transform: none;
+    will-change: auto;
   }
 
   .threat-suspicious-link {
-    transform: translate(-9.25rem, 0.45rem) rotate(-4deg);
-    opacity: 0.9;
+    left: -5.2rem;
+    top: 3rem;
+    transform: rotate(-4deg);
   }
 
   .threat-unknown-tnc {
-    transform: translate(8rem, 0) rotate(3deg);
-    opacity: 0.9;
+    right: -5.2rem;
+    top: 6.5rem;
+    transform: rotate(3deg);
   }
 
   .threat-phishing-email {
-    transform: translate(-9.05rem, -0.25rem) rotate(4deg);
-    opacity: 0.9;
+    left: -5.3rem;
+    top: 14.5rem;
+    transform: rotate(4deg);
   }
 
-  .threat-malware-popup,
-  .threat-tech-call,
-  .threat-password-request,
+  .threat-malware-popup {
+    left: 3.8rem;
+    top: -2.2rem;
+    transform: rotate(-1deg);
+  }
+
+  .threat-tech-call {
+    right: -5rem;
+    top: 2.1rem;
+    transform: rotate(4deg);
+  }
+
+  .threat-password-request {
+    left: -5.4rem;
+    top: 9.4rem;
+    transform: rotate(-2deg);
+  }
+
   .threat-fake-prize {
-    display: none;
+    right: -4.8rem;
+    top: 14.4rem;
+    transform: rotate(4deg);
+  }
+
+  .blocked-top-left {
+    left: -3.4rem;
+    top: 5.4rem;
+  }
+
+  .blocked-right {
+    right: -4rem;
+    top: 8.6rem;
+  }
+
+  .blocked-bottom-left {
+    left: -3.2rem;
+    top: 16.9rem;
+  }
+
+  .blocked-top {
+    left: 9.4rem;
+    top: -0.75rem;
+  }
+
+  .blocked-upper-right {
+    right: -3.9rem;
+    top: 4.2rem;
+  }
+
+  .blocked-left {
+    left: -4rem;
+    top: 11.6rem;
+  }
+
+  .blocked-bottom-right {
+    right: -3.4rem;
+    top: 17rem;
   }
 }
 </style>

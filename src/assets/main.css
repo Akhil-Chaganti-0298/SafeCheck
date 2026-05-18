@@ -140,3 +140,42 @@ button { cursor: pointer; }
 .verdict-safe    { --verdict-bg: #f0fdf4; --verdict-border: #86efac; --verdict-text: #15803d; }
 .verdict-warning { --verdict-bg: #fffbeb; --verdict-border: #fcd34d; --verdict-text: #92400e; }
 .verdict-unsafe  { --verdict-bg: #fef2f2; --verdict-border: #fca5a5; --verdict-text: #991b1b; }
+
+/* ------------------------------------------------------------------ *
+ *  Reduced motion: keep UI states immediate and static for users who
+ *  request less animation at the system level.
+ * ------------------------------------------------------------------ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-delay: 0ms !important;
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-delay: 0ms !important;
+    transition-duration: 0.001ms !important;
+  }
+
+  .animate-fade-in,
+  .animate-fade-in-up,
+  .animate-slide-in-right,
+  .v-enter-active,
+  .v-leave-active,
+  .v-move,
+  [class*="-enter-active"],
+  [class*="-leave-active"],
+  [class*="-move"] {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+
+  .animate-spin,
+  .animate-ping,
+  .animate-pulse,
+  .animate-bounce {
+    animation: none !important;
+  }
+}
