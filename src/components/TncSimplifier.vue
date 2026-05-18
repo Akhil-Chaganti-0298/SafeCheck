@@ -222,11 +222,10 @@ function setRiskCardIndex(severity, index, total) {
           </svg>
         </div>
         <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-4">
-          T&amp;C Simplifier
+          Explain my Terms
         </h1>
         <p class="text-xl text-white leading-relaxed" style="opacity: 0.92;">
-          Paste a link or the full Terms &amp; Conditions text and get a plain-English summary
-          with a clear risk rating and the key details explained.
+          Paste any Terms and Conditions link or text and we will explain what you are actually agreeing to, in plain English.
         </p>
       </div>
     </div>
