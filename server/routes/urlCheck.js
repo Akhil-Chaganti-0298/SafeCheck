@@ -15,6 +15,25 @@ const { WEBSITE_INPUT_ERROR, parseWebsiteInput } = await import(sharedModuleUrl)
 
 const router = express.Router()
 
+const SHARED_HOSTING_HOSTS = new Set([
+  'storage.googleapis.com',
+  'ipfs.io',
+  'cloudflare-ipfs.com',
+  'gateway.pinata.cloud',
+  'sites.google.com',
+])
+
+const SHARED_HOSTING_SUFFIXES = [
+  '.netlify.app',
+  '.framer.app',
+  '.pages.dev',
+  '.vercel.app',
+  '.web.app',
+  '.firebaseapp.com',
+  '.github.io',
+  '.gitlab.io',
+]
+
 router.post('/check-url', async (req, res) => {
   const { url } = req.body
 
@@ -48,10 +67,27 @@ router.post('/check-url', async (req, res) => {
 
   const trustScore = api.score + http.score + ssl.score + dnsCheck.score
 
-  // Unregistered and brand new domains are automatically unsafe regardless of total score.
+  const sharedHostingRisk = getSharedHostingRisk(normalized, hostname)
+  const hasHardDangerSignal = [
+    api.status === 'danger',
+    http.details?.https?.status === 'danger',
+    ssl.details?.validity?.status === 'danger',
+    ssl.details?.expiry?.status === 'danger',
+    dnsCheck.status === 'danger',
+  ].some(Boolean)
+  const hasWarningSignal = [
+    api.status === 'warn',
+    http.status === 'warn',
+    ssl.status === 'warn',
+    dnsCheck.status === 'warn',
+    contentCheck?.status === 'warn',
+    Boolean(sharedHostingRisk),
+  ].some(Boolean)
+
+  // Hard danger signals should not be averaged away by good HTTPS/SSL points.
   const domainStatus = dnsCheck.domainStatus || 'established'
-  const isDefinitelyUnsafe = trustScore < 40 || domainStatus === 'unregistered' || domainStatus === 'brand_new'
-  const hasWarnings = !isDefinitelyUnsafe && trustScore < 70
+  const isDefinitelyUnsafe = trustScore < 40 || domainStatus === 'unregistered' || domainStatus === 'brand_new' || hasHardDangerSignal
+  const hasWarnings = !isDefinitelyUnsafe && (trustScore < 70 || domainStatus !== 'established' || hasWarningSignal)
 
   const verdict = isDefinitelyUnsafe ? 'unsafe' : hasWarnings ? 'warning' : 'safe'
 
@@ -70,7 +106,7 @@ router.post('/check-url', async (req, res) => {
   const checkGroups = buildCheckGroups(api.details, http.details, ssl.details, dnsCheck.details)
 
   // riskFactors: shown in VerdictBanner.vue
-  const riskFactors = buildRiskFactors(api.details, http.details, ssl.details, dnsCheck.details, domainStatus)
+  const riskFactors = buildRiskFactors(api.details, http.details, ssl.details, dnsCheck.details, domainStatus, contentCheck, sharedHostingRisk)
 
   res.json({
     hostname,
@@ -405,11 +441,35 @@ function buildCheckGroups(apiDetails, httpDetails, sslDetails, dnsDetails) {
   return [threatGroup, connectionGroup, ageGroup]
 }
 
-function buildRiskFactors(apiDetails, httpDetails, sslDetails, dnsDetails, domainStatus) {
+function getSharedHostingRisk(normalizedUrl, hostname) {
+  let parsedUrl
+  try {
+    parsedUrl = new URL(normalizedUrl)
+  } catch {
+    return ''
+  }
+
+  const isSharedHost = SHARED_HOSTING_HOSTS.has(hostname)
+    || SHARED_HOSTING_SUFFIXES.some(suffix => hostname.endsWith(suffix))
+
+  if (!isSharedHost) return ''
+
+  const hasSpecificPath = parsedUrl.pathname && parsedUrl.pathname !== '/'
+  const hasQuery = Boolean(parsedUrl.search)
+  const isSubdomainHostedApp = SHARED_HOSTING_SUFFIXES.some(suffix => hostname.endsWith(suffix))
+
+  if (!hasSpecificPath && !hasQuery && !isSubdomainHostedApp) return ''
+
+  return 'This link is hosted on a public hosting or storage platform; scammers often use trusted platforms to hide phishing pages'
+}
+
+function buildRiskFactors(apiDetails, httpDetails, sslDetails, dnsDetails, domainStatus, contentCheck, sharedHostingRisk) {
   const factors = []
 
   if (domainStatus === 'unregistered')              factors.push('This website address does not exist anywhere on the internet')
   if (domainStatus === 'brand_new')                 factors.push('This website was only just created -- brand new sites are a common scammer tactic')
+  if (domainStatus === 'new')                       factors.push('This website is very new -- scammers often use recently registered domains')
+  if (domainStatus === 'recent')                    factors.push('This website is fairly new, so it deserves extra caution')
   if (apiDetails.google?.status     === 'danger')  factors.push('Google has flagged this site as unsafe')
   if (apiDetails.virusTotal?.status === 'danger')  factors.push(`${apiDetails.virusTotal.malicious} antivirus tools detected threats on this site`)
   if (apiDetails.urlhaus?.status    === 'danger')  factors.push('This site is on a known malware distribution list')
@@ -417,6 +477,8 @@ function buildRiskFactors(apiDetails, httpDetails, sslDetails, dnsDetails, domai
   if (httpDetails.https?.status     === 'danger')  factors.push('Site does not use HTTPS -- your connection is not secure')
   if (sslDetails.validity?.status   === 'danger')  factors.push('The SSL certificate is invalid or not trusted')
   if (sslDetails.expiry?.status     === 'danger')  factors.push('The SSL certificate has expired')
+  if (contentCheck?.status === 'warn')              factors.push(contentCheck.detail)
+  if (sharedHostingRisk)                            factors.push(sharedHostingRisk)
   return factors
 }
 
