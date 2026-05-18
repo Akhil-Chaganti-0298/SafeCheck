@@ -111,21 +111,21 @@ const cardBg = {
       <div class="inline-flex rounded-xl border border-slate-200 bg-slate-50 p-1">
         <button
           type="button"
-          @click="setViewMode('full')"
-          class="px-4 py-2 rounded-lg text-base font-semibold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-900"
-          :class="viewMode === 'full' ? 'text-white' : 'text-slate-600 hover:text-slate-800'"
-          :style="viewMode === 'full' ? 'background-color: var(--navy);' : ''"
-        >
-          Full summary
-        </button>
-        <button
-          type="button"
           @click="setViewMode('cards')"
           class="px-4 py-2 rounded-lg text-base font-semibold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-900"
           :class="viewMode === 'cards' ? 'text-white' : 'text-slate-600 hover:text-slate-800'"
           :style="viewMode === 'cards' ? 'background-color: var(--navy);' : ''"
         >
           Risk cards
+        </button>
+        <button
+          type="button"
+          @click="setViewMode('full')"
+          class="px-4 py-2 rounded-lg text-base font-semibold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-900"
+          :class="viewMode === 'full' ? 'text-white' : 'text-slate-600 hover:text-slate-800'"
+          :style="viewMode === 'full' ? 'background-color: var(--navy);' : ''"
+        >
+          Full summary
         </button>
       </div>
     </div>

@@ -542,21 +542,21 @@ function setRiskCardIndex(severity, index, total) {
               <div class="inline-flex rounded-xl border border-slate-200 bg-slate-50 p-1">
                 <button
                   type="button"
-                  @click="setResultViewMode('full')"
-                  class="px-4 py-2 rounded-lg text-base font-semibold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-900"
-                  :class="resultViewMode === 'full' ? 'text-white' : 'text-slate-600 hover:text-slate-800'"
-                  :style="resultViewMode === 'full' ? 'background-color: var(--navy);' : ''"
-                >
-                  Full summary
-                </button>
-                <button
-                  type="button"
                   @click="setResultViewMode('cards')"
                   class="px-4 py-2 rounded-lg text-base font-semibold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-900"
                   :class="resultViewMode === 'cards' ? 'text-white' : 'text-slate-600 hover:text-slate-800'"
                   :style="resultViewMode === 'cards' ? 'background-color: var(--navy);' : ''"
                 >
                   Risk cards
+                </button>
+                <button
+                  type="button"
+                  @click="setResultViewMode('full')"
+                  class="px-4 py-2 rounded-lg text-base font-semibold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-900"
+                  :class="resultViewMode === 'full' ? 'text-white' : 'text-slate-600 hover:text-slate-800'"
+                  :style="resultViewMode === 'full' ? 'background-color: var(--navy);' : ''"
+                >
+                  Full summary
                 </button>
               </div>
             </div>
