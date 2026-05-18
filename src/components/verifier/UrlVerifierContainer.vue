@@ -4,7 +4,6 @@ import { checkUrl } from '../../services/api.js'
 import { getWebsiteInputError } from '../../../shared/websiteValidation.js'
 import UrlVerifierForm from './UrlVerifierForm.vue'
 import VerdictBanner from './VerdictBanner.vue'
-import TrustScoreCard from './TrustScoreCard.vue'
 import ChecksList from './ChecksList.vue'
 
 const showScoreBreakdown = ref(false)
@@ -105,8 +104,11 @@ function updateUrl(value) { url.value = value }
             :url="url"
             :loading="loading"
             :error="error"
+            :result="result"
+            :show-score-breakdown="showScoreBreakdown"
             @update:url="updateUrl"
             @submit="handleSubmit"
+            @toggle-score-breakdown="showScoreBreakdown = !showScoreBreakdown"
           />
         </div>
 
@@ -117,11 +119,6 @@ function updateUrl(value) { url.value = value }
               :result="result"
               :vc="vc"
               :verdict-label="verdictText(result.verdict)"
-            />
-            <TrustScoreCard
-              :result="result"
-              :show-score-breakdown="showScoreBreakdown"
-              @toggle-breakdown="showScoreBreakdown = !showScoreBreakdown"
             />
             <ChecksList :check-groups="result.checkGroups" />
 

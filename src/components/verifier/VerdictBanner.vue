@@ -22,8 +22,8 @@ const borderWidth = props.result?.verdict === 'unsafe' ? 'border-4' : 'border-4'
 
 <template>
   <div
-    class="rounded-2xl p-6 animate-slide-in-right"
-    :class="borderWidth"
+    class="rounded-2xl animate-slide-in-right"
+    :class="[borderWidth, props.result.verdict === 'unsafe' ? 'verdict-banner-unsafe' : 'p-6']"
     :style="{
       background: theme.bg,
       borderColor: theme.border,
@@ -31,14 +31,17 @@ const borderWidth = props.result?.verdict === 'unsafe' ? 'border-4' : 'border-4'
   >
 
     <!-- Icon + verdict badge row -->
-    <div class="flex items-center justify-between mb-4">
+    <div
+      class="flex items-center justify-between"
+      :class="props.result.verdict === 'unsafe' ? 'mb-3' : 'mb-4'"
+    >
       <div
         class="rounded-full flex items-center justify-center flex-shrink-0"
-        :class="props.result.verdict === 'unsafe' ? 'w-20 h-20' : 'w-16 h-16'"
+        :class="props.result.verdict === 'unsafe' ? 'w-12 h-12' : 'w-16 h-16'"
         :style="{ background: theme.iconBg }"
       >
         <svg
-          :class="props.result.verdict === 'unsafe' ? 'w-11 h-11' : 'w-9 h-9'"
+          :class="props.result.verdict === 'unsafe' ? 'w-7 h-7' : 'w-9 h-9'"
           :style="{ color: theme.icon }"
           fill="none" stroke="currentColor" viewBox="0 0 24 24"
         >
@@ -52,7 +55,8 @@ const borderWidth = props.result?.verdict === 'unsafe' ? 'border-4' : 'border-4'
       </div>
 
       <span
-        class="text-lg font-bold px-5 py-2 rounded-full text-white uppercase tracking-wide"
+        class="font-bold rounded-full text-white uppercase tracking-wide"
+        :class="props.result.verdict === 'unsafe' ? 'text-base px-4 py-1.5' : 'text-lg px-5 py-2'"
         :style="{ background: theme.badge }"
       >
         {{ props.verdictLabel }}
@@ -63,7 +67,7 @@ const borderWidth = props.result?.verdict === 'unsafe' ? 'border-4' : 'border-4'
     <p
       class="font-bold leading-tight mb-3"
       :class="props.result.verdict === 'unsafe'
-        ? 'text-4xl sm:text-5xl'
+        ? 'verdict-unsafe-headline'
         : props.result.verdict === 'warning'
           ? 'text-3xl sm:text-4xl'
           : 'text-3xl sm:text-4xl'"
@@ -74,18 +78,33 @@ const borderWidth = props.result?.verdict === 'unsafe' ? 'border-4' : 'border-4'
       <span v-else>Be careful before visiting this website</span>
     </p>
 
-    <p class="text-xl mb-4" :style="{ color: theme.text, opacity: 0.85 }">
+    <p
+      :class="props.result.verdict === 'unsafe' ? 'text-lg mb-3' : 'text-xl mb-4'"
+      :style="{ color: theme.text, opacity: 0.85 }"
+    >
       Website checked: <strong>{{ props.result.hostname }}</strong>
     </p>
 
     <!-- Risk factors -->
-    <div v-if="props.result.riskFactors.length" class="mt-3 rounded-xl p-4" :style="{ background: 'rgba(0,0,0,0.04)' }">
-      <p class="text-lg font-semibold mb-2" :style="{ color: theme.text }">Warning signs found:</p>
-      <ul class="space-y-2">
+    <div
+      v-if="props.result.riskFactors.length"
+      class="mt-3 rounded-xl"
+      :class="props.result.verdict === 'unsafe' ? 'p-2.5' : 'p-4'"
+      :style="{ background: 'rgba(0,0,0,0.04)' }"
+    >
+      <p
+        class="font-semibold"
+        :class="props.result.verdict === 'unsafe' ? 'text-base mb-1.5' : 'text-lg mb-2'"
+        :style="{ color: theme.text }"
+      >
+        Warning signs found:
+      </p>
+      <ul :class="props.result.verdict === 'unsafe' ? 'space-y-1' : 'space-y-2'">
         <li
           v-for="rf in props.result.riskFactors"
           :key="rf"
-          class="flex items-start gap-2 text-lg font-medium"
+          class="flex items-start gap-2 font-medium"
+          :class="props.result.verdict === 'unsafe' ? 'text-base' : 'text-lg'"
           :style="{ color: theme.text }"
         >
           <svg class="w-5 h-5 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -103,18 +122,18 @@ const borderWidth = props.result?.verdict === 'unsafe' ? 'border-4' : 'border-4'
     </div>
 
     <!-- Unsafe action prompt -->
-    <div v-if="props.result.verdict === 'unsafe'" class="mt-4 rounded-xl p-4" :style="{ background: 'rgba(220,38,38,0.08)' }">
-      <p class="text-xl font-bold" :style="{ color: theme.text }">What to do:</p>
-      <ul class="mt-2 space-y-1">
-        <li class="text-lg" :style="{ color: theme.text }">· Do not click any links on this website</li>
-        <li class="text-lg" :style="{ color: theme.text }">· Do not enter any personal or banking details</li>
-        <li class="text-lg" :style="{ color: theme.text }">· If you received this link by text or email, report it to Scamwatch</li>
+    <div v-if="props.result.verdict === 'unsafe'" class="mt-3 rounded-xl p-2.5" :style="{ background: 'rgba(220,38,38,0.08)' }">
+      <p class="text-lg font-bold" :style="{ color: theme.text }">What to do:</p>
+      <ul class="mt-1.5 space-y-1">
+        <li class="text-base" :style="{ color: theme.text }">· Do not click any links on this website</li>
+        <li class="text-base" :style="{ color: theme.text }">· Do not enter any personal or banking details</li>
+        <li class="text-base" :style="{ color: theme.text }">· If you received this link by text or email, report it to Scamwatch</li>
       </ul>
     </div>
 
     <div
       v-if="props.result.verdict === 'unsafe'"
-      class="unsafe-clicked-help mt-4 rounded-xl p-4"
+      class="unsafe-clicked-help mt-3 rounded-xl px-3 py-2"
     >
       <button
         type="button"
@@ -153,6 +172,14 @@ const borderWidth = props.result?.verdict === 'unsafe' ? 'border-4' : 'border-4'
 .unsafe-clicked-help {
   background: #FFFBEB;
   border-left: 3px solid #F59E0B;
+}
+
+.verdict-banner-unsafe {
+  padding: 1.05rem;
+}
+
+.verdict-unsafe-headline {
+  font-size: clamp(1.8rem, 2.85vw, 2.85rem);
 }
 
 .unsafe-clicked-help-trigger {

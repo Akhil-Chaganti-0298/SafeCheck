@@ -1,14 +1,17 @@
 <script setup>
 import { computed } from 'vue'
 import { parseWebsiteInput } from '../../../shared/websiteValidation.js'
+import TrustScoreCard from './TrustScoreCard.vue'
 
 const props = defineProps({
-  url:     { type: String,  default: '' },
-  loading: { type: Boolean, default: false },
-  error:   { type: String,  default: '' },
+  url:                { type: String,  default: '' },
+  loading:            { type: Boolean, default: false },
+  error:              { type: String,  default: '' },
+  result:             { type: Object,  default: null },
+  showScoreBreakdown: { type: Boolean, default: false },
 })
 
-const emit = defineEmits(['update:url', 'submit'])
+const emit = defineEmits(['update:url', 'submit', 'toggle-score-breakdown'])
 
 const urlModel = computed({
   get: () => props.url,
@@ -82,8 +85,15 @@ function useExample(value) {
       <p v-if="props.error" class="mt-3 text-lg text-red-600 font-medium">{{ props.error }}</p>
     </div>
 
+    <TrustScoreCard
+      v-if="props.result"
+      :result="props.result"
+      :show-score-breakdown="props.showScoreBreakdown"
+      @toggle-breakdown="emit('toggle-score-breakdown')"
+    />
+
     <!-- Three reassurance tiles - stacked on mobile, 3-col on sm+ -->
-    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+    <div v-if="!props.result" class="grid grid-cols-1 sm:grid-cols-3 gap-4">
       <div
         v-for="badge in [
           { icon: 'flash', title: 'No account needed', body: 'Start checking right away. Nothing to sign up for' },
