@@ -26,7 +26,7 @@ const reassurances = [
   <!-- Full-width dark navy footer with content aligned to the page rhythm -->
   <footer style="background-color: var(--navy-dark); color: #bfdbfe;">
 
-    <div class="max-w-7xl mx-auto px-8 sm:px-16 py-14">
+    <div class="w-full px-8 sm:px-16 py-14">
       <div class="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-[1.1fr_0.7fr_1.05fr_0.8fr] lg:gap-12">
 
         <!-- Brand column -->
@@ -111,8 +111,8 @@ const reassurances = [
 
     <!-- Bottom bar -->
     <div class="border-t border-white/10">
-      <div class="max-w-7xl mx-auto px-8 sm:px-16 py-5 flex flex-col sm:flex-row items-center justify-between gap-3 text-base text-blue-300">
-        <span>© 2025 SafeCheck. All rights reserved.</span>
+      <div class="w-full px-8 sm:px-16 py-5 flex flex-col sm:flex-row items-center justify-between gap-3 text-base text-blue-300">
+        <span>© 2026 SafeCheck. All rights reserved.</span>
         <span class="text-center text-sm">
           Information only · Not financial or legal advice · Always verify with official sources
         </span>

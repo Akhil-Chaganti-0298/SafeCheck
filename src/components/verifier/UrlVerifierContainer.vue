@@ -1,10 +1,9 @@
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, nextTick } from 'vue'
 import { checkUrl } from '../../services/api.js'
 import { getWebsiteInputError } from '../../../shared/websiteValidation.js'
 import UrlVerifierForm from './UrlVerifierForm.vue'
 import VerdictBanner from './VerdictBanner.vue'
-import TrustScoreCard from './TrustScoreCard.vue'
 import ChecksList from './ChecksList.vue'
 
 const showScoreBreakdown = ref(false)
@@ -12,6 +11,7 @@ const url = ref('')
 const loading = ref(false)
 const result = ref(null)
 const error = ref('')
+const resultsPanelRef = ref(null)
 
 const verdictTheme = {
   safe:    { banner: 'bg-green-50 border-green-200',  icon: 'bg-green-200',  iconColor: 'text-green-700', title: 'text-green-800', subtitle: 'text-green-700', badge: 'bg-green-600 text-white' },
@@ -38,11 +38,28 @@ async function handleSubmit() {
   try {
     const data = await checkUrl(input)
     result.value = data
+    scrollResultsIntoView()
   } catch (err) {
     error.value = err.response?.data?.error || 'Something went wrong. Please try again.'
   } finally {
     loading.value = false
   }
+}
+
+function scrollResultsIntoView() {
+  nextTick(() => {
+    const panel = resultsPanelRef.value
+    if (!panel) return
+
+    const headerHeight = document.querySelector('.site-header')?.getBoundingClientRect().height || 0
+    const top = panel.getBoundingClientRect().top + window.scrollY - headerHeight - 24
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
+    window.scrollTo({
+      top: Math.max(top, 0),
+      behavior: prefersReducedMotion ? 'auto' : 'smooth',
+    })
+  })
 }
 
 function reset() {
@@ -87,23 +104,21 @@ function updateUrl(value) { url.value = value }
             :url="url"
             :loading="loading"
             :error="error"
+            :result="result"
+            :show-score-breakdown="showScoreBreakdown"
             @update:url="updateUrl"
             @submit="handleSubmit"
+            @toggle-score-breakdown="showScoreBreakdown = !showScoreBreakdown"
           />
         </div>
 
         <!-- Right: results or "what we check" explainer -->
         <div class="lg:col-span-3">
-          <div v-if="result" class="space-y-4">
+          <div v-if="result" ref="resultsPanelRef" class="space-y-4 scroll-mt-28">
             <VerdictBanner
               :result="result"
               :vc="vc"
               :verdict-label="verdictText(result.verdict)"
-            />
-            <TrustScoreCard
-              :result="result"
-              :show-score-breakdown="showScoreBreakdown"
-              @toggle-breakdown="showScoreBreakdown = !showScoreBreakdown"
             />
             <ChecksList :check-groups="result.checkGroups" />
 

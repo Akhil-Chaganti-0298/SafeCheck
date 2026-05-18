@@ -1,5 +1,5 @@
 <script setup>
-import { computed, ref } from 'vue'
+import { computed, nextTick, ref } from 'vue'
 import { simplifyTnC } from '../services/api.js'
 
 const inputMode = ref('url')
@@ -15,6 +15,7 @@ const result = ref(null)
 const error = ref('')
 const resultSourceMode = ref('')
 const resultViewMode = ref('cards')
+const resultsPanelRef = ref(null)
 const riskCardIndexes = ref({
   danger: 0,
   warn: 0,
@@ -122,6 +123,7 @@ async function handleAnalyze() {
     result.value = data
     hasResult.value = true
     resultSourceMode.value = inputMode.value
+    scrollResultsIntoView()
   } catch (err) {
     if (err.response?.status === 429) {
       const seconds = Number.isFinite(err.retryAfterSeconds) ? err.retryAfterSeconds : 30
@@ -132,6 +134,22 @@ async function handleAnalyze() {
   } finally {
     loading.value = false
   }
+}
+
+function scrollResultsIntoView() {
+  nextTick(() => {
+    const panel = resultsPanelRef.value
+    if (!panel) return
+
+    const headerHeight = document.querySelector('.site-header')?.getBoundingClientRect().height || 0
+    const top = panel.getBoundingClientRect().top + window.scrollY - headerHeight - 24
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
+    window.scrollTo({
+      top: Math.max(top, 0),
+      behavior: prefersReducedMotion ? 'auto' : 'smooth',
+    })
+  })
 }
 
 const sampleTnC = `By using this service, you agree to our collection of information about your usage patterns, device details, and browsing activity within the platform. This information is used to improve our products and to serve personalised advertisements.
@@ -379,25 +397,58 @@ function setRiskCardIndex(severity, index, total) {
             </svg>
             <span>{{ loading ? uploadStatusMessage : 'Analyse these T&Cs' }}</span>
           </button>
+        </div>
 
-          <!-- What we look for -->
-          <div class="mt-6 border-t border-slate-100 pt-5">
-            <p class="text-base font-semibold text-slate-600 uppercase tracking-wide mb-3">What we flag</p>
-            <ul class="space-y-2">
-              <li v-for="item in [
-                'Data collection and what it\'s used for',
-                'Data sold to third parties',
-                'AI training data usage',
-                'Chat and message data retention',
-                'Cancellation traps and auto-renewal',
-              ]" :key="item" class="flex items-start gap-2 text-lg text-slate-600">
-                <svg class="w-5 h-5 flex-shrink-0 mt-0.5" style="color: var(--navy);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                </svg>
-                {{ item }}
-              </li>
-            </ul>
+        <div
+          v-if="hasResult && !loading && result"
+          class="mt-5 rounded-2xl border-4 p-6 animate-slide-in-right"
+          :style="{
+            background: riskConfig[result.overallRisk].bg,
+            borderColor: riskConfig[result.overallRisk].border,
+          }"
+        >
+          <div class="flex items-center gap-3 mb-3">
+            <div class="w-14 h-14 rounded-full flex items-center justify-center"
+              :style="{ background: riskConfig[result.overallRisk].bg, border: '2px solid ' + riskConfig[result.overallRisk].border }">
+              <svg class="w-7 h-7" :style="{ color: riskConfig[result.overallRisk].icon }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path v-if="result.overallRisk === 'low'"
+                  stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" />
+                <path v-else
+                  stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.268 16.5c-.77.833.192 2.5 1.732 2.5z" />
+              </svg>
+            </div>
+            <div>
+              <p class="text-base font-semibold uppercase tracking-widest" :style="{ color: riskConfig[result.overallRisk].text, opacity: 0.7 }">
+                Overall assessment
+              </p>
+              <p class="text-3xl font-bold" :style="{ color: riskConfig[result.overallRisk].text }">
+                {{ riskConfig[result.overallRisk].label }}
+              </p>
+            </div>
           </div>
+          <p class="text-lg leading-relaxed" :style="{ color: riskConfig[result.overallRisk].text }">
+            {{ result.summary }}
+          </p>
+        </div>
+
+        <!-- What we look for -->
+        <div class="mt-5 bg-white border border-slate-200 rounded-2xl p-6 shadow-sm">
+          <p class="text-base font-semibold text-slate-600 uppercase tracking-wide mb-3">What we flag</p>
+          <ul class="space-y-2">
+            <li v-for="item in [
+              'Data collection and what it\'s used for',
+              'Data sold to third parties',
+              'AI training data usage',
+              'Chat and message data retention',
+              'Cancellation traps and auto-renewal',
+            ]" :key="item" class="flex items-start gap-2 text-lg text-slate-600">
+              <svg class="w-5 h-5 flex-shrink-0 mt-0.5" style="color: var(--navy);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="8" stroke-width="2" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.8 12.2l2 2 4.4-4.6" />
+              </svg>
+              {{ item }}
+            </li>
+          </ul>
         </div>
       </div>
 
@@ -499,41 +550,7 @@ function setRiskCardIndex(severity, index, total) {
         </div>
 
         <!-- Results -->
-        <div v-if="hasResult && !loading && result" class="space-y-5 animate-slide-in-right">
-
-          <div
-            class="rounded-2xl border-4 p-6"
-            :style="{
-              background: riskConfig[result.overallRisk].bg,
-              borderColor: riskConfig[result.overallRisk].border,
-            }"
-          >
-            <div class="flex items-center justify-between mb-3">
-              <div class="flex items-center gap-3">
-                <div class="w-14 h-14 rounded-full flex items-center justify-center"
-                  :style="{ background: riskConfig[result.overallRisk].bg, border: '2px solid ' + riskConfig[result.overallRisk].border }">
-                  <svg class="w-7 h-7" :style="{ color: riskConfig[result.overallRisk].icon }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path v-if="result.overallRisk === 'low'"
-                      stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" />
-                    <path v-else
-                      stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.268 16.5c-.77.833.192 2.5 1.732 2.5z" />
-                  </svg>
-                </div>
-                <div>
-                  <p class="text-base font-semibold uppercase tracking-widest" :style="{ color: riskConfig[result.overallRisk].text, opacity: 0.7 }">
-                    Overall assessment
-                  </p>
-                  <p class="text-3xl font-bold" :style="{ color: riskConfig[result.overallRisk].text }">
-                    {{ riskConfig[result.overallRisk].label }}
-                  </p>
-                </div>
-              </div>
-            </div>
-            <p class="text-lg leading-relaxed" :style="{ color: riskConfig[result.overallRisk].text }">
-              {{ result.summary }}
-            </p>
-          </div>
-
+        <div v-if="hasResult && !loading && result" ref="resultsPanelRef" class="space-y-5 animate-slide-in-right scroll-mt-28">
           <div class="bg-white rounded-2xl border border-slate-200 p-6">
             <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-5">
               <p class="text-base font-semibold text-slate-600 uppercase tracking-wide">
@@ -542,21 +559,21 @@ function setRiskCardIndex(severity, index, total) {
               <div class="inline-flex rounded-xl border border-slate-200 bg-slate-50 p-1">
                 <button
                   type="button"
-                  @click="setResultViewMode('full')"
-                  class="px-4 py-2 rounded-lg text-base font-semibold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-900"
-                  :class="resultViewMode === 'full' ? 'text-white' : 'text-slate-600 hover:text-slate-800'"
-                  :style="resultViewMode === 'full' ? 'background-color: var(--navy);' : ''"
-                >
-                  Full summary
-                </button>
-                <button
-                  type="button"
                   @click="setResultViewMode('cards')"
                   class="px-4 py-2 rounded-lg text-base font-semibold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-900"
                   :class="resultViewMode === 'cards' ? 'text-white' : 'text-slate-600 hover:text-slate-800'"
                   :style="resultViewMode === 'cards' ? 'background-color: var(--navy);' : ''"
                 >
                   Risk cards
+                </button>
+                <button
+                  type="button"
+                  @click="setResultViewMode('full')"
+                  class="px-4 py-2 rounded-lg text-base font-semibold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-900"
+                  :class="resultViewMode === 'full' ? 'text-white' : 'text-slate-600 hover:text-slate-800'"
+                  :style="resultViewMode === 'full' ? 'background-color: var(--navy);' : ''"
+                >
+                  Full summary
                 </button>
               </div>
             </div>
