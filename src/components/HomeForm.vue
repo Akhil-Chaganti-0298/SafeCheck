@@ -791,24 +791,24 @@ function getSeniorBarWidth(value) {
         style="box-shadow: 0 1px 4px rgba(0,0,0,0.06);"
       >
         <div
-          class="w-16 h-16 rounded-2xl flex items-center justify-center mb-6 transition-transform group-hover:scale-105 duration-200"
+          class="tool-card-icon rounded-2xl flex items-center justify-center transition-transform group-hover:scale-105 duration-200"
           style="background-color: var(--navy-tint);"
         >
-          <svg v-if="f.icon === 'link'" class="w-8 h-8" style="color: var(--navy);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg v-if="f.icon === 'link'" style="color: var(--navy);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
               d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
           </svg>
-          <svg v-else-if="f.icon === 'doc'" class="w-8 h-8" style="color: var(--navy);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg v-else-if="f.icon === 'doc'" style="color: var(--navy);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
               d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
           </svg>
-          <svg v-else class="w-8 h-8" style="color: var(--navy);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg v-else style="color: var(--navy);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
               d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
           </svg>
         </div>
-        <p class="text-2xl font-bold text-slate-900 mb-3 leading-snug">{{ f.title }}</p>
-        <p class="text-lg text-slate-600 leading-relaxed mb-6">{{ f.desc }}</p>
+        <p class="tool-card-title">{{ f.title }}</p>
+        <p class="tool-card-desc">{{ f.desc }}</p>
         <div class="readable-cta-pill feature-card-cta inline-flex items-center gap-2 group-hover:gap-3 transition-all">
           {{ f.cta }}
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -872,6 +872,24 @@ function getSeniorBarWidth(value) {
   background: var(--navy-tint);
 }
 
+.home-tools-band .home-section-kicker {
+  font-size: 1.08rem;
+  font-weight: 950;
+}
+
+.home-tools-band .home-section-header h2 {
+  max-width: 58rem;
+  font-size: clamp(2.45rem, 4.4vw, 3.55rem);
+  font-weight: 950;
+}
+
+.home-tools-band .home-section-header p {
+  max-width: 58rem;
+  font-size: clamp(1.22rem, 1.5vw, 1.45rem);
+  font-weight: 550;
+  line-height: 1.55;
+}
+
 .home-section-inner {
   width: 100%;
   max-width: none;
@@ -924,6 +942,33 @@ function getSeniorBarWidth(value) {
   min-height: var(--home-section-card-height);
   display: flex;
   flex-direction: column;
+}
+
+.tool-card-icon {
+  width: 4.4rem;
+  height: 4.4rem;
+  margin-bottom: 1.85rem;
+}
+
+.tool-card-icon svg {
+  width: 2.25rem;
+  height: 2.25rem;
+}
+
+.tool-card-title {
+  margin-bottom: 1rem;
+  color: rgb(15, 23, 42);
+  font-size: clamp(1.65rem, 2vw, 2.05rem);
+  font-weight: 950;
+  line-height: 1.12;
+}
+
+.tool-card-desc {
+  margin-bottom: 1.8rem;
+  color: rgb(71, 85, 105);
+  font-size: clamp(1.15rem, 1.35vw, 1.35rem);
+  font-weight: 500;
+  line-height: 1.5;
 }
 
 .home-hero-cta {
@@ -1002,6 +1047,9 @@ function getSeniorBarWidth(value) {
 .feature-card-cta {
   width: fit-content;
   margin-top: auto;
+  padding: 0.95rem 1.25rem;
+  font-size: 1.2rem;
+  font-weight: 950;
 }
 
 .flip-card-cta-text {
