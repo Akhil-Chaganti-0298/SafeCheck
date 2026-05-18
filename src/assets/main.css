@@ -12,6 +12,9 @@
   --accent:      #2563eb; /* blue-600, CTA buttons only */
   --accent-dark: #1d4ed8; /* blue-700, CTA hover */
   --bg:          #f8fafc; /* slate-50, page background */
+  --font-heading: "Merriweather", Georgia, "Times New Roman", serif;
+  --font-sans: "Merriweather", Georgia, "Times New Roman", serif;
+  --default-font-family: "Merriweather", Georgia, "Times New Roman", serif;
 }
 
 /* ------------------------------------------------------------------ *
@@ -44,6 +47,35 @@
 /* ------------------------------------------------------------------ *
  *  Base typography: minimum 18px throughout
  * ------------------------------------------------------------------ */
+html,
+body,
+#app {
+  font-family: var(--font-heading);
+}
+
+#app,
+#app * {
+  font-family: var(--font-heading);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-heading);
+}
+
+#app h1,
+#app h2,
+#app h3,
+#app h4,
+#app h5,
+#app h6 {
+  font-family: var(--font-heading);
+}
+
 body {
   font-size: 18px;
   line-height: 1.7;

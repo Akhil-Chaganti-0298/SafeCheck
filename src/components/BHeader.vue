@@ -103,6 +103,7 @@ const links = [
 }
 
 .site-brand-name {
+  font-family: var(--font-heading);
   font-size: clamp(1.82rem, 2.08vw, 2.16rem);
   font-weight: 900;
   line-height: 1.1;
@@ -113,6 +114,7 @@ const links = [
 }
 
 .site-nav-link {
+  font-family: var(--font-heading);
   min-height: 3.8rem;
   padding: 1.05rem 1.45rem;
   font-size: clamp(1.22rem, 1.24vw, 1.36rem);
@@ -125,6 +127,7 @@ const links = [
 }
 
 .site-mobile-nav-link {
+  font-family: var(--font-heading);
   padding: 1.2rem 1rem;
   font-size: 1.45rem;
   font-weight: 800;

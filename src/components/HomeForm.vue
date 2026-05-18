@@ -958,6 +958,7 @@ function getSeniorBarWidth(value) {
 .tool-card-title {
   margin-bottom: 1rem;
   color: rgb(15, 23, 42);
+  font-family: var(--font-heading);
   font-size: clamp(1.65rem, 2vw, 2.05rem);
   font-weight: 950;
   line-height: 1.12;
@@ -1430,6 +1431,7 @@ function getSeniorBarWidth(value) {
 .visualisation-card-title {
   margin-bottom: 0.75rem;
   color: rgb(15, 23, 42);
+  font-family: var(--font-heading);
   font-size: clamp(1.65rem, 2vw, 2.1rem);
   font-weight: 950;
   line-height: 1.08;
