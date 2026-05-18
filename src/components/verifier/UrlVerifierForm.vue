@@ -1,5 +1,6 @@
 <script setup>
 import { computed } from 'vue'
+import { parseWebsiteInput } from '../../../shared/websiteValidation.js'
 
 const props = defineProps({
   url:     { type: String,  default: '' },
@@ -13,6 +14,18 @@ const urlModel = computed({
   get: () => props.url,
   set: value => emit('update:url', value),
 })
+
+const previewDomain = computed(() => {
+  if (!props.url.trim()) {
+    return ''
+  }
+
+  return parseWebsiteInput(props.url)?.hostname || ''
+})
+
+function useExample(value) {
+  emit('update:url', value)
+}
 </script>
 
 <template>
@@ -28,14 +41,33 @@ const urlModel = computed({
         v-model="urlModel"
         @keyup.enter="emit('submit')"
         type="text"
-        placeholder="e.g. example.com or https://example.com"
-        class="w-full border-2 rounded-xl px-5 py-5 text-xl bg-white placeholder-slate-400 focus:outline-none focus:ring-4 focus:ring-blue-200 focus:border-transparent mb-3 transition shadow-sm"
+        placeholder="Paste any link or website address here"
+        class="w-full border-2 rounded-xl px-5 py-5 text-xl bg-white placeholder-slate-400 focus:outline-none focus:ring-4 focus:ring-blue-200 focus:border-transparent mb-2 transition shadow-sm"
         :class="props.error ? 'border-red-400' : 'border-slate-200'"
         style="font-size: 1.125rem;"
       />
+      <p v-if="props.url.trim() && previewDomain" class="mb-3 text-[13px] text-slate-500">
+        We will check: {{ previewDomain }}
+      </p>
       <p class="mb-5 text-lg text-slate-600 leading-relaxed">
         Type or paste a website address. You do not need to include "https://". Any real web address works.
       </p>
+      <div class="mb-5 flex flex-col gap-2 text-[13px] text-slate-500">
+        <button
+          type="button"
+          class="w-fit text-left hover:text-slate-700 hover:underline focus-visible:outline-none focus-visible:underline"
+          @click="useExample('commbank.com.au')"
+        >
+          Try a safe example: commbank.com.au
+        </button>
+        <button
+          type="button"
+          class="w-fit text-left hover:text-slate-700 hover:underline focus-visible:outline-none focus-visible:underline"
+          @click="useExample('paypa1-secure.com')"
+        >
+          Try a suspicious example: paypa1-secure.com
+        </button>
+      </div>
       <button
         @click="emit('submit')"
         :disabled="props.loading"
