@@ -59,9 +59,9 @@ function useExample(value) {
         <button
           type="button"
           class="w-fit text-left hover:text-slate-700 hover:underline focus-visible:outline-none focus-visible:underline"
-          @click="useExample('commbank.com.au')"
+          @click="useExample('amazon.com.au')"
         >
-          Try a safe example: commbank.com.au
+          Try a safe example: amazon.com.au
         </button>
         <button
           type="button"
