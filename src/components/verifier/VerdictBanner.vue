@@ -1,9 +1,13 @@
 <script setup>
+import { ref } from 'vue'
+
 const props = defineProps({
   result:       { type: Object, required: true },
   vc:           { type: Object, required: true },
   verdictLabel: { type: String, required: true },
 })
+
+const showClickedHelp = ref(false)
 
 const boldTheme = {
   safe:    { bg: '#f0fdf4', border: '#16a34a', icon: '#16a34a', iconBg: '#dcfce7', text: '#14532d', badge: '#16a34a' },
@@ -108,5 +112,52 @@ const borderWidth = props.result?.verdict === 'unsafe' ? 'border-4' : 'border-4'
       </ul>
     </div>
 
+    <div
+      v-if="props.result.verdict === 'unsafe'"
+      class="unsafe-clicked-help mt-4 rounded-xl p-4"
+    >
+      <button
+        type="button"
+        class="unsafe-clicked-help-trigger flex w-full items-center justify-between gap-3 text-left focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-amber-300"
+        :aria-expanded="showClickedHelp"
+        aria-controls="unsafe-clicked-help-panel"
+        @click="showClickedHelp = !showClickedHelp"
+      >
+        <span>Already clicked the link or entered your details?</span>
+        <svg
+          class="w-5 h-5 flex-shrink-0"
+          :class="showClickedHelp ? 'rotate-180' : ''"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+          aria-hidden="true"
+        >
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M19 9l-7 7-7-7" />
+        </svg>
+      </button>
+
+      <div v-if="showClickedHelp" id="unsafe-clicked-help-panel" class="mt-4">
+        <h3 class="text-lg font-bold text-slate-900 mb-3">Act quickly. Here is what to do.</h3>
+        <ol class="space-y-3 text-base text-slate-800 leading-relaxed">
+          <li>1. Call your bank immediately and tell them what happened. Ask them to watch your account.</li>
+          <li>2. Report the scam to Scamwatch at scamwatch.gov.au or call 1300 795 995.</li>
+          <li>3. If your identity or personal details may be at risk, contact IDCARE at idcare.org or call 1800 595 160.</li>
+        </ol>
+      </div>
+    </div>
+
   </div>
 </template>
+
+<style scoped>
+.unsafe-clicked-help {
+  background: #FFFBEB;
+  border-left: 3px solid #F59E0B;
+}
+
+.unsafe-clicked-help-trigger {
+  color: #1B2B5E;
+  font-size: 15px;
+  font-weight: 700;
+}
+</style>

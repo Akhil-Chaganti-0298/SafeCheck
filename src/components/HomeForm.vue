@@ -39,7 +39,12 @@ const seniorSummaryCards = computed(() => {
 })
 
 onMounted(async () => {
-  setTimeout(() => { animated.value = true }, 150)
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    animated.value = true
+  } else {
+    setTimeout(() => { animated.value = true }, 150)
+  }
+
   try {
     scamStats.value = await getOnlineSeniorStats()
   } catch (e) {
@@ -74,7 +79,7 @@ const features = [
   {
     page: 'tnc-simplifier',
     icon: 'doc',
-    title: 'Understand T&Cs',
+    title: 'Explain my Terms',
     desc: 'Confused by the fine print before signing up? We translate legal language into plain English.',
     cta: 'Simplify the fine print',
   },
@@ -149,13 +154,11 @@ function getSeniorBarWidth(value) {
         <div class="animate-fade-in-up">
 
           <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight mb-6">
-            Protect your identity <br/>
-            & prevent financial fraud with<br/>
-            <span class="text-blue-200">SafeCheck</span>
+            Check suspicious links, understand the fine print, and spot scams before they reach you.
           </h1>
 
           <p class="home-hero-copy">
-            Stop your personal information from getting leaked, prevent endless scam calls, and protect your hard-earned savings. SafeCheck helps you spot suspicious links and hidden traps instantly.
+            SafeCheck gives you three free, plain-English tools to check a suspicious link, understand what you are agreeing to, and build the instincts to recognise a scam.
           </p>
 
           <!-- Three horizontal CTA buttons -->
@@ -168,8 +171,8 @@ function getSeniorBarWidth(value) {
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
                   d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
               </svg>
-              <span class="home-hero-cta-prompt">Not sure if a website is safe?</span>
-              <span class="home-cta-label">Use Our URL Verifier</span>
+              <span class="home-hero-cta-prompt">Got a suspicious link?</span>
+              <span class="home-cta-label">Check it now</span>
             </button>
             <button
               @click="emit('navigate', 'tnc-simplifier')"
@@ -179,8 +182,8 @@ function getSeniorBarWidth(value) {
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                   d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
               </svg>
-              <span class="home-hero-cta-prompt">Confused by the language of terms and conditions?</span>
-              <span class="home-cta-label">Simplify T&amp;Cs</span>
+              <span class="home-hero-cta-prompt">Confused by the fine print?</span>
+              <span class="home-cta-label">Explain it to me</span>
             </button>
             <button
               @click="emit('navigate', 'scam-quiz')"
@@ -190,8 +193,8 @@ function getSeniorBarWidth(value) {
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                   d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
               </svg>
-              <span class="home-hero-cta-prompt">Want to test your scam knowledge?</span>
-              <span class="home-cta-label">Take Scam Quiz</span>
+              <span class="home-hero-cta-prompt">Could you spot a scam?</span>
+              <span class="home-cta-label">Test yourself</span>
             </button>
           </div>
 
@@ -539,7 +542,7 @@ function getSeniorBarWidth(value) {
         <p class="home-section-kicker">Scam visualisations</p>
         <h2>See the patterns behind the scam risk.</h2>
         <p>
-          Each visual card starts simple, then flips to show the chart. The three cards line up so users can compare the information at a glance.
+          The numbers behind why SafeCheck exists.
         </p>
       </div>
 
@@ -992,6 +995,13 @@ function getSeniorBarWidth(value) {
   min-height: 9.6rem;
   gap: 0.55rem;
   padding: 0.95rem 0.85rem;
+  border-left: 3px solid transparent;
+  box-shadow: 0 10px 18px rgba(15, 23, 42, 0.12);
+}
+
+.home-hero-cta:hover {
+  border-left-color: #0D9488;
+  box-shadow: 0 12px 22px rgba(15, 23, 42, 0.16);
 }
 
 .home-hero-cta-icon {
@@ -1028,6 +1038,16 @@ function getSeniorBarWidth(value) {
   font-size: clamp(0.94rem, 1.08vw, 1.08rem);
   line-height: 1.18;
   font-weight: 900;
+}
+
+@media (min-width: 768px) {
+  .home-hero-cta {
+    min-width: 11.5rem;
+  }
+
+  .home-cta-label {
+    white-space: nowrap;
+  }
 }
 
 .home-hero-trust {
@@ -2155,38 +2175,120 @@ function getSeniorBarWidth(value) {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .proof-flip-card-inner,
+  .visualisation-flip-card-inner,
+  .visualisation-chart-fill,
+  .home-hero-cta,
+  .home-hero-cta-icon,
+  .tool-card,
+  .tool-card-icon,
+  .feature-card-cta {
+    transition: none !important;
+  }
+
+  .protective-bubble,
   .senior-shield-stage::before,
   .bubble-ripple,
   .threat-label,
   .blocked-badge {
-    animation: none;
+    animation: none !important;
+    transition: none !important;
   }
 
-  .bubble-ripple,
-  .blocked-badge {
+  .protective-bubble {
+    background: rgba(219, 234, 254, 0.13);
+    box-shadow:
+      inset 0 0 38px rgba(255, 255, 255, 0.12),
+      0 0 34px rgba(147, 197, 253, 0.16);
+  }
+
+  .bubble-ripple {
     display: none;
+  }
+
+  .threat-label,
+  .blocked-badge {
+    display: inline-flex;
+    opacity: 0.94;
+    transform: none;
+    will-change: auto;
   }
 
   .threat-suspicious-link {
-    transform: translate(-9.25rem, 0.45rem) rotate(-4deg);
-    opacity: 0.9;
+    left: -5.2rem;
+    top: 3rem;
+    transform: rotate(-4deg);
   }
 
   .threat-unknown-tnc {
-    transform: translate(8rem, 0) rotate(3deg);
-    opacity: 0.9;
+    right: -5.2rem;
+    top: 6.5rem;
+    transform: rotate(3deg);
   }
 
   .threat-phishing-email {
-    transform: translate(-9.05rem, -0.25rem) rotate(4deg);
-    opacity: 0.9;
+    left: -5.3rem;
+    top: 14.5rem;
+    transform: rotate(4deg);
   }
 
-  .threat-malware-popup,
-  .threat-tech-call,
-  .threat-password-request,
+  .threat-malware-popup {
+    left: 3.8rem;
+    top: -2.2rem;
+    transform: rotate(-1deg);
+  }
+
+  .threat-tech-call {
+    right: -5rem;
+    top: 2.1rem;
+    transform: rotate(4deg);
+  }
+
+  .threat-password-request {
+    left: -5.4rem;
+    top: 9.4rem;
+    transform: rotate(-2deg);
+  }
+
   .threat-fake-prize {
-    display: none;
+    right: -4.8rem;
+    top: 14.4rem;
+    transform: rotate(4deg);
+  }
+
+  .blocked-top-left {
+    left: -3.4rem;
+    top: 5.4rem;
+  }
+
+  .blocked-right {
+    right: -4rem;
+    top: 8.6rem;
+  }
+
+  .blocked-bottom-left {
+    left: -3.2rem;
+    top: 16.9rem;
+  }
+
+  .blocked-top {
+    left: 9.4rem;
+    top: -0.75rem;
+  }
+
+  .blocked-upper-right {
+    right: -3.9rem;
+    top: 4.2rem;
+  }
+
+  .blocked-left {
+    left: -4rem;
+    top: 11.6rem;
+  }
+
+  .blocked-bottom-right {
+    right: -3.4rem;
+    top: 17rem;
   }
 }
 </style>
