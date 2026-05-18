@@ -90,21 +90,21 @@ const links = [
 
 <style scoped>
 .site-header-inner {
-  min-height: 6.75rem;
+  min-height: 5.25rem;
 }
 
 .site-brand {
-  gap: 1rem;
+  gap: 0.75rem;
 }
 
 .site-brand-logo {
-  width: 3.9rem;
-  height: 3.9rem;
+  width: 3rem;
+  height: 3rem;
 }
 
 .site-brand-name {
   font-family: var(--font-heading);
-  font-size: clamp(1.82rem, 2.08vw, 2.16rem);
+  font-size: clamp(1.38rem, 1.55vw, 1.65rem);
   font-weight: 900;
   line-height: 1.1;
 }
@@ -115,32 +115,32 @@ const links = [
 
 .site-nav-link {
   font-family: var(--font-heading);
-  min-height: 3.8rem;
-  padding: 1.05rem 1.45rem;
-  font-size: clamp(1.22rem, 1.24vw, 1.36rem);
+  min-height: 3rem;
+  padding: 0.82rem 1.08rem;
+  font-size: clamp(0.98rem, 1vw, 1.08rem);
   font-weight: 800;
   line-height: 1.15;
 }
 
 .site-menu-button {
-  padding: 1rem;
+  padding: 0.8rem;
 }
 
 .site-mobile-nav-link {
   font-family: var(--font-heading);
-  padding: 1.2rem 1rem;
-  font-size: 1.45rem;
+  padding: 0.95rem 0.85rem;
+  font-size: 1.18rem;
   font-weight: 800;
   line-height: 1.2;
 }
 
 @media (min-width: 1024px) {
   .site-header-inner {
-    min-height: 7rem;
+    min-height: 5.45rem;
   }
 
   .site-nav-link {
-    padding-inline: 1.6rem;
+    padding-inline: 1.18rem;
   }
 }
 </style>

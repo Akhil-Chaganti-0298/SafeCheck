@@ -128,7 +128,7 @@ function getSeniorBarWidth(value) {
        HERO
        ============================================================ -->
   <section
-    class="relative overflow-hidden"
+    class="home-hero-section relative overflow-hidden"
     style="background: linear-gradient(135deg, var(--navy) 0%, #1d4ed8 100%);"
   >
     <div class="absolute inset-0 opacity-5" aria-hidden="true">
@@ -142,8 +142,8 @@ function getSeniorBarWidth(value) {
       </svg>
     </div>
 
-    <div class="relative px-8 sm:px-16 py-16 sm:py-24">
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+    <div class="home-hero-shell relative px-8 sm:px-16 py-16 sm:py-24">
+      <div class="home-hero-layout grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
 
         <!-- Left: headline + CTAs -->
         <div class="animate-fade-in-up">
@@ -387,16 +387,16 @@ function getSeniorBarWidth(value) {
                   <circle cx="182" cy="175" r="2.5" fill="rgba(220,150,110,0.28)"/>
                   <ellipse cx="130" cy="170" rx="14" ry="9" fill="rgba(255,140,110,0.14)"/>
                   <ellipse cx="190" cy="170" rx="14" ry="9" fill="rgba(255,140,110,0.14)"/>
-                  <path d="M205 238 Q240 248 254 264" stroke="rgba(252,198,158,0.92)" stroke-width="18" stroke-linecap="round" fill="none"/>
-                  <ellipse cx="257" cy="270" rx="14" ry="11" fill="rgba(252,198,158,0.92)"/>
-                  <rect x="246" y="254" width="38" height="64" rx="8" fill="rgba(255,255,255,0.22)" stroke="rgba(255,255,255,0.55)" stroke-width="2"/>
-                  <rect x="249" y="258" width="32" height="52" rx="5" fill="rgba(255,255,255,0.09)"/>
-                  <rect x="252" y="262" width="26" height="4" rx="2" fill="rgba(255,255,255,0.3)"/>
-                  <rect x="254" y="269" width="20" height="3" rx="1.5" fill="rgba(255,255,255,0.18)"/>
-                  <circle cx="265" cy="285" r="13" fill="rgba(74,222,128,0.28)" stroke="rgba(74,222,128,0.75)" stroke-width="1.8"/>
-                  <path d="M259 285 l4 4 l9-9" stroke="rgba(74,222,128,1)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-                  <rect x="256" y="302" width="18" height="4" rx="2" fill="rgba(74,222,128,0.55)"/>
-                  <path d="M115 238 Q88 250 76 268" stroke="rgba(252,198,158,0.88)" stroke-width="16" stroke-linecap="round" fill="none"/>
+                  <path d="M197 224 Q234 237 254 260" stroke="rgba(252,198,158,0.92)" stroke-width="18" stroke-linecap="round" fill="none"/>
+                  <ellipse cx="257" cy="264" rx="14" ry="11" fill="rgba(252,198,158,0.92)"/>
+                  <rect x="248" y="248" width="38" height="64" rx="8" fill="rgba(255,255,255,0.22)" stroke="rgba(255,255,255,0.55)" stroke-width="2"/>
+                  <rect x="251" y="252" width="32" height="52" rx="5" fill="rgba(255,255,255,0.09)"/>
+                  <rect x="254" y="256" width="26" height="4" rx="2" fill="rgba(255,255,255,0.3)"/>
+                  <rect x="256" y="263" width="20" height="3" rx="1.5" fill="rgba(255,255,255,0.18)"/>
+                  <circle cx="267" cy="279" r="13" fill="rgba(74,222,128,0.28)" stroke="rgba(74,222,128,0.75)" stroke-width="1.8"/>
+                  <path d="M261 279 l4 4 l9-9" stroke="rgba(74,222,128,1)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  <rect x="258" y="296" width="18" height="4" rx="2" fill="rgba(74,222,128,0.55)"/>
+                  <path d="M123 224 Q92 239 76 268" stroke="rgba(252,198,158,0.88)" stroke-width="16" stroke-linecap="round" fill="none"/>
                   <circle cx="264" cy="80" r="26" fill="rgba(74,222,128,0.2)" stroke="rgba(74,222,128,0.55)" stroke-width="1.5"/>
                   <path d="M264 68 Q264 68 254 72 L254 82 Q254 92 264 96 Q274 92 274 82 L274 72 Z" fill="rgba(74,222,128,0.46)"/>
                   <path d="M258 82 l3.5 3.5 l8.5-8.5" stroke="rgba(74,222,128,1)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -831,12 +831,12 @@ function getSeniorBarWidth(value) {
 .visualisation-flip-card-inner,
 .visualisation-flip-face,
 .tool-card {
-  --home-section-card-height: 34rem;
+  --home-section-card-height: 29rem;
 }
 
 .home-content-section {
-  padding-top: 4.5rem;
-  padding-bottom: 4.5rem;
+  padding-top: 3.35rem;
+  padding-bottom: 3.35rem;
 }
 
 .home-proof-band {
@@ -851,19 +851,19 @@ function getSeniorBarWidth(value) {
 }
 
 .home-visualisation-band .home-section-kicker {
-  font-size: 1.08rem;
+  font-size: 0.92rem;
   font-weight: 950;
 }
 
 .home-visualisation-band .home-section-header h2 {
-  max-width: 58rem;
-  font-size: clamp(2.55rem, 4.6vw, 3.65rem);
+  max-width: 52rem;
+  font-size: clamp(2.05rem, 3.4vw, 2.85rem);
   font-weight: 950;
 }
 
 .home-visualisation-band .home-section-header p {
-  max-width: 58rem;
-  font-size: clamp(1.25rem, 1.55vw, 1.48rem);
+  max-width: 52rem;
+  font-size: clamp(1.02rem, 1.2vw, 1.16rem);
   font-weight: 500;
   line-height: 1.55;
 }
@@ -873,19 +873,19 @@ function getSeniorBarWidth(value) {
 }
 
 .home-tools-band .home-section-kicker {
-  font-size: 1.08rem;
+  font-size: 0.92rem;
   font-weight: 950;
 }
 
 .home-tools-band .home-section-header h2 {
-  max-width: 58rem;
-  font-size: clamp(2.45rem, 4.4vw, 3.55rem);
+  max-width: 52rem;
+  font-size: clamp(2rem, 3.25vw, 2.75rem);
   font-weight: 950;
 }
 
 .home-tools-band .home-section-header p {
-  max-width: 58rem;
-  font-size: clamp(1.22rem, 1.5vw, 1.45rem);
+  max-width: 52rem;
+  font-size: clamp(1.02rem, 1.15vw, 1.14rem);
   font-weight: 550;
   line-height: 1.55;
 }
@@ -897,40 +897,55 @@ function getSeniorBarWidth(value) {
 }
 
 .home-section-header {
-  max-width: 52rem;
-  margin-bottom: 2.25rem;
+  max-width: 47rem;
+  margin-bottom: 1.85rem;
 }
 
 .home-section-kicker {
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.55rem;
   color: var(--navy);
-  font-size: 0.95rem;
+  font-size: 0.82rem;
   font-weight: 800;
   letter-spacing: 0;
   text-transform: uppercase;
 }
 
 .home-section-header h2 {
-  margin-bottom: 0.85rem;
+  margin-bottom: 0.65rem;
   color: rgb(15, 23, 42);
-  font-size: clamp(2rem, 4vw, 3rem);
+  font-size: clamp(1.75rem, 3vw, 2.45rem);
   line-height: 1.1;
   font-weight: 800;
 }
 
 .home-section-header p {
   color: rgb(71, 85, 105);
-  font-size: 1.2rem;
-  line-height: 1.65;
+  font-size: 1.02rem;
+  line-height: 1.6;
+}
+
+.home-hero-shell {
+  padding-top: clamp(2.75rem, 4.8vw, 4rem);
+  padding-bottom: clamp(2.75rem, 4.8vw, 4rem);
+}
+
+.home-hero-layout {
+  gap: clamp(2.25rem, 4vw, 3.25rem);
+}
+
+.home-hero-section h1 {
+  margin-bottom: 1.15rem;
+  font-size: clamp(2rem, 3vw, 2.85rem);
+  line-height: 1.12;
 }
 
 .home-hero-copy {
-  max-width: 48rem;
-  margin-bottom: 2.4rem;
+  max-width: 40rem;
+  margin-bottom: 1.45rem;
   color: #ffffff;
-  font-size: clamp(1.45rem, 2vw, 2rem);
+  font-size: clamp(1.02rem, 1.25vw, 1.18rem);
   font-weight: 500;
-  line-height: 1.58;
+  line-height: 1.62;
   opacity: 0.94;
 }
 
@@ -942,53 +957,54 @@ function getSeniorBarWidth(value) {
   min-height: var(--home-section-card-height);
   display: flex;
   flex-direction: column;
+  padding: 1.6rem;
 }
 
 .tool-card-icon {
-  width: 4.4rem;
-  height: 4.4rem;
-  margin-bottom: 1.85rem;
+  width: 3.35rem;
+  height: 3.35rem;
+  margin-bottom: 1.35rem;
 }
 
 .tool-card-icon svg {
-  width: 2.25rem;
-  height: 2.25rem;
+  width: 1.75rem;
+  height: 1.75rem;
 }
 
 .tool-card-title {
-  margin-bottom: 1rem;
+  margin-bottom: 0.75rem;
   color: rgb(15, 23, 42);
   font-family: var(--font-heading);
-  font-size: clamp(1.65rem, 2vw, 2.05rem);
+  font-size: clamp(1.28rem, 1.45vw, 1.58rem);
   font-weight: 950;
-  line-height: 1.12;
+  line-height: 1.18;
 }
 
 .tool-card-desc {
-  margin-bottom: 1.8rem;
+  margin-bottom: 1.3rem;
   color: rgb(71, 85, 105);
-  font-size: clamp(1.15rem, 1.35vw, 1.35rem);
+  font-size: clamp(0.98rem, 1.12vw, 1.12rem);
   font-weight: 500;
-  line-height: 1.5;
+  line-height: 1.55;
 }
 
 .home-hero-cta {
-  min-height: 13.25rem;
-  gap: 0.85rem;
-  padding: 1.45rem 1.25rem;
+  min-height: 9.6rem;
+  gap: 0.55rem;
+  padding: 0.95rem 0.85rem;
 }
 
 .home-hero-cta-icon {
-  width: 3rem;
-  height: 3rem;
+  width: 2.1rem;
+  height: 2.1rem;
   margin-bottom: 0.1rem;
 }
 
 .home-hero-cta-prompt {
   color: rgb(51, 65, 85);
-  font-size: clamp(1.15rem, 1.35vw, 1.35rem);
+  font-size: clamp(0.9rem, 0.98vw, 1rem);
   font-weight: 800;
-  line-height: 1.2;
+  line-height: 1.25;
 }
 
 .home-cta-label,
@@ -1005,32 +1021,32 @@ function getSeniorBarWidth(value) {
   align-items: center;
   justify-content: center;
   width: 100%;
-  min-height: 4.1rem;
+  min-height: 2.95rem;
   margin-top: auto;
-  padding: 0.75rem 1rem;
+  padding: 0.62rem 0.78rem;
   border-radius: 0.85rem;
-  font-size: clamp(1.25rem, 1.7vw, 1.6rem);
-  line-height: 1.15;
+  font-size: clamp(0.94rem, 1.08vw, 1.08rem);
+  line-height: 1.18;
   font-weight: 900;
 }
 
 .home-hero-trust {
-  gap: 1.25rem 2rem;
-  margin-top: 2.35rem;
+  gap: 0.9rem 1.45rem;
+  margin-top: 1.35rem;
 }
 
 .home-hero-trust-item {
-  gap: 0.75rem;
+  gap: 0.55rem;
 }
 
 .home-hero-trust-icon {
-  width: 1.85rem;
-  height: 1.85rem;
+  width: 1.35rem;
+  height: 1.35rem;
 }
 
 .home-hero-trust-text {
   color: #ffffff;
-  font-size: clamp(1.25rem, 1.6vw, 1.6rem);
+  font-size: clamp(0.94rem, 1.04vw, 1.06rem);
   font-weight: 750;
   line-height: 1.25;
   opacity: 0.94;
@@ -1038,8 +1054,8 @@ function getSeniorBarWidth(value) {
 
 .readable-cta-pill {
   border-radius: 999px;
-  padding: 0.8rem 1.15rem;
-  font-size: 1.125rem;
+  padding: 0.62rem 0.92rem;
+  font-size: 0.98rem;
   line-height: 1.2;
   font-weight: 900;
   text-decoration: none;
@@ -1048,16 +1064,16 @@ function getSeniorBarWidth(value) {
 .feature-card-cta {
   width: fit-content;
   margin-top: auto;
-  padding: 0.95rem 1.25rem;
-  font-size: 1.2rem;
+  padding: 0.78rem 1rem;
+  font-size: 1rem;
   font-weight: 950;
 }
 
 .flip-card-cta-text {
   width: fit-content;
   border-radius: 999px;
-  padding: 0.82rem 1.15rem;
-  font-size: 1.12rem;
+  padding: 0.64rem 0.92rem;
+  font-size: 0.96rem;
   line-height: 1.1;
   font-weight: 900;
   letter-spacing: 0;
@@ -1066,12 +1082,12 @@ function getSeniorBarWidth(value) {
 
 @media (min-width: 640px) {
   .home-cta-label {
-    font-size: clamp(1.2rem, 1.55vw, 1.5rem);
+    font-size: clamp(0.94rem, 1.04vw, 1.06rem);
   }
 }
 
 .hero-visual-column {
-  min-height: 24rem;
+  min-height: 18rem;
 }
 
 .proof-flip-card {
@@ -1129,7 +1145,7 @@ function getSeniorBarWidth(value) {
   flex-direction: column;
   justify-content: center;
   min-height: var(--home-section-card-height);
-  padding: 1.5rem;
+  padding: 1.18rem;
   border: 1px solid rgb(226, 232, 240);
   border-radius: 1rem;
   background: white;
@@ -1140,14 +1156,14 @@ function getSeniorBarWidth(value) {
 .proof-flip-front {
   align-items: flex-start;
   justify-content: space-between;
-  gap: 1.1rem;
+  gap: 0.85rem;
   overflow: hidden;
 }
 
 .proof-flip-back {
   transform: rotateY(180deg);
   justify-content: space-between;
-  gap: 1.1rem;
+  gap: 0.85rem;
   overflow: hidden;
 }
 
@@ -1166,7 +1182,7 @@ function getSeniorBarWidth(value) {
 .proof-card-visual {
   width: 100%;
   aspect-ratio: 420 / 230;
-  min-height: 12.5rem;
+  min-height: 9.6rem;
   border: 1px solid rgba(203, 213, 225, 0.72);
   border-radius: 0.85rem;
   overflow: hidden;
@@ -1189,24 +1205,24 @@ function getSeniorBarWidth(value) {
 }
 
 .proof-card-value {
-  margin-bottom: 0.45rem;
+  margin-bottom: 0.35rem;
   color: var(--navy);
-  font-size: clamp(2.75rem, 4.4vw, 4.5rem);
+  font-size: clamp(2.05rem, 3.1vw, 3.15rem);
   font-weight: 950;
-  line-height: 0.92;
+  line-height: 0.98;
 }
 
 .proof-card-label {
   color: rgb(71, 85, 105);
-  font-size: clamp(1.1rem, 1.35vw, 1.3rem);
+  font-size: clamp(0.96rem, 1.05vw, 1.08rem);
   font-weight: 500;
   line-height: 1.35;
 }
 
 .proof-card-flip-hint {
-  margin-top: 1rem;
+  margin-top: 0.75rem;
   color: rgb(100, 116, 139);
-  font-size: 0.9rem;
+  font-size: 0.76rem;
   font-weight: 800;
   letter-spacing: 0.08em;
   line-height: 1.25;
@@ -1220,7 +1236,7 @@ function getSeniorBarWidth(value) {
 }
 
 .proof-card-visual-back {
-  min-height: 11rem;
+  min-height: 9rem;
 }
 
 .proof-card-visual-total-losses {
@@ -1352,7 +1368,7 @@ function getSeniorBarWidth(value) {
   display: flex;
   flex-direction: column;
   min-height: var(--home-section-card-height);
-  padding: 1.5rem;
+  padding: 1.18rem;
   border: 1px solid rgb(226, 232, 240);
   border-radius: 1rem;
   background: white;
@@ -1362,7 +1378,7 @@ function getSeniorBarWidth(value) {
 
 .visualisation-flip-front {
   justify-content: space-between;
-  gap: 1.1rem;
+  gap: 0.85rem;
   overflow: hidden;
 }
 
@@ -1380,7 +1396,7 @@ function getSeniorBarWidth(value) {
 .visualisation-card-visual {
   width: 100%;
   aspect-ratio: 420 / 230;
-  min-height: 12rem;
+  min-height: 9.5rem;
   border: 1px solid rgba(203, 213, 225, 0.72);
   border-radius: 0.85rem;
   overflow: hidden;
@@ -1419,9 +1435,9 @@ function getSeniorBarWidth(value) {
 }
 
 .visualisation-card-kicker {
-  margin-bottom: 0.55rem;
+  margin-bottom: 0.42rem;
   color: rgb(100, 116, 139);
-  font-size: 0.95rem;
+  font-size: 0.78rem;
   font-weight: 900;
   letter-spacing: 0.1em;
   line-height: 1.2;
@@ -1429,26 +1445,26 @@ function getSeniorBarWidth(value) {
 }
 
 .visualisation-card-title {
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.55rem;
   color: rgb(15, 23, 42);
   font-family: var(--font-heading);
-  font-size: clamp(1.65rem, 2vw, 2.1rem);
+  font-size: clamp(1.28rem, 1.45vw, 1.58rem);
   font-weight: 950;
-  line-height: 1.08;
+  line-height: 1.14;
 }
 
 .visualisation-card-description {
-  margin-bottom: 1.15rem;
+  margin-bottom: 0.85rem;
   color: rgb(71, 85, 105);
-  font-size: clamp(1.08rem, 1.3vw, 1.28rem);
+  font-size: clamp(0.95rem, 1.04vw, 1.08rem);
   font-weight: 500;
-  line-height: 1.42;
+  line-height: 1.48;
 }
 
 .visualisation-back-heading {
-  margin-bottom: 1.15rem;
+  margin-bottom: 0.88rem;
   color: rgb(100, 116, 139);
-  font-size: 1.02rem;
+  font-size: 0.84rem;
   font-weight: 950;
   letter-spacing: 0.11em;
   line-height: 1.2;
@@ -1457,22 +1473,22 @@ function getSeniorBarWidth(value) {
 
 .visualisation-chart-stack {
   display: grid;
-  gap: 1.25rem;
+  gap: 0.9rem;
 }
 
 .visualisation-senior-chart-stack {
   display: grid;
-  gap: 0.92rem;
+  gap: 0.64rem;
 }
 
 .visualisation-chart-row-label {
   display: flex;
   align-items: baseline;
   justify-content: space-between;
-  gap: 1rem;
-  margin-bottom: 0.55rem;
+  gap: 0.75rem;
+  margin-bottom: 0.38rem;
   color: rgb(15, 23, 42);
-  font-size: 1.12rem;
+  font-size: 0.96rem;
   font-weight: 800;
   line-height: 1.16;
 }
@@ -1480,13 +1496,13 @@ function getSeniorBarWidth(value) {
 .visualisation-chart-value {
   flex-shrink: 0;
   color: var(--navy);
-  font-size: 1.13rem;
+  font-size: 0.98rem;
   font-weight: 950;
 }
 
 .visualisation-chart-track {
   width: 100%;
-  height: 0.82rem;
+  height: 0.66rem;
   border-radius: 999px;
   background: rgb(241, 245, 249);
   overflow: hidden;
@@ -1498,18 +1514,18 @@ function getSeniorBarWidth(value) {
 }
 
 .visualisation-chart-tooltip {
-  margin-top: 0.55rem;
+  margin-top: 0.42rem;
   color: rgb(71, 85, 105);
-  font-size: 0.98rem;
+  font-size: 0.82rem;
   font-weight: 500;
   line-height: 1.4;
 }
 
 .visualisation-source-note {
   margin-top: auto;
-  padding-top: 1rem;
+  padding-top: 0.75rem;
   color: rgb(100, 116, 139);
-  font-size: 0.98rem;
+  font-size: 0.84rem;
   font-weight: 650;
   line-height: 1.35;
 }
@@ -1522,42 +1538,42 @@ function getSeniorBarWidth(value) {
 }
 
 .visualisation-summary-grid {
-  margin-bottom: 0.95rem;
+  margin-bottom: 0.72rem;
 }
 
 .visualisation-senior-back-content .visualisation-senior-chart-stack {
-  gap: 0.72rem;
+  gap: 0.52rem;
 }
 
 .visualisation-senior-back-content .visualisation-chart-row-label {
-  margin-bottom: 0.34rem;
-  font-size: 1.04rem;
+  margin-bottom: 0.24rem;
+  font-size: 0.9rem;
 }
 
 .visualisation-senior-back-content .visualisation-chart-value {
-  font-size: 1.05rem;
+  font-size: 0.9rem;
 }
 
 .visualisation-senior-back-content .visualisation-chart-track {
-  height: 0.68rem;
+  height: 0.54rem;
 }
 
 .visualisation-senior-back-content .visualisation-source-note {
-  padding-top: 0.72rem;
-  font-size: 0.86rem;
+  padding-top: 0.52rem;
+  font-size: 0.74rem;
   line-height: 1.25;
 }
 
 .visualisation-summary-tile {
   border: 1px solid rgb(226, 232, 240);
-  border-radius: 0.85rem;
+  border-radius: 0.75rem;
   background: rgb(248, 250, 252);
-  padding: 0.78rem;
+  padding: 0.62rem;
 }
 
 .visualisation-summary-label {
   color: rgb(100, 116, 139);
-  font-size: 0.82rem;
+  font-size: 0.68rem;
   font-weight: 900;
   letter-spacing: 0.06em;
   line-height: 1.2;
@@ -1565,25 +1581,25 @@ function getSeniorBarWidth(value) {
 }
 
 .visualisation-summary-value {
-  margin-top: 0.25rem;
+  margin-top: 0.2rem;
   color: var(--navy);
-  font-size: 1.52rem;
+  font-size: 1.24rem;
   font-weight: 950;
   line-height: 1;
 }
 
 .visualisation-summary-helper {
-  margin-top: 0.4rem;
+  margin-top: 0.28rem;
   color: rgb(71, 85, 105);
-  font-size: 0.9rem;
+  font-size: 0.75rem;
   font-weight: 500;
   line-height: 1.28;
 }
 
 .senior-shield-stage {
   position: relative;
-  width: clamp(20rem, 28vw, 24rem);
-  height: clamp(20rem, 28vw, 24rem);
+  width: clamp(16rem, 22vw, 19rem);
+  height: clamp(16rem, 22vw, 19rem);
   overflow: visible;
   isolation: isolate;
 }
@@ -1746,55 +1762,55 @@ function getSeniorBarWidth(value) {
 }
 
 .threat-suspicious-link {
-  left: -2.8rem;
-  top: 5.2rem;
+  left: -2.2rem;
+  top: 4.1rem;
   background: rgba(194, 65, 12, 0.84);
   animation-name: suspiciousLinkApproach;
 }
 
 .threat-unknown-tnc {
-  right: -4.2rem;
-  top: 10.2rem;
+  right: -3.3rem;
+  top: 8.1rem;
   background: rgba(185, 28, 28, 0.8);
   animation-name: unknownTncApproach;
   animation-delay: 2.2s;
 }
 
 .threat-phishing-email {
-  left: -2.8rem;
-  top: 16.8rem;
+  left: -2.2rem;
+  top: 13.3rem;
   background: rgba(180, 83, 9, 0.84);
   animation-name: phishingEmailApproach;
   animation-delay: 4.4s;
 }
 
 .threat-malware-popup {
-  left: 8.3rem;
-  top: -2.6rem;
+  left: 6.6rem;
+  top: -2.1rem;
   background: rgba(190, 75, 12, 0.82);
   animation-name: malwarePopupApproach;
   animation-delay: 6.6s;
 }
 
 .threat-tech-call {
-  right: -4.2rem;
-  top: 4.2rem;
+  right: -3.3rem;
+  top: 3.3rem;
   background: rgba(153, 27, 27, 0.82);
   animation-name: techCallApproach;
   animation-delay: 8.8s;
 }
 
 .threat-password-request {
-  left: -3.4rem;
-  top: 11rem;
+  left: -2.7rem;
+  top: 8.7rem;
   background: rgba(180, 83, 9, 0.84);
   animation-name: passwordRequestApproach;
   animation-delay: 11s;
 }
 
 .threat-fake-prize {
-  right: -3.6rem;
-  top: 19rem;
+  right: -2.85rem;
+  top: 15rem;
   background: rgba(194, 65, 12, 0.82);
   animation-name: fakePrizeApproach;
   animation-delay: 13.2s;
@@ -1827,43 +1843,43 @@ function getSeniorBarWidth(value) {
 }
 
 .blocked-top-left {
-  left: -2rem;
-  top: 5.1rem;
+  left: -1.6rem;
+  top: 4rem;
 }
 
 .blocked-right {
-  right: -4rem;
-  top: 10.2rem;
+  right: -3.15rem;
+  top: 8.1rem;
   animation-delay: 2.2s;
 }
 
 .blocked-bottom-left {
-  left: -2rem;
-  top: 16.7rem;
+  left: -1.6rem;
+  top: 13.2rem;
   animation-delay: 4.4s;
 }
 
 .blocked-top {
-  left: 8.6rem;
-  top: -2.7rem;
+  left: 6.8rem;
+  top: -2.15rem;
   animation-delay: 6.6s;
 }
 
 .blocked-upper-right {
-  right: -4rem;
-  top: 4rem;
+  right: -3.15rem;
+  top: 3.15rem;
   animation-delay: 8.8s;
 }
 
 .blocked-left {
-  left: -4.8rem;
-  top: 11rem;
+  left: -3.8rem;
+  top: 8.7rem;
   animation-delay: 11s;
 }
 
 .blocked-bottom-right {
-  right: -3.8rem;
-  top: 19rem;
+  right: -3rem;
+  top: 15rem;
   animation-delay: 13.2s;
 }
 
