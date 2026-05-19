@@ -1,13 +1,6 @@
 <script setup>
 const logoSrc = `${import.meta.env.BASE_URL}logo.png`
 
-const navLinks = [
-  { label: 'Home',           to: '/'               },
-  { label: 'URL Verifier',   to: '/url-verifier'   },
-  { label: 'Explain my Terms', to: '/tnc-simplifier' },
-  { label: 'Scam Quiz',      to: '/scam-quiz'       },
-]
-
 const informationLinks = [
   { label: 'How checks work', to: { path: '/url-verifier', hash: '#what-safecheck-looks-for' } },
   { label: 'Our data sources', to: '/data-sources' },
@@ -27,7 +20,7 @@ const reassurances = [
   <footer style="background-color: var(--navy-dark); color: #bfdbfe;">
 
     <div class="w-full px-8 sm:px-16 py-14">
-      <div class="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-[1.1fr_0.7fr_1.05fr_0.8fr] lg:gap-12">
+      <div class="grid grid-cols-1 gap-10 lg:grid-cols-[1fr_1.25fr_1fr] lg:gap-16 lg:items-start">
 
         <!-- Brand column -->
         <div class="flex flex-col gap-5">
@@ -54,41 +47,28 @@ const reassurances = [
           </div>
         </div>
 
-        <!-- Navigate column -->
-        <div class="flex flex-col gap-3">
-          <h3 class="text-sm font-semibold uppercase tracking-widest text-blue-300 mb-1">Navigate</h3>
-          <RouterLink
-            v-for="link in navLinks"
-            :key="link.to"
-            :to="link.to"
-            class="text-lg text-blue-200 transition hover:text-white focus-visible:outline-none focus-visible:underline w-fit"
-          >
-            {{ link.label }}
-          </RouterLink>
-        </div>
-
         <!-- Tools column -->
-        <div class="flex flex-col gap-4">
-          <h3 class="text-sm font-semibold uppercase tracking-widest text-blue-300 mb-1">Our Tools</h3>
+        <div class="flex flex-col items-center gap-5 text-center">
+          <h3 class="text-base font-bold uppercase tracking-widest text-blue-200 mb-1">Our Tools</h3>
           <div v-for="tool in [
             { to: '/url-verifier',   icon: 'link', title: 'URL Verifier',   desc: 'Check if a link is safe to visit'       },
             { to: '/tnc-simplifier', icon: 'doc',  title: 'Explain my Terms', desc: 'Plain-English summary of fine print'    },
             { to: '/scam-quiz',      icon: 'bulb', title: 'Scam Quiz',      desc: 'Learn to spot scams with real examples' },
-          ]" :key="tool.to" class="flex items-start gap-3">
-            <div class="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5 bg-white/10">
-              <svg v-if="tool.icon === 'link'" class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          ]" :key="tool.to" class="flex max-w-sm flex-col items-center gap-3">
+            <div class="w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0 bg-white/10">
+              <svg v-if="tool.icon === 'link'" class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
               </svg>
-              <svg v-else-if="tool.icon === 'doc'" class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg v-else-if="tool.icon === 'doc'" class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
               </svg>
-              <svg v-else class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg v-else class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
               </svg>
             </div>
             <div>
-              <RouterLink :to="tool.to" class="text-lg font-medium text-white hover:underline focus-visible:underline">{{ tool.title }}</RouterLink>
-              <p class="text-base text-blue-300 leading-snug">{{ tool.desc }}</p>
+              <RouterLink :to="tool.to" class="text-xl font-bold text-white hover:underline focus-visible:underline">{{ tool.title }}</RouterLink>
+              <p class="text-lg font-semibold text-blue-200 leading-snug">{{ tool.desc }}</p>
             </div>
           </div>
         </div>
