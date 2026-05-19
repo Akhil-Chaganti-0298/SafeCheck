@@ -15,6 +15,7 @@
   --font-heading: "Merriweather", Georgia, "Times New Roman", serif;
   --font-sans: "Merriweather", Georgia, "Times New Roman", serif;
   --default-font-family: "Merriweather", Georgia, "Times New Roman", serif;
+  --font-scale: 1;
 }
 
 /* ------------------------------------------------------------------ *
@@ -53,6 +54,10 @@ body,
   font-family: var(--font-heading);
 }
 
+html {
+  font-size: calc(16px * var(--font-scale));
+}
+
 #app,
 #app * {
   font-family: var(--font-heading);
@@ -77,7 +82,7 @@ h6 {
 }
 
 body {
-  font-size: 18px;
+  font-size: 1.125rem;
   line-height: 1.7;
   color: #1e293b;
   background-color: var(--bg);
