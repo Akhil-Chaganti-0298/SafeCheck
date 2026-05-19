@@ -23,21 +23,49 @@ function getQuestionsForCategory(categoryId) {
   return scamQuizQuestions.filter(question => question.category === categoryId)
 }
 
+function shuffleArray(items) {
+  const shuffled = [...items]
+
+  for (let i = shuffled.length - 1; i > 0; i -= 1) {
+    const j = Math.floor(Math.random() * (i + 1))
+    ;[shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]]
+  }
+
+  return shuffled
+}
+
+function randomItem(items) {
+  return items[Math.floor(Math.random() * items.length)]
+}
+
+function shuffleQuestionOptions(question, previousCorrectIndex) {
+  const correctOption = question.options[question.correctIndex]
+  const incorrectOptions = question.options.filter((_, index) => index !== question.correctIndex)
+  const optionCount = question.options.length
+  const allowedCorrectIndexes = Array.from({ length: optionCount }, (_, index) => index)
+    .filter(index => index !== previousCorrectIndex)
+  const correctIndex = randomItem(allowedCorrectIndexes.length ? allowedCorrectIndexes : [question.correctIndex])
+  const shuffledIncorrectOptions = shuffleArray(incorrectOptions)
+  const options = []
+
+  for (let index = 0; index < optionCount; index += 1) {
+    options[index] = index === correctIndex ? correctOption : shuffledIncorrectOptions.shift()
+  }
+
+  return {
+    ...question,
+    options,
+    correctIndex,
+  }
+}
+
 function buildShuffledQuestions(categoryId = selectedCategory.value) {
-  return getQuestionsForCategory(categoryId).map((question) => {
-    const optionsWithCorrectFlag = question.options.map((option, index) => ({
-      text: option,
-      isCorrect: index === question.correctIndex,
-    }))
+  let previousCorrectIndex = null
 
-    const shuffledOptions = [...optionsWithCorrectFlag].sort(() => Math.random() - 0.5)
-    const correctIndex = shuffledOptions.findIndex((option) => option.isCorrect)
-
-    return {
-      ...question,
-      options: shuffledOptions.map((option) => option.text),
-      correctIndex,
-    }
+  return shuffleArray(getQuestionsForCategory(categoryId)).map((question) => {
+    const shuffledQuestion = shuffleQuestionOptions(question, previousCorrectIndex)
+    previousCorrectIndex = shuffledQuestion.correctIndex
+    return shuffledQuestion
   })
 }
 
