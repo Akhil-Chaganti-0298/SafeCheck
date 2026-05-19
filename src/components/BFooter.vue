@@ -23,7 +23,7 @@ const reassurances = [
       <div class="grid grid-cols-1 gap-10 lg:grid-cols-[1fr_1.25fr_1fr] lg:gap-16 lg:items-start">
 
         <!-- Brand column -->
-        <div class="flex flex-col gap-5">
+        <div class="flex flex-col gap-5 lg:items-center lg:text-center">
           <RouterLink to="/" class="flex items-center gap-3 w-fit">
             <img :src="logoSrc" alt="SafeCheck logo" class="h-12 w-12 rounded-xl object-contain bg-white/10 p-1" />
             <span class="text-2xl font-bold tracking-wide text-white">SafeCheck</span>
@@ -31,7 +31,7 @@ const reassurances = [
           <p class="text-lg leading-relaxed text-blue-200 max-w-xs">
             Simple online safety tools for older Australians. No sign-up, no stored data, no cost.
           </p>
-          <div class="flex flex-col gap-3 mt-1">
+          <div class="flex flex-col gap-3 mt-1 lg:items-start">
             <div v-for="r in reassurances" :key="r.text" class="flex items-center gap-2">
               <svg v-if="r.icon === 'free'" class="w-5 h-5 text-green-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -49,7 +49,7 @@ const reassurances = [
 
         <!-- Tools column -->
         <div class="flex flex-col items-center gap-5 text-center">
-          <h3 class="text-base font-bold uppercase tracking-widest text-blue-200 mb-1">Our Tools</h3>
+          <h3 class="text-lg font-black uppercase tracking-widest text-blue-100 mb-1">Our Tools</h3>
           <div class="grid w-full max-w-lg grid-cols-1 gap-5 sm:grid-cols-2">
             <div
               v-for="(tool, index) in [
@@ -81,8 +81,8 @@ const reassurances = [
         </div>
 
         <!-- Information column -->
-        <div class="flex flex-col gap-3">
-          <h3 class="text-sm font-semibold uppercase tracking-widest text-blue-300 mb-1">Information</h3>
+        <div class="flex flex-col gap-3 lg:justify-self-center">
+          <h3 class="text-lg font-black uppercase tracking-widest text-blue-100 mb-1">Information</h3>
           <RouterLink
             v-for="link in informationLinks"
             :key="link.label"
