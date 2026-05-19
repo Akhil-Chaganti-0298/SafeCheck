@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git show *)",
+      "Read(//tmp/**)",
+      "Bash(git reset *)",
+      "Bash(git ls-tree *)",
+      "Bash(git rm *)",
+      "Bash(git commit *)",
+      "Bash(git push *)"
+    ]
+  }
+}
