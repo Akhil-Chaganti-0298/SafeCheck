@@ -50,25 +50,32 @@ const reassurances = [
         <!-- Tools column -->
         <div class="flex flex-col items-center gap-5 text-center">
           <h3 class="text-base font-bold uppercase tracking-widest text-blue-200 mb-1">Our Tools</h3>
-          <div v-for="tool in [
-            { to: '/url-verifier',   icon: 'link', title: 'URL Verifier',   desc: 'Check if a link is safe to visit'       },
-            { to: '/tnc-simplifier', icon: 'doc',  title: 'Explain my Terms', desc: 'Plain-English summary of fine print'    },
-            { to: '/scam-quiz',      icon: 'bulb', title: 'Scam Quiz',      desc: 'Learn to spot scams with real examples' },
-          ]" :key="tool.to" class="flex max-w-sm flex-col items-center gap-3">
-            <div class="w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0 bg-white/10">
-              <svg v-if="tool.icon === 'link'" class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
-              </svg>
-              <svg v-else-if="tool.icon === 'doc'" class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-              </svg>
-              <svg v-else class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
-              </svg>
-            </div>
-            <div>
-              <RouterLink :to="tool.to" class="text-xl font-bold text-white hover:underline focus-visible:underline">{{ tool.title }}</RouterLink>
-              <p class="text-lg font-semibold text-blue-200 leading-snug">{{ tool.desc }}</p>
+          <div class="grid w-full max-w-lg grid-cols-1 gap-5 sm:grid-cols-2">
+            <div
+              v-for="(tool, index) in [
+                { to: '/url-verifier',   icon: 'link', title: 'URL Verifier',   desc: 'Check if a link is safe to visit'       },
+                { to: '/tnc-simplifier', icon: 'doc',  title: 'Explain my Terms', desc: 'Plain-English summary of fine print'    },
+                { to: '/scam-quiz',      icon: 'bulb', title: 'Scam Quiz',      desc: 'Learn to spot scams with real examples' },
+              ]"
+              :key="tool.to"
+              class="flex flex-col items-center gap-3"
+              :class="index === 2 ? 'sm:col-span-2 sm:mx-auto sm:max-w-sm' : ''"
+            >
+              <div class="w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0 bg-white/10">
+                <svg v-if="tool.icon === 'link'" class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
+                </svg>
+                <svg v-else-if="tool.icon === 'doc'" class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+                <svg v-else class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                </svg>
+              </div>
+              <div>
+                <RouterLink :to="tool.to" class="text-xl font-bold text-white hover:underline focus-visible:underline">{{ tool.title }}</RouterLink>
+                <p class="text-lg font-semibold text-blue-200 leading-snug">{{ tool.desc }}</p>
+              </div>
             </div>
           </div>
         </div>
