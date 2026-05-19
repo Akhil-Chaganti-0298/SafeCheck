@@ -62,83 +62,28 @@ function truncateToWords(text, maxWords = 10000) {
   return words.length <= maxWords ? text : words.slice(0, maxWords).join(' ')
 }
 
-const severityRank = {
-  danger: 3,
-  warn: 2,
-  pass: 1,
-}
-
-function sortFlaggedClausesByRisk(result) {
-  if (!Array.isArray(result?.flaggedClauses)) return result
-
-  return {
-    ...result,
-    flaggedClauses: result.flaggedClauses
-      .map((clause, index) => ({ clause, index }))
-      .sort((a, b) => {
-        const riskDifference = (severityRank[b.clause.severity] || 0) - (severityRank[a.clause.severity] || 0)
-        return riskDifference || a.index - b.index
-      })
-      .map(({ clause }) => clause),
-  }
-}
-
-async function extractTextFromFile(file) {
-  if (!file) {
-    const error = new Error('Please upload a PDF or plain text file to analyse.')
-    error.statusCode = 400
-    throw error
+async function analyzeWithGemini(text) {
+  const apiKey = process.env.GEMINI_API_KEY
+  if (!apiKey) {
+    throw new Error('Gemini API key is not configured. Add GEMINI_API_KEY to your .env file.')
   }
 
-  if (file.mimetype === 'application/pdf') {
-    const parser = new PDFParse({ data: file.buffer })
-    try {
-      const parsed = await parser.getText()
-      return parsed.text.replace(/\s+/g, ' ').trim()
-    } finally {
-      await parser.destroy()
-    }
-  }
+  const prompt = `You are an expert privacy analyst helping everyday consumers understand Terms & Conditions documents.
 
-  if (file.mimetype === 'text/plain') {
-    return file.buffer.toString('utf8').replace(/\s+/g, ' ').trim()
-  }
+Analyze the T&Cs below and produce a structured assessment with these rules:
 
-  const error = new Error('Only PDF and plain text files can be uploaded.')
-  error.statusCode = 400
-  throw error
-}
+overallRisk: "low", "medium", or "high" based on how much users should be concerned.
+summary: 2-3 plain-English sentences covering the main risks or reassurances.
+flaggedClauses: 3 to 7 clauses, each with:
+  - category: short label (e.g. Data collection, Data sharing, AI training, Cancellation trap, Data retention, Arbitration)
+  - severity: "danger" (users would strongly object), "warn" (common but worth knowing), or "pass" (actually user-friendly)
+  - clause: the actual or paraphrased clause text (1-2 sentences)
+  - consequence: concrete plain-English explanation of what this means for the user
+  - realCase: a real-world example { name, detail } or null if none is relevant
 
-async function analyzeWithDO(text) {
-  const apiKey = process.env.DO_AGENT_ACCESS_KEY?.trim()
-  const baseURL = process.env.OPENAI_BASE_URL?.trim()
+Focus on: data collection, third-party data sharing, AI training use, cancellation/auto-renewal traps, data retention, arbitration clauses, liability waivers.
 
-  if (!apiKey) throw new Error('DO_AGENT_ACCESS_KEY is not set in .env')
-  if (!baseURL) throw new Error('OPENAI_BASE_URL is not set in .env')
-
-  const client = new OpenAI({ apiKey, baseURL })
-
-  const prompt = `You are a JSON API. Respond with ONLY a valid JSON object. No markdown, no code fences, no text before or after. Start with { and end with }
-
-Analyze these Terms and Conditions and return exactly this structure:
-{
-  "overallRisk": "low" or "medium" or "high",
-  "summary": "2-3 plain English sentences about the main risks",
-  "flaggedClauses": [
-    {
-      "category": "short label like Data collection or Arbitration",
-      "severity": "danger" or "warn" or "pass",
-      "clause": "the actual clause text",
-      "consequence": "plain English explanation of what this means for the user",
-      "realCase": { "name": "company name", "detail": "what happened" } or null
-    }
-  ]
-}
-
-Include 3 to 7 flaggedClauses. Focus on: data collection, third-party sharing, AI training data usage, cancellation traps, data retention, arbitration, liability waivers.
-Return flaggedClauses in descending severity order: danger first, then warn, then pass.
-
-T&Cs text:
+T&Cs text to analyze:
 ${text}`
 
   let lastError
@@ -159,10 +104,14 @@ ${text}`
 
     } catch (err) {
       lastError = err
-      const status = err.status || err.response?.status
-      if (status === 401) throw new Error('DigitalOcean authentication failed (401). Check DO_AGENT_ACCESS_KEY.')
+      const status = err.response?.status
       if (status !== 429 || attempt === 2) break
-      await sleep(Math.min(15000, 1500 * 2 ** attempt))
+
+      const retryAfterHeader = err.response?.headers?.['retry-after']
+      const retryAfterSeconds = Number.parseInt(retryAfterHeader, 10)
+      const fallbackMs = Math.min(15000, 1500 * 2 ** attempt)
+      const delayMs = Number.isFinite(retryAfterSeconds) ? retryAfterSeconds * 1000 : fallbackMs
+      await sleep(delayMs)
     }
   }
 
@@ -221,9 +170,16 @@ router.post('/tnc-simplify', (req, res, next) => {
     const result = await analyzeWithDO(tncText)
     res.json(sortFlaggedClausesByRisk(result))
   } catch (err) {
-    const status = err.status || err.response?.status
-    if (status === 429) return res.status(429).json({ error: 'Rate limit reached. Wait a moment and retry.' })
-    console.error('[TnC Simplifier]', err.message)
+    const status = err.response?.status
+    if (status === 429) {
+      const retryAfter = err.response?.headers?.['retry-after'] || '30'
+      res.set('Retry-After', `${retryAfter}`)
+      return res.status(429).json({ error: 'AI service rate limit reached. Please wait a moment and try again.' })
+    }
+    if (status === 400) {
+      return res.status(400).json({ error: 'The text could not be analysed. It may not be a valid T&C document.' })
+    }
+    console.error('[TnC Simplifier] Error:', err.response?.data || err.message)
     res.status(500).json({ error: err.message || 'Analysis failed. Please try again.' })
   }
 })
