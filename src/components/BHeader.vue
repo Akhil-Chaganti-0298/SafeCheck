@@ -1,12 +1,8 @@
 <script setup>
-import { onMounted, ref } from 'vue'
+import { ref } from 'vue'
 
 const menuOpen = ref(false)
 const logoSrc = `${import.meta.env.BASE_URL}logo.png`
-const fontScale = ref(1)
-const minFontScale = 0.9
-const maxFontScale = 1.2
-const fontScaleStep = 0.05
 
 const links = [
   { label: 'Home',           to: '/'               },
@@ -15,25 +11,6 @@ const links = [
   { label: 'Scam Quiz',      to: '/scam-quiz'       },
   { label: 'Awareness',      to: '/awareness'       },
 ]
-
-function applyFontScale(value) {
-  const nextScale = Math.min(maxFontScale, Math.max(minFontScale, Number(value.toFixed(2))))
-  fontScale.value = nextScale
-  document.documentElement.style.setProperty('--font-scale', String(nextScale))
-  localStorage.setItem('safecheck-font-scale', String(nextScale))
-}
-
-function changeFontScale(direction) {
-  applyFontScale(fontScale.value + direction * fontScaleStep)
-}
-
-onMounted(() => {
-  const savedScale = Number(localStorage.getItem('safecheck-font-scale'))
-
-  if (Number.isFinite(savedScale)) {
-    applyFontScale(savedScale)
-  }
-})
 </script>
 
 <template>
@@ -66,47 +43,22 @@ onMounted(() => {
           </RouterLink>
         </div>
 
-        <div class="site-header-actions flex items-center">
-          <div class="site-font-controls inline-flex items-center rounded-xl border border-white/25 bg-white/10 p-1" aria-label="Text size controls">
-            <button
-              type="button"
-              class="site-font-button rounded-lg text-white transition hover:bg-white/15 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white disabled:opacity-45 disabled:cursor-not-allowed"
-              :disabled="fontScale <= minFontScale"
-              aria-label="Decrease font size"
-              title="Decrease font size"
-              @click="changeFontScale(-1)"
-            >
-              A-
-            </button>
-            <button
-              type="button"
-              class="site-font-button site-font-button-large rounded-lg text-white transition hover:bg-white/15 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white disabled:opacity-45 disabled:cursor-not-allowed"
-              :disabled="fontScale >= maxFontScale"
-              aria-label="Increase font size"
-              title="Increase font size"
-              @click="changeFontScale(1)"
-            >
-              A+
-            </button>
-          </div>
-
-          <!-- Hamburger, small screens only -->
-          <button
-            type="button"
-            class="site-menu-button inline-flex items-center justify-center rounded-lg border border-white/30 text-white transition hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white md:hidden"
-            :aria-expanded="menuOpen"
-            aria-controls="mobile-nav"
-            aria-label="Toggle navigation menu"
-            @click="menuOpen = !menuOpen"
-          >
-            <svg v-if="!menuOpen" class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-            </svg>
-            <svg v-else class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          </button>
-        </div>
+        <!-- Hamburger, small screens only -->
+        <button
+          type="button"
+          class="site-menu-button inline-flex items-center justify-center rounded-lg border border-white/30 text-white transition hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white md:hidden"
+          :aria-expanded="menuOpen"
+          aria-controls="mobile-nav"
+          aria-label="Toggle navigation menu"
+          @click="menuOpen = !menuOpen"
+        >
+          <svg v-if="!menuOpen" class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+          <svg v-else class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
       </div>
 
       <!-- Mobile dropdown, full-width -->
@@ -172,24 +124,6 @@ onMounted(() => {
 
 .site-menu-button {
   padding: 0.8rem;
-}
-
-.site-header-actions {
-  gap: 0.6rem;
-}
-
-.site-font-button {
-  min-width: 2.45rem;
-  min-height: 2.35rem;
-  padding: 0.45rem 0.58rem;
-  font-family: var(--font-heading);
-  font-size: 0.98rem;
-  font-weight: 900;
-  line-height: 1;
-}
-
-.site-font-button-large {
-  font-size: 1.14rem;
 }
 
 .site-mobile-nav-link {
