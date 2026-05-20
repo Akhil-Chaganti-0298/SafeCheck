@@ -65,7 +65,7 @@ router.post('/check-url', async (req, res) => {
   const dnsCheck = dnsResult.status  === 'fulfilled' ? dnsResult.value  : fallback('DNS Analysis',     25)
   const contentCheck = contentResult.status === 'fulfilled' ? contentResult.value : { label: 'What this website appears to be', status: 'warn', detail: 'We could not load this page to check its content' }
 
-  const trustScore = api.score + http.score + ssl.score + dnsCheck.score
+  let trustScore = api.score + http.score + ssl.score + dnsCheck.score
 
   const sharedHostingRisk = getSharedHostingRisk(normalized, hostname)
   const hasHardDangerSignal = [
@@ -75,17 +75,44 @@ router.post('/check-url', async (req, res) => {
     ssl.details?.expiry?.status === 'danger',
     dnsCheck.status === 'danger',
   ].some(Boolean)
-  const hasWarningSignal = [
-    api.status === 'warn',
-    http.status === 'warn',
-    ssl.status === 'warn',
-    dnsCheck.status === 'warn',
-    contentCheck?.status === 'warn',
-    Boolean(sharedHostingRisk),
+
+  // Detect if 3 or more threat APIs are unavailable
+  const apiUnavailableCount = [
+    api.details.google?.status === 'warn' && api.details.google?.points === 0,
+    api.details.virusTotal?.status === 'warn' && api.details.virusTotal?.points === 0,
+    api.details.urlhaus?.status === 'warn' && api.details.urlhaus?.points === 0,
+    api.details.phishStats?.status === 'warn' && api.details.phishStats?.points === 0,
+  ].filter(Boolean).length
+
+  // Detect hard threats from API checks
+  const hardThreatFound = [
+    api.details.google?.status === 'danger',
+    api.details.virusTotal?.status === 'danger',
+    api.details.urlhaus?.status === 'danger',
+    api.details.phishStats?.status === 'danger',
   ].some(Boolean)
 
-  // Hard danger signals should not be averaged away by good HTTPS/SSL points.
+  // Apply scoring caps based on domain status and threats
   const domainStatus = dnsCheck.domainStatus || 'established'
+  if (hardThreatFound) {
+    trustScore = Math.min(trustScore, 20)
+  }
+  if (domainStatus === 'brand_new') {
+    trustScore = Math.min(trustScore, 25)
+  }
+  if (domainStatus === 'new') {
+    trustScore = Math.min(trustScore, 45)
+  }
+  if (apiUnavailableCount >= 3) {
+    trustScore = Math.min(trustScore, 65)
+  }
+
+  const hasWarningSignal = [
+    api.status === 'warn' && apiUnavailableCount >= 3,
+    ssl.status === 'warn',
+    dnsCheck.status === 'warn',
+    Boolean(sharedHostingRisk),
+  ].some(Boolean)
   const isDefinitelyUnsafe = trustScore < 40 || domainStatus === 'unregistered' || domainStatus === 'brand_new' || hasHardDangerSignal
   const hasWarnings = !isDefinitelyUnsafe && (trustScore < 70 || domainStatus !== 'established' || hasWarningSignal)
 

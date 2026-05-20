@@ -32,8 +32,7 @@ export async function checkApiAggregation(url, hostname) {
   // Google Safe Browsing: 7 points
   const google = googleResult.status === 'fulfilled' ? googleResult.value : { error: true }
   if (google.error) {
-    score += 3
-    details.google = { status: 'warn', points: 3, message: 'Google check unavailable right now' }
+    details.google = { status: 'warn', points: 0, message: 'Google check unavailable right now' }
   } else if (google.isThreat) {
     details.google = { status: 'danger', points: 0, message: `Google flagged this site (${google.threatType})` }
   } else {
@@ -45,8 +44,7 @@ export async function checkApiAggregation(url, hostname) {
   // 1-2 detections is warn (could be a false positive), 3+ is danger
   const vt = vtResult.status === 'fulfilled' ? vtResult.value : { error: true }
   if (vt.error) {
-    score += 4
-    details.virusTotal = { status: 'warn', points: 4, message: 'Antivirus scan unavailable right now' }
+    details.virusTotal = { status: 'warn', points: 0, message: 'Antivirus scan unavailable right now' }
   } else if (vt.malicious > 2) {
     details.virusTotal = { status: 'danger', points: 0, malicious: vt.malicious, message: `${vt.malicious} antivirus tools flagged this site` }
   } else if (vt.malicious > 0) {
@@ -60,8 +58,7 @@ export async function checkApiAggregation(url, hostname) {
   // URLhaus: 5 points
   const urlhaus = urlhausResult.status === 'fulfilled' ? urlhausResult.value : { error: true }
   if (urlhaus.error) {
-    score += 2
-    details.urlhaus = { status: 'warn', points: 2, message: 'Malware list check unavailable right now' }
+    details.urlhaus = { status: 'warn', points: 0, message: 'Malware list check unavailable right now' }
   } else if (urlhaus.matched) {
     details.urlhaus = { status: 'danger', points: 0, message: 'Found on a known malware distribution list' }
   } else {
@@ -72,8 +69,7 @@ export async function checkApiAggregation(url, hostname) {
   // PhishStats: 5 points
   const phish = phishResult.status === 'fulfilled' ? phishResult.value : { error: true }
   if (phish.error) {
-    score += 2
-    details.phishStats = { status: 'warn', points: 2, message: 'Phishing list check unavailable right now' }
+    details.phishStats = { status: 'warn', points: 0, message: 'Phishing list check unavailable right now' }
   } else if (phish.matched) {
     details.phishStats = { status: 'danger', points: 0, message: 'Found on a known phishing list' }
   } else {

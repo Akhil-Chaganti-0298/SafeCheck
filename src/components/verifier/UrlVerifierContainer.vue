@@ -19,7 +19,7 @@ const verdictTheme = {
   warning: { banner: 'bg-amber-50 border-amber-200',  icon: 'bg-amber-200',  iconColor: 'text-amber-700', title: 'text-amber-900', subtitle: 'text-amber-700', badge: 'bg-amber-600 text-white' },
 }
 
-const vc = computed(() => verdictTheme[result.value?.verdict] ?? verdictTheme.safe)
+const vc = computed(() => verdictTheme[result.value?.verdict] ?? verdictTheme.warning)
 
 function verdictText(verdict) {
   if (verdict === 'unsafe')  return 'Unsafe. Do not visit'

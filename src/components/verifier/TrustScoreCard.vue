@@ -40,8 +40,8 @@ function plainDescription(label) {
 }
 
 function scoreLevel(score) {
-  if (score >= 70) return 'high'
-  if (score >= 40) return 'mid'
+  if (score >= 80) return 'high'
+  if (score >= 50) return 'mid'
   return 'low'
 }
 </script>
@@ -68,10 +68,10 @@ function scoreLevel(score) {
 
     <!-- Plain-English summary -->
     <p class="text-xl text-slate-600 mb-5 leading-relaxed">
-      <span v-if="props.result.trustScore >= 85">We found very few warning signs. This site looks safe.</span>
-      <span v-else-if="props.result.trustScore >= 70">We found a couple of things to note. Read the details below before visiting.</span>
-      <span v-else-if="props.result.trustScore >= 40">We found some warning signs. Please read the details carefully before visiting.</span>
-      <span v-else>We found several serious warning signs. We recommend not visiting this site.</span>
+      <span v-if="props.result.trustScore >= 85">This website looks safe based on the checks we completed.</span>
+      <span v-else-if="props.result.trustScore >= 70">This website looks mostly safe, but there are a few things to review.</span>
+      <span v-else-if="props.result.trustScore >= 50">This website has warning signs. Be careful before visiting.</span>
+      <span v-else>This website has serious warning signs. Do not enter personal or payment details.</span>
     </p>
 
     <!-- Toggle for score breakdown -->
