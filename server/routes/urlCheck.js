@@ -107,14 +107,13 @@ router.post('/check-url', async (req, res) => {
     trustScore = Math.min(trustScore, 65)
   }
 
-  const hasWarningSignal = [
+  const hasMeaningfulWarningSignal = [
     api.status === 'warn' && apiUnavailableCount >= 3,
-    ssl.status === 'warn',
-    dnsCheck.status === 'warn',
+    domainStatus === 'recent',
     Boolean(sharedHostingRisk),
   ].some(Boolean)
   const isDefinitelyUnsafe = trustScore < 40 || domainStatus === 'unregistered' || domainStatus === 'brand_new' || hasHardDangerSignal
-  const hasWarnings = !isDefinitelyUnsafe && (trustScore < 70 || domainStatus !== 'established' || hasWarningSignal)
+  const hasWarnings = !isDefinitelyUnsafe && (trustScore < 70 || hasMeaningfulWarningSignal)
 
   const verdict = isDefinitelyUnsafe ? 'unsafe' : hasWarnings ? 'warning' : 'safe'
 
