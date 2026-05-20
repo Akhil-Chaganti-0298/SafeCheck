@@ -3,19 +3,44 @@ import httpClient from './httpClient.js'
 const PHISHSTATS_ENDPOINT = 'https://api.phishstats.info/api/phishing'
 const PHISHSTATS_TIMEOUT_MS = 7000
 
-// PhishStats uses a SQL-like filter syntax to query by URL
-function buildParams(url) {
+// Normalize a hostname for exact domain matching:
+// - lowercase it
+// - remove leading 'www.'
+function normalizeHostname(hostname) {
+  let clean = hostname.toLowerCase()
+  if (clean.startsWith('www.')) {
+    clean = clean.slice(4)
+  }
+  return clean
+}
+
+// PhishStats uses a SQL-like filter syntax to query by exact domain
+function buildParams(hostname) {
   return {
-    _where: `(url,like,${url})`,
+    _where: `(domain,eq,${hostname})`,
     _sort: '-id',
-    _size: 5,
+    _size: 100,
   }
 }
 
-export async function checkPhishStats(url) {
+export async function checkPhishStats(url, hostname) {
+  if (!hostname) {
+    return {
+      matched: false,
+      count: 0,
+      phishScore: null,
+      host: null,
+      title: null,
+      exactMatch: false,
+      error: true,
+    }
+  }
+
   try {
+    const cleanHostname = normalizeHostname(hostname)
+
     const response = await httpClient.get(PHISHSTATS_ENDPOINT, {
-      params: buildParams(url),
+      params: buildParams(cleanHostname),
       timeout: PHISHSTATS_TIMEOUT_MS,
     })
 
@@ -26,14 +51,42 @@ export async function checkPhishStats(url) {
       ? response.data.data
       : []
 
-    const item = items[0] || null
+    // Find an exact domain match by comparing normalized hostnames
+    let exactMatchItem = null
+    for (const item of items) {
+      const itemDomain = item.domain ? normalizeHostname(item.domain) : null
+      const itemHost = item.host ? normalizeHostname(item.host) : null
 
+      if (itemDomain === cleanHostname || itemHost === cleanHostname) {
+        exactMatchItem = item
+        break
+      }
+    }
+
+    if (exactMatchItem) {
+      const score = Number.isFinite(Number(exactMatchItem?.score))
+        ? Number(exactMatchItem.score)
+        : null
+
+      return {
+        matched: score !== null && score >= 8,
+        count: items.length,
+        phishScore: score,
+        host: exactMatchItem?.host || null,
+        title: exactMatchItem?.title || null,
+        exactMatch: true,
+        error: false,
+      }
+    }
+
+    // No exact match found
     return {
-      matched: items.length > 0,
+      matched: false,
       count: items.length,
-      phishScore: Number.isFinite(Number(item?.score)) ? Number(item.score) : null,
-      host: item?.host || null,
-      title: item?.title || null,
+      phishScore: null,
+      host: null,
+      title: null,
+      exactMatch: false,
       error: false,
     }
   } catch (err) {
@@ -46,6 +99,7 @@ export async function checkPhishStats(url) {
     phishScore: null,
     host: null,
     title: null,
+    exactMatch: false,
     error: true,
   }
 }
