@@ -78,6 +78,7 @@ onMounted(() => {
             >
               A-
             </button>
+            <span class="site-font-control-label text-blue-50" aria-hidden="true">Text Size</span>
             <button
               type="button"
               class="site-font-button site-font-button-large rounded-lg text-white transition hover:bg-white/15 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white disabled:opacity-45 disabled:cursor-not-allowed"
@@ -190,6 +191,15 @@ onMounted(() => {
 
 .site-font-button-large {
   font-size: 1.14rem;
+}
+
+.site-font-control-label {
+  padding: 0 0.25rem;
+  font-family: var(--font-heading);
+  font-size: 0.78rem;
+  font-weight: 900;
+  line-height: 1;
+  white-space: nowrap;
 }
 
 .site-mobile-nav-link {
