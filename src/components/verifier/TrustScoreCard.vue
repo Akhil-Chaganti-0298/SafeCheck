@@ -69,7 +69,7 @@ function scoreLevel(score) {
     <!-- Plain-English summary -->
     <p class="text-xl text-slate-600 mb-5 leading-relaxed">
       <span v-if="props.result.trustScore >= 85">This website looks safe based on the checks we completed.</span>
-      <span v-else-if="props.result.trustScore >= 70">This website looks mostly safe, but there are a few things to review.</span>
+      <span v-else-if="props.result.trustScore >= 70">This website looks mostly safe. Review the details below for minor notes.</span>
       <span v-else-if="props.result.trustScore >= 50">This website has warning signs. Be careful before visiting.</span>
       <span v-else>This website has serious warning signs. Do not enter personal or payment details.</span>
     </p>
