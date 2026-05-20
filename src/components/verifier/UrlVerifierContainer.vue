@@ -22,9 +22,9 @@ const verdictTheme = {
 const vc = computed(() => verdictTheme[result.value?.verdict] ?? verdictTheme.warning)
 
 function verdictText(verdict) {
-  if (verdict === 'unsafe')  return 'Unsafe. Do not visit'
-  if (verdict === 'warning') return 'Caution'
-  return 'Safe'
+  if (verdict === 'safe') return 'Safe'
+  if (verdict === 'unsafe') return 'Unsafe. Do not visit'
+  return 'Caution'
 }
 
 async function handleSubmit() {

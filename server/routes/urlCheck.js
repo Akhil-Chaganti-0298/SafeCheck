@@ -504,7 +504,6 @@ function buildRiskFactors(apiDetails, httpDetails, sslDetails, dnsDetails, domai
   if (httpDetails.https?.status     === 'danger')  factors.push('Site does not use HTTPS -- your connection is not secure')
   if (sslDetails.validity?.status   === 'danger')  factors.push('The SSL certificate is invalid or not trusted')
   if (sslDetails.expiry?.status     === 'danger')  factors.push('The SSL certificate has expired')
-  if (contentCheck?.status === 'warn')              factors.push(contentCheck.detail)
   if (sharedHostingRisk)                            factors.push(sharedHostingRisk)
   return factors
 }

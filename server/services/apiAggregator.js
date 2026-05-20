@@ -17,7 +17,7 @@ function withTimeout(promise, name) {
 }
 
 // Runs all 4 threat checks in parallel. Points: Google 7, VirusTotal 8, URLhaus 5, PhishStats 5 = 25.
-// API errors get partial credit rather than 0 -- the failure is on our side, not the site's.
+// API errors do not earn safety points. Unavailable checks are shown as warnings instead.
 export async function checkApiAggregation(url, hostname) {
   let score = 0
   const details = {}

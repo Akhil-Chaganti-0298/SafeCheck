@@ -15,7 +15,7 @@ const boldTheme = {
   unsafe:  { bg: '#fef2f2', border: '#dc2626', icon: '#dc2626', iconBg: '#fee2e2', text: '#7f1d1d', badge: '#dc2626' },
 }
 
-const theme = props.result?.verdict ? boldTheme[props.result.verdict] : boldTheme.warning
+const theme = boldTheme[props.result?.verdict] ?? boldTheme.warning
 
 const borderWidth = props.result?.verdict === 'unsafe' ? 'border-4' : 'border-4'
 </script>
