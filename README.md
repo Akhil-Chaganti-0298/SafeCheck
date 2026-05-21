@@ -31,6 +31,16 @@ npm install
 npm run dev
 ```
 
+### Optional Password Gate
+
+The preview password page is disabled by default. Set this frontend flag in `.env` to show it again:
+
+```sh
+VITE_ENABLE_PASSWORD_GATE=true
+```
+
+Set it to `false` or leave it unset to open SafeCheck directly.
+
 ### Compile and Minify for Production
 
 ```sh
