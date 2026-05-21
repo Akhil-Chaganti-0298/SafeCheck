@@ -29,36 +29,14 @@ async function unlock(page) {
 }
 
 test.describe('Frontend Smoke Tests', () => {
-  test('Homepage loads and displays password gate', async ({ page }) => {
+  test('Homepage opens directly when password gate flag is disabled', async ({ page }) => {
+    await mockScamStats(page)
     await page.goto('/')
     
-    // Verify password gate is visible
-    const passwordInput = page.getByPlaceholder('Password')
-    await expect(passwordInput).toBeVisible()
+    await expect(page.getByPlaceholder('Password')).not.toBeVisible()
     
     const safeCheckHeading = page.getByText('SafeCheck')
     await expect(safeCheckHeading).toBeVisible()
-  })
-
-  test('Unlock button works and reveals main page', async ({ page }) => {
-    // Mock the API response for password check
-    await page.route('**/api/auth', (route) => {
-      route.abort()
-    })
-
-    await page.goto('/')
-    
-    // Try to unlock with empty password (will fail, but tests the flow)
-    const passwordInput = page.getByPlaceholder('Password')
-    await passwordInput.fill('test-password')
-    
-    // The submit button is inside the form, get it by role
-    const submitButton = page.getByRole('button', { name: /submit|unlock|continue/i })
-    
-    // Just verify the button exists and is clickable
-    if (await submitButton.isVisible().catch(() => false)) {
-      await expect(submitButton).toBeVisible()
-    }
   })
 
   test('Main page displays key UI elements', async ({ page }) => {
