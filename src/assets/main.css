@@ -55,7 +55,7 @@ body,
 }
 
 html {
-  font-size: calc(18px * var(--font-scale));
+  font-size: calc(16px * var(--font-scale));
 }
 
 #app,
