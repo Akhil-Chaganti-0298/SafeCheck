@@ -265,7 +265,7 @@ function setRiskCardIndex(severity, index, total) {
               :class="inputMode === 'url' ? 'text-white' : 'text-slate-600 hover:text-slate-800'"
               :style="inputMode === 'url' ? 'background-color: var(--navy);' : ''"
             >
-              Website URL
+              Paste a link
             </button>
             <button
               @click="setInputMode('text')"
@@ -273,7 +273,7 @@ function setRiskCardIndex(severity, index, total) {
               :class="inputMode === 'text' ? 'text-white' : 'text-slate-600 hover:text-slate-800'"
               :style="inputMode === 'text' ? 'background-color: var(--navy);' : ''"
             >
-              Paste Text
+              Paste the text
             </button>
             <button
               @click="setInputMode('file')"
@@ -281,7 +281,7 @@ function setRiskCardIndex(severity, index, total) {
               :class="inputMode === 'file' ? 'text-white' : 'text-slate-600 hover:text-slate-800'"
               :style="inputMode === 'file' ? 'background-color: var(--navy);' : ''"
             >
-              Upload PDF
+              Upload a PDF
             </button>
           </div>
 
@@ -311,7 +311,7 @@ function setRiskCardIndex(severity, index, total) {
             v-if="inputMode === 'url'"
             v-model="inputValue"
             type="url"
-            placeholder="https://example.com/terms"
+            placeholder="Paste the link to the Terms and Conditions page here"
             class="w-full border border-slate-200 rounded-xl px-5 py-4 text-xl placeholder-slate-400 focus:outline-none focus:ring-4 focus:ring-blue-200 focus:border-transparent transition"
             style="font-size: 1.125rem;"
           />
@@ -319,7 +319,7 @@ function setRiskCardIndex(severity, index, total) {
             v-else-if="inputMode === 'text'"
             v-model="inputValue"
             rows="7"
-            placeholder="Paste the full Terms &amp; Conditions text here..."
+            placeholder="Copy and paste the full Terms and Conditions text here"
             class="w-full border border-slate-200 rounded-xl px-5 py-4 text-xl placeholder-slate-400 focus:outline-none focus:ring-4 focus:ring-blue-200 focus:border-transparent resize-none transition"
             style="font-size: 1.125rem;"
           ></textarea>
@@ -391,7 +391,7 @@ function setRiskCardIndex(severity, index, total) {
             class="mt-4 rounded-xl border border-amber-200 px-4 py-3 text-sm font-semibold text-amber-900"
             style="background-color: #fffbeb;"
           >
-            Please allow the AI Model upto 90 seconds to crunch all of the Terms & Conditions Data.
+            Please allow up to 90 seconds. We are reading the full document for you.
           </div>
 
           <button
