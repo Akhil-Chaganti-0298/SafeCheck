@@ -220,6 +220,12 @@ onMounted(() => {
   line-height: 1.2;
 }
 
+@media (max-width: 440px) {
+  .site-brand-name {
+    display: none;
+  }
+}
+
 @media (min-width: 1024px) {
   .site-header-inner {
     min-height: 5.45rem;
