@@ -391,7 +391,7 @@ function getSeniorBarWidth(value) {
   <section class="home-content-section home-proof-band px-8 sm:px-16">
     <div class="home-section-inner">
       <div class="home-section-header animate-fade-in-up">
-        <p class="home-section-kicker">Scam proof points</p>
+        <p class="home-section-kicker">Why SafeCheck is important</p>
         <h2>The risk is real, so the tools stay practical.</h2>
         <p>
           These quick numbers explain why SafeCheck exists. Flip a card for the detail, then follow the source if you want to read more.
@@ -505,7 +505,7 @@ function getSeniorBarWidth(value) {
   <section class="home-content-section home-visualisation-band px-8 sm:px-16">
     <div class="home-section-inner">
       <div class="home-section-header animate-fade-in-up">
-        <p class="home-section-kicker">Scam visualisations</p>
+        <p class="home-section-kicker">Proof behind why we do it?</p>
         <h2>See the patterns behind the scam risk.</h2>
         <p>
           The numbers behind why SafeCheck exists.
@@ -766,18 +766,13 @@ function getSeniorBarWidth(value) {
   border-bottom: 1px solid rgb(219, 234, 254);
 }
 
-.home-visualisation-band .home-section-kicker {
-  font-size: 0.92rem;
-  font-weight: 950;
-}
-
 .home-visualisation-band .home-section-header h2 {
   max-width: 52rem;
   font-size: clamp(2.05rem, 3.4vw, 2.85rem);
   font-weight: 950;
 }
 
-.home-visualisation-band .home-section-header p {
+.home-visualisation-band .home-section-header p:not(.home-section-kicker) {
   max-width: 52rem;
   font-size: clamp(1.02rem, 1.2vw, 1.16rem);
   font-weight: 500;
@@ -798,8 +793,8 @@ function getSeniorBarWidth(value) {
 .home-section-kicker {
   margin-bottom: 0.55rem;
   color: var(--navy);
-  font-size: 0.82rem;
-  font-weight: 800;
+  font-size: 0.92rem;
+  font-weight: 950;
   letter-spacing: 0;
   text-transform: uppercase;
 }
