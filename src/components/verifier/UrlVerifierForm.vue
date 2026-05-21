@@ -55,20 +55,20 @@ function useExample(value) {
       <p class="mb-5 text-lg text-slate-600 leading-relaxed">
         Type or paste a website address. You do not need to include "https://". Any real web address works.
       </p>
-      <div class="mb-5 flex flex-col gap-2 text-[13px] text-slate-500">
+      <div class="mb-5 flex flex-col gap-2">
         <button
           type="button"
-          class="w-fit text-left hover:text-slate-700 hover:underline focus-visible:outline-none focus-visible:underline"
+          class="w-fit text-left text-base font-semibold text-slate-600 hover:text-slate-700 hover:underline focus-visible:outline-none focus-visible:underline"
           @click="useExample('amazon.com.au')"
         >
           Try a safe example: amazon.com.au
         </button>
         <button
           type="button"
-          class="w-fit text-left hover:text-slate-700 hover:underline focus-visible:outline-none focus-visible:underline"
+          class="w-fit text-left text-base font-semibold text-slate-600 hover:text-slate-700 hover:underline focus-visible:outline-none focus-visible:underline"
           @click="useExample('paypa1-secure.com')"
         >
-          Try a suspicious example: paypa1-secure.com
+          Try a suspicious-looking example: paypa1-secure.com
         </button>
       </div>
       <div
