@@ -1087,8 +1087,8 @@ function getSeniorBarWidth(value) {
 .proof-card-flip-hint {
   margin-top: 0.75rem;
   color: rgb(100, 116, 139);
-  font-size: 0.76rem;
-  font-weight: 800;
+  font-size: calc(0.76rem + 2px);
+  font-weight: 950;
   letter-spacing: 0.08em;
   line-height: 1.25;
   text-transform: uppercase;
