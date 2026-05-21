@@ -505,7 +505,7 @@ function getSeniorBarWidth(value) {
   <section class="home-content-section home-visualisation-band px-8 sm:px-16">
     <div class="home-section-inner">
       <div class="home-section-header animate-fade-in-up">
-        <p class="home-section-kicker">Proof behind why we do it?</p>
+        <p class="home-section-kicker">Proof behind why we do it</p>
         <h2>See the patterns behind the scam risk.</h2>
         <p>
           The numbers behind why SafeCheck exists.
