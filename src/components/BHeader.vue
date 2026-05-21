@@ -187,8 +187,8 @@ onMounted(() => {
 }
 
 .site-font-button {
-  min-width: 2.45rem;
-  min-height: 2.35rem;
+  min-width: 2.75rem;
+  min-height: 2.75rem;
   padding: 0.45rem 0.58rem;
   font-family: var(--font-heading);
   font-size: 0.98rem;
